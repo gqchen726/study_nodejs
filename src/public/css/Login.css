@@ -1,0 +1,12 @@
+@import '~antd/dist/antd.css';
+
+.Home-Login {
+    background-color: #fff;
+    border-left-width: 0;
+    border-right-width: 0;
+    text-align: center;
+}
+.ant-card-head {
+    max-width: content-box;
+    min-width: 412px;
+}
