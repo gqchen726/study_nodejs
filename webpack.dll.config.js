@@ -9,7 +9,7 @@ module.exports = {
         ],
         antd: [
             'antd',
-            '@ant-design'
+            '@ant-design/icons'
         ]
     },
     output: {

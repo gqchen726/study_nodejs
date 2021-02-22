@@ -9,7 +9,7 @@ export class CarouselMap extends React.Component {
         super(props);
         this.state = {
             contentStyle:{
-                height: '160px',
+                height: '40%',
                 color: '#fff',
                 lineHeight: '160px',
                 textAlign: 'center',
@@ -22,7 +22,7 @@ export class CarouselMap extends React.Component {
     render() {
         const {contentStyle} = this.state;
         return (
-            <div className='carouselMap' style={{width:'60%'}}>
+            <div className='carouselMap' style={{width:'60%',height:'40%'}}>
                 <Carousel autoplay={this.props.autoPlay}>
                     <div>
                         <h3 style={contentStyle}>1</h3>

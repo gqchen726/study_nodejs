@@ -1,6 +1,7 @@
 import React from 'react'
 import Input from "antd/es/input";
 import Button from "antd/es/button";
+import {Link} from "react-router-dom";
 // import '../public/css/App.css'
 
 
@@ -25,7 +26,7 @@ export class SearchBar extends React.Component {
 
     render() {
         return (
-            <div className='searchBar'>
+            <div className='searchBar' style={{ width: '90%' }}>
                 <Input
                     id='search'
                     style={{ width: '80%' }}
@@ -34,14 +35,14 @@ export class SearchBar extends React.Component {
                     onChangeCapture={this.autoSave}
                 />
                 <Button
-                    style={{width:'5%'}}
+                    style={{width:'10%'}}
                     type={"primary"}
                     onClick={this.search}
                 >
                     <span
                         style={{font:{size:'11px'}}}
                     >
-                        搜索
+                        <Link to={'/dataInfo'} >搜索</Link>
                     </span>
                 </Button>
             </div>

@@ -20,15 +20,15 @@ module.exports = {
                 include: path.join(__dirname, './src'),
                 exclude: /node_modules/
             },
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    {loader: 'css-loader'},
-                    // MiniCssExtractPlugin.loader,
-                ],
-                exclude: path.join(__dirname, './node_modules')
-            },
+            // {
+            //     test: /\.css$/,
+            //     use: [
+            //         'style-loader',
+            //         {loader: 'css-loader'},
+            //         // MiniCssExtractPlugin.loader,
+            //     ],
+            //     exclude: path.join(__dirname, './node_modules')
+            // },
             {
                 test: /\.less$/,
                 use:  [

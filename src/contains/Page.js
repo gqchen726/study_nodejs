@@ -20,6 +20,8 @@ import {HashRouter, Link} from "react-router-dom";
 import {Clock} from "../component/Clock";
 import {LeftNavigationMenu} from "./LeftNavigationMenu";
 import {SearchResult} from "./SearchResult";
+import {DataShowGrid} from "./DataShowGrid";
+import {DataShowCard} from "./DataShowCard";
 
 
 export class Page extends React.Component {
@@ -84,11 +86,7 @@ export class Page extends React.Component {
                                 <Menu.Item key="5">大同古城墙</Menu.Item>
                                 <Menu.Item key="6">华严寺</Menu.Item>
                                 <Menu.Item key="6">善化寺</Menu.Item>
-                                <Menu.Item key="6">悬空寺</Menu.Item>
-                                <Menu.Item key="7">云冈石窟</Menu.Item>
-                                <Menu.Item key="8">桃花山景区桃花山景区</Menu.Item>
-                                <Menu.Item key="8">九龙壁</Menu.Item>
-                                <Menu.Item key="8">晋华宫煤矿</Menu.Item>
+
                             </SubMenu>
 
 
@@ -151,6 +149,9 @@ export class Page extends React.Component {
                         <UserStateBar user={this.state.user} getUser={this.getUser} />
                         <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
                             <div className="site-layout-background" style={{padding: 24, textAlign: 'center'}}>
+                                <Route exact path='/'>
+                                    <Home />
+                                </Route>
                                 <Route exact path='/home'>
                                     <Home />
                                 </Route>
@@ -162,6 +163,9 @@ export class Page extends React.Component {
                                 </Route>
                                 <Route exact path='/searchResult'>
                                     <SearchResult />
+                                </Route>
+                                <Route exact path='/dataInfo'>
+                                    <DataShowGrid />
                                 </Route>
 
                             </div>
