@@ -70,7 +70,8 @@ module.exports = {
         ]
     },
     plugins: [
-        new bundleAnalyzerPlugin(),
+        // 打包的可视化分析服务
+        // new bundleAnalyzerPlugin(),
         /**
          *  剥离CSS文件
          */

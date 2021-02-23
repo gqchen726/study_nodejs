@@ -18,11 +18,6 @@ export class StateBar extends React.Component {
             pageHeader: null,
             modalContent: null,
         };
-        this.returnPageHandler = this.returnPageHandler.bind(this);
-        this.returnExtraButton = this.returnExtraButton.bind(this);
-        this.hideModal = this.hideModal.bind(this);
-        this.showModal = this.showModal.bind(this);
-        this.returnLoginConversationBox = this.returnLoginConversationBox.bind(this);
     }
 
     componentDidMount() {
@@ -34,32 +29,27 @@ export class StateBar extends React.Component {
     }
 
     getUser = (here,result) => {
-        if(result.state === 'success') {
+        if(result.stateMsg === 'success') {
             this.props.getUser(here,result.user)
-            let modalContent = result.result;
-            this.setState({
-                modalContent:modalContent
-            })
-        } else {
-            let modalContent = result.result;
-            this.setState({
-                modalContent:modalContent
-            })
         }
+        let modalContent = result.result;
+        this.setState({
+            modalContent:modalContent
+        })
 
 
     }
 
 
-    returnExtraButton(para) {
+    returnExtraButton = (para) => {
         return <ButtonList buttons={para} />;
     }
 
-    hideModal() {
+    hideModal = () => {
         this.setState({visible: false})
         this.returnPageHandler(this.props.user);
     }
-    showModal() {
+    showModal = () => {
         this.setState({
             visible: true,
         })
@@ -68,7 +58,7 @@ export class StateBar extends React.Component {
 
 
 
-    returnLoginConversationBox() {
+    returnLoginConversationBox = () => {
         return (
             <Modal
                 title= "Modal"
@@ -86,7 +76,7 @@ export class StateBar extends React.Component {
         );
     }
 
-    returnPageHandler(user) {
+    returnPageHandler = (user) => {
         let isLogin = !!user;
         let logined = [
             {

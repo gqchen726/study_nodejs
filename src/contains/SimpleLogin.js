@@ -4,17 +4,18 @@ import React from "react";
 import "../public/css/Login.css";
 import axios from "axios";
 const localContext = require('../cache/LocalContext');
-
+import {userUrls} from "../public/ApiUrls/UserUrls";
 export class SimpleLogin extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             options: null,
-            phoneNumber:null,
+            mobileNumber:null,
             user: {},
             // globalUrl:`http://localhost:8000/login`,
-            globalUrl:`http://192.168.1.5:8000/mytest/user`,
+            // globalUrl:`http://192.168.1.6:8000/mytest`,
+            globalUrls:userUrls,
             cardList: [],
             cardContentList:[],
             key: 'loginForPassword',
@@ -35,47 +36,49 @@ export class SimpleLogin extends React.Component {
             isLoading: true,
         })
         let {user} = this.state;
-        let requestBody = {
-            "phoneNumber": user.phoneNumber,
-            "password": user.password,
-        };
-
-
-
-
-
-        // let url = `${this.state.globalUrl}/login`;
-        // axios.post(url, requestBody).then(
-        //     function (response) {
-        //         console.log("success");
-        //         this.setState({
-        //             isLoading: false,
-        //         })
-        //         this.toUser({
-        //             state: 'success',
-        //             user:user,
-        //             result:(
-        //                 <div className="Home-Login">
-        //                     {/*<br />*/}
-        //                     登录成功
-        //                 </div>
-        //             )
-        //         });
-        //     })
-        //     .catch(function (error) {
-        //         console.log("success");
-        //         this.toUser({
-        //             state: 'failed',
-        //             error:error,
-        //             result:(
-        //                 <div className="Home-Login">
-        //                     {/*<br />*/}
-        //                     登录失败
-        //                 </div>
-        //             )
-        //         });
-        //     });
-
+        let result = null;
+        // let url = `${this.state.globalUrl}/login/in`;
+        axios.post(userUrls.loginUrl, user).then(
+             (response) => {
+                 this.setState({
+                     isLoading: false,
+                 })
+                 if(response.code) {
+                     result = {
+                         stateMsg: 'failed',
+                         result:(
+                             <div className="Home-Login">
+                                 {/*<br />*/}
+                                 登录失败
+                             </div>
+                         )
+                     };
+                 } else {
+                     result = {
+                         stateMsg: 'success',
+                         user:user,
+                         result:(
+                             <div className="Home-Login">
+                                 {/*<br />*/}
+                                 登录成功
+                             </div>
+                         )
+                     };
+                 }
+            }).catch(
+                (error) => {
+                    result = {
+                        stateMsg: 'failed',
+                        error:error,
+                        result:(
+                            <div className="Home-Login">
+                                {/*<br />*/}
+                                发生错误
+                            </div>
+                        )
+                    };
+                });
+        this.toUser(result);
 
 
         // let {globalUrl} = this.state;
@@ -88,18 +91,20 @@ export class SimpleLogin extends React.Component {
 
 
 
-        user.name = "Tom";
-
-        this.toUser({
-            state: 'success',
-            user:user,
-            result:(
-                <div className="Home-Login">
-                    <br />
-                    登录成功
-                </div>
-            )
-        });
+        // user.name = "Tom";
+        //
+        // result = {
+        //     stateMsg: 'success',
+        //     user:user,
+        //     result:(
+        //         <div className="Home-Login">
+        //             {/*<br />*/}
+        //             登录成功
+        //         </div>
+        //     )
+        // };
+        //
+        // this.toUser(result);
 
         // if (this.state.rememberMe) {
         //     localContext.put('user',user);
@@ -107,6 +112,55 @@ export class SimpleLogin extends React.Component {
 
 
 
+    }
+    register = () => {
+        this.setState({
+            isLoading: true,
+        })
+        let {user} = this.state;
+        let result = null;
+        // let url = `${this.state.globalUrl}/user/create`;
+        axios.post(userUrls.registerUrl, user).then(
+             (response) => {
+                this.setState({
+                    isLoading: false,
+                })
+                if(response.code) {
+                    result = {
+                        stateMsg: 'success',
+                        result:(
+                            <div className="Home-Login">
+                                {/*<br />*/}
+                                注册失败
+                            </div>
+                        )
+                    };
+                } else {
+                    result = {
+                        stateMsg: 'success',
+                        result:(
+                            <div className="Home-Login">
+                                {/*<br />*/}
+                                注册成功
+                            </div>
+                        )
+                    };
+                }
+            })
+            .catch( (error) => {
+                console.log("error");
+                this.toUser({
+                    stateMsg: 'failed',
+                    error:error,
+                    result:(
+                        <div className="Home-Login">
+                            {/*<br />*/}
+                            发生错误
+                        </div>
+                    )
+                });
+            });
+        this.toUser(result);
     }
 
     toUser = (result) => {
@@ -152,8 +206,8 @@ export class SimpleLogin extends React.Component {
 
         if(id === "username") {
             user.username = value;
-        } else if(id === "phoneNumber") {
-            user.phoneNumber = value;
+        } else if(id === "mobileNumber") {
+            user.mobileNumber = value;
         } else if(id === "checkCode") {
             user.checkCode = value;
         } else if(id === "password") {
@@ -188,7 +242,7 @@ export class SimpleLogin extends React.Component {
 
     /**
      * 文本内容合法性校验
-     * @param phoneNumber
+     * @param mobileNumber
      */
     verificationOfTextContentValidity = (targetType,targetValue) => {
         let phoneRegExp = /^[0-9]{0,11}$/;
@@ -197,15 +251,17 @@ export class SimpleLogin extends React.Component {
         let {tipMessage} = this.state;
         let {user} = this.state;
 
-        if (targetType === "phoneNumber") {
+        if (targetType === "mobileNumber") {
             if (targetValue && !phoneRegExp.test(targetValue)) {
                 tipMessage.phoneNumberTip = <Alert type='error' message='手机号码中不得出现除0～9的字符' />;
             } else if (targetValue.length === 11 && this.state.isGoLogin === true) {
-                let url = `${this.state.globalUrl}/checkMobileNumber?mobileNumber=${targetValue}`;
+                let url = `${userUrls.checkMobileNumber}/checkMobileNumber?mobileNumber=${targetValue}`;
 
                 axios.get(url).then(
-                    function (response) {
-                        tipMessage.phoneNumberTip = <Alert type='error' message={response.data.message} />;
+                    (response) => {
+                        if (!response.code) {
+                            tipMessage.phoneNumberTip = <Alert type='error' message={response.data.message} />;
+                        }
                     }
                 );
                 // let res = '该手机号码已被注册';
@@ -262,6 +318,10 @@ export class SimpleLogin extends React.Component {
         let {rememberMe} = this.state;
         this.setState({rememberMe: !rememberMe})
     }
+    /**
+     * 登录卡片组件的渲染
+     * @returns {JSX.Element}
+     */
     renderLoginCard = () => {
 
         const cardList = [
@@ -286,7 +346,7 @@ export class SimpleLogin extends React.Component {
                     <div style={{width:'100%'}}>
                         手机号码:&nbsp;&nbsp;
                         <Tooltip placement={'top'} title={'请输入正确的的11位手机号码'}>
-                            <Input id='phoneNumber'
+                            <Input id='mobileNumber'
                                    style={{ width: '80%' }}
                                    placeholder={'请输入您的手机号码'}
                                    allowClear={false}
@@ -330,7 +390,7 @@ export class SimpleLogin extends React.Component {
                    <div style={{width:'100%'}}>
                        手机号码:&nbsp;&nbsp;
                        <Tooltip placement={'top'} title={'请输入正确的的11位手机号码'}>
-                           <Input id='phoneNumber'
+                           <Input id='mobileNumber'
                                   style={{ width: '50%' }}
                                   placeholder={'请输入您的手机号码'}
                                   allowClear={false}
@@ -389,9 +449,6 @@ export class SimpleLogin extends React.Component {
         return loginCard;
     }
 
-    checkPassword = () => {
-
-    }
 
     renderRegisterCard = () => {
 
@@ -415,7 +472,7 @@ export class SimpleLogin extends React.Component {
 
                             <span style={{width:'100%'}}>
                                 手机号码:&nbsp;&nbsp;
-                                <Input id='phoneNumber'
+                                <Input id='mobileNumber'
                                        style={{ width: '50%' }}
                                        placeholder={'请输入您的手机号码'}
                                        allowClear={false}
@@ -474,7 +531,7 @@ export class SimpleLogin extends React.Component {
                         </div>
                     </Input.Group>
                     <br />
-                    <Button type={"primary"} style={{width:'30%'}} onClick={this.login}>注册</Button>
+                    <Button type={"primary"} style={{width:'30%'}} onClick={this.register}>注册</Button>
                 </div>
             </Card>
 

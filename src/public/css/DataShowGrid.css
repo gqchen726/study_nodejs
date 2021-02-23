@@ -1,0 +1,43 @@
+@import '~antd/dist/antd.css';
+
+.dataShowGrid {
+    padding-left: 5%;
+    width: 80%;
+    height: 40%;
+}
+.ant-row {
+    padding: 0 12px 10% 12px;
+}
+.ant-col {
+    padding: 0 6px 0 6px;
+}
+.ant-col-lg-4 {
+    max-width: 16.35%;
+}
+
+[class~='ant-col'] {
+    background: transparent;
+    border: 0;
+}
+[class~='ant-col'] > div {
+    height: 120px;
+    font-size: 14px;
+    line-height: 120px;
+    background: #0092ff;
+    border-radius: 4px;
+}
+pre {
+    padding: 8px 16px;
+    font-size: 13px;
+    background: #f9f9f9;
+    border-radius: 6px;
+}
+pre.demo-code {
+    direction: ltr;
+}
+.ant-col {
+    padding: 0;
+}
+[data-theme="dark"] [class~='ant-col'] > div {
+    background: #028ac8;
+}

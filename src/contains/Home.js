@@ -38,7 +38,7 @@ export class Home extends React.Component {
                     <CarouselMap autoPlay={true} />
                     <br /><br />
                     {/*<DataShowGrid />*/}
-                    <DataShowCard imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' />
+                    <DataShowCard style={{width:'20%',height:'10%'}} imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' />
                 </div>
 
 

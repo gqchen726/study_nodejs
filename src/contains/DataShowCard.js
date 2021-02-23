@@ -15,10 +15,12 @@ export class DataShowCard extends React.Component {
 
     render() {
         return (
-            <div className='dataShowCard' style={{width:'20%',height:'15%'}}>
+            <div className='dataShowCard' >
 
-                <Image style={{height: '12%', width: '15%'}} src={this.props.imageSrc}/>
-                <br />
+                <Image
+                    style={this.props.style}
+                    src={this.props.imageSrc}
+                />
                 <Link to={'/dataInfo'}>
                     {/*{this.props.dataName}*/}
                     大同古城墙
