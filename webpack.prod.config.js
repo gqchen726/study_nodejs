@@ -10,74 +10,14 @@ module.exports = {
         path: path.join(__dirname,'./dist'),
         filename: '[name].bundle.js'
     },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                use: [
-                    'babel-loader?cacheDirectory=true',
-                ],
-                include: path.join(__dirname, './src'),
-                exclude: /node_modules/
-            },
-            // {
-            //     test: /\.css$/,
-            //     use: [
-            //         'style-loader',
-            //         {loader: 'css-loader'},
-            //         // MiniCssExtractPlugin.loader,
-            //     ],
-            //     exclude: path.join(__dirname, './node_modules')
-            // },
-            {
-                test: /\.less$/,
-                use:  [
-                    // "style-loader",
-                    {loader: 'css-loader'},
-                    {loader: 'less-loader'},
-                    MiniCssExtractPlugin.loader,
-                ],
-                exclude: /node_modules/
-            },
-            {
-                test: /\.(png|jpg|gif|svg|jpeg)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 1000 * 100
-                        }
-                    }
-                ],
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({    //css的提取
-                    fallback: "style-loader",
-                    use: "css-loader"
-                }),
-                exclude: /node_modules/
-            },
-            {
-                test: /\.sass$/,
-                use: ExtractTextPlugin.extract({   //css的提取
-                    fallback: "style-loader",
-                    use: ['sass-loader','postcss-loader']
-                }),
-                exclude: /node_modules/
-            }
-        ]
-    },
     plugins: [
         // 打包的可视化分析服务
         // new bundleAnalyzerPlugin(),
         /**
-         *  剥离CSS文件
+         *  css单独打包
          */
         new MiniCssExtractPlugin({
-            filename: "[name].[chunkhash:8].css",
-            chunkFilename: "[id].css"
+            filename: "[name].bundle.css",
         }),
         /**
          *  动态引入css，less，js等文件
@@ -97,11 +37,86 @@ module.exports = {
              **/
             manifest: require(path.join(__dirname,'./react-manifest.json'),path.join(__dirname,'./antd-manifest.json'))
         }),
-        new ExtractTextPlugin({
-            filename: '[name].bundle.css',
-            allChunks: true
-        })
+        // 从一个或多个包中提取文本到单独的文件中。
+        //官方不建议使用此插件独立打包css文件，建议使用MiniCssExtractPlugin独立打包css文件
+        // new ExtractTextPlugin({
+        //     filename: '[name].bundle.css',
+        //     allChunks: true
+        // })
     ],
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                use: [
+                    'babel-loader?cacheDirectory=true',
+                ],
+                include: path.join(__dirname, './src'),
+                exclude: /node_modules/
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    // 此地加载器的位置顺序异常重要，webpack会按照顺序加载加载器编译打包文件
+                    // 'style-loader',
+                    MiniCssExtractPlugin.loader,
+                    {loader: 'css-loader'},
+                ],
+                exclude: /node_modules/
+            },
+            // {
+            //     test: /\.less$/,
+            //     use:  [
+            //          MiniCssExtractPlugin.loader,
+            //         // "style-loader",
+            //         {loader: 'css-loader'},
+            //         {loader: 'less-loader'},
+            //     ],
+            //     exclude: /node_modules/
+            // },
+            {
+                test: /\.(png|jpg|gif|svg|jpeg)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 1000 * 100
+                        }
+                    }
+                ],
+                exclude: /node_modules/
+            },
+            // 此配置已弃用，已按照官方建议修改，
+            // css文件的独立打包不再使用ExtractTextPlugin，而是使用MiniCssExtractPlugin插件
+            // {
+            //     test: /\.css$/,
+            //     use: ExtractTextPlugin.extract({    //css的提取
+            //         fallback: "style-loader",
+            //         use: "css-loader"
+            //     }),
+            //     exclude: /node_modules/
+            // },
+
+            // {
+            //     test: /\.scss$/,
+            //     use: ExtractTextPlugin.extract({   //css的提取
+            //         fallback: "style-loader",
+            //         use: ['sass-loader','postcss-loader']
+            //     }),
+            //     // include: [
+            //     //     path.resolve(__dirname, './src')
+            //     // ],
+            //     // use: [
+            //     //     //'style-loader',
+            //     //     MiniCssExtractPlugin.loader,
+            //     //     'css-loader',
+            //     //     'postcss-loader',
+            //     //     'sass-loader'
+            //     // ],
+            //     exclude: /node_modules/
+            // }
+        ]
+    },
     devtool: false,
     cache: true
 }
