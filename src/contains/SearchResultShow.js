@@ -19,36 +19,20 @@ export class SearchResultShow extends React.Component {
 
     search = () => {
         let {keywords} = this.state;
+        let {datas} = this.state;
+        let url = 'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4';
         // 发送axios请求
-        let datas = [
-            {
-                id:1,
-                name:"xx1",
-                imageURL:"",
-            //    ...
-            },{
-                id:2,
-                name:"xx2",
-                imageURL:"",
-            //    ...
-            },{
-                id:3,
-                name:"xx3",
-                imageURL:"",
-            //    ...
-            },{
-                id:4,
-                name:"xx4",
-                imageURL:"",
-            //    ...
-            },{
-                id:5,
-                name:"xx5",
-                imageURL:"",
-            //    ...
-            },
-        ]
-        this.setState(datas)
+        for (let i = 0;i < 5;i++) {
+            datas.push(
+                {
+                    id:i,
+                    name:`data${i}`,
+                    imageSrc:url,
+                    //    ...
+                }
+            );
+        }
+        this.setState({datas: datas})
     }
 
     render() {

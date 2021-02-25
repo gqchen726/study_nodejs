@@ -21,35 +21,27 @@ export class DataShowGrid extends React.Component {
     }
 
     renderDataShowCards = () => {
-
+        let dataShowCards = [];
+        console.log(this.props.datas)
+        dataShowCards = this.props.datas.map((data) => {
+            return <DataShowCard data={data} />
+        })
+        console.log(dataShowCardss)
+        return dataShowCards;
+    }
+    renderCols = () => {
+        return (
+            <Col sm={10} md={6} lg={4} xl={4}>
+                {this.renderDataShowCards()}
+            </Col>
+        );
     }
 
     render() {
         return (
             <div className='dataShowGrid'>
                 <Row gutter={{ xs:4,sm:4,md:12 }}>
-                    <Col sm={10} md={6} lg={4} xl={4}>
-                        <DataShowCard
-                            imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
-                        />
-                    </Col>
-                    <Col sm={10} md={6} lg={4} xl={4}>
-                        <DataShowCard
-                            imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
-                        />
-                    </Col>
-                    <Col sm={10} md={6} lg={4} xl={4}>
-                        <DataShowCard
-                            imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
-                        />
-                    </Col>
-                    <Col sm={10} md={6} lg={4} xl={4}>
-                        <DataShowCard
-                            imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
-                        />
-                    </Col>
-
-
+                    {this.renderCols()}
                 </Row>
 
             </div>

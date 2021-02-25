@@ -155,5 +155,8 @@ module.exports = {
     },
     devtool: false,
     cache: true,
-    watch: true
+    watch: true,
+    optimization: {
+        nodeEnv: 'production'
+    }
 }

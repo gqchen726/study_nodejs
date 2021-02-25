@@ -12,11 +12,10 @@ let compiler = webpack(config);
 new webpackDevServer(compiler,config.devServer).listen(
     port,
     'localhost',
-    function () {
+     () => {
         console.log(`start webpackDevServer listening ${port}`);
     }
 );
-
 compiler.plugin('done', () => {
     if (isCompiled) {
         setTimeout( () => {

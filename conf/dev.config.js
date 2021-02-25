@@ -6,10 +6,10 @@ const webpackDevServer = require('webpack-dev-server');
 let config = {
     entry: path.join(__dirname,'./../src/index.js'),
     output: {
-        path: path.join(__dirname,'./../dist'),
-        filename: 'bundle.js'
+        path: path.join(__dirname,'devDist'),
+        filename: 'main.dev.bundle.js'
     },
-    cache: true,
+    cache: false,
     devtool: 'cheap-module-eval-source-map',
     module: {
         rules: [
@@ -25,9 +25,11 @@ let config = {
         ]
     },
     devServer: {
-        contentBase: path.join(__dirname, './../dist'),
-        port: 3031
-    }
+        contentBase: path.join(__dirname, './../src'),
+        // compress: true,
+        port: 3031,
+    },
+
 };
 
 // let devConfig = Object.assign(config);

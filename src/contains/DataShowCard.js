@@ -14,16 +14,17 @@ export class DataShowCard extends React.Component {
 
 
     render() {
+        let {data} = this.props;
         return (
             <div className='dataShowCard' >
 
                 <Image
                     style={this.props.style}
-                    src={this.props.imageSrc}
+                    src={data.imageSrc}
                 />
                 <Link to={'/dataInfo'}>
                     {/*{this.props.dataName}*/}
-                    大同古城墙
+                    {data.name}
                 </Link>
             </div>
         );
