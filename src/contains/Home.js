@@ -11,11 +11,11 @@ export class Home extends React.Component {
         super(props);
         this.state = {
             user: props.user,
-
         }
     }
 
     onSearch = value => console.log(value);
+
 
     getUser = (here,user) => {
         this.props.getUser(here,user)
@@ -33,7 +33,7 @@ export class Home extends React.Component {
                 {/*</header>*/}
 
                 <div style={{width:'100%'}} >
-                    <SearchBar />
+                    <SearchBar saveSearchKeyWords={this.props.saveSearchKeyWords} />
                     <br /><br />
                     <CarouselMap autoPlay={true} />
                     <br /><br />

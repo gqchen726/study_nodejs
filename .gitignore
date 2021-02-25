@@ -61,8 +61,11 @@ typings/
 .next
 
 # my rules
-.idea
-.iml
+/.idea/
+study_nodejs.iml
 package-lock.json
-node_modules
-dist
+/node_modules/
+/dist/
+antd-manifest.json
+react-manifest.json
+package-locked.json

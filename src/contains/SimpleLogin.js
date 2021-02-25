@@ -255,7 +255,7 @@ export class SimpleLogin extends React.Component {
             if (targetValue && !phoneRegExp.test(targetValue)) {
                 tipMessage.phoneNumberTip = <Alert type='error' message='手机号码中不得出现除0～9的字符' />;
             } else if (targetValue.length === 11 && this.state.isGoLogin === true) {
-                let url = `${userUrls.checkMobileNumber}/checkMobileNumber?mobileNumber=${targetValue}`;
+                let url = `${userUrls.checkMobileNumber}?mobileNumber=${targetValue}`;
 
                 axios.get(url).then(
                     (response) => {

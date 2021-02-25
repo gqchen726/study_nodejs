@@ -20,6 +20,10 @@ export class DataShowGrid extends React.Component {
         },1000)
     }
 
+    renderDataShowCards = () => {
+
+    }
+
     render() {
         return (
             <div className='dataShowGrid'>
@@ -47,30 +51,7 @@ export class DataShowGrid extends React.Component {
 
 
                 </Row>
-                <Row>
-                    <Col>
-                        <DataShowCard
-                            imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
-                        />
-                    </Col>
-                    <Col>
-                        <DataShowCard
-                            imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
-                        />
-                    </Col>
-                    <Col>
-                        <DataShowCard
-                            imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
-                        />
-                    </Col>
-                    <Col>
-                        <DataShowCard
-                            imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
-                        />
-                    </Col>
 
-
-                </Row>
             </div>
         );
     }

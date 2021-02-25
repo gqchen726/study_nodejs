@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 module.exports = {
     entry: path.join(__dirname,'./src/index.js'),
     output: {
@@ -24,7 +26,12 @@ module.exports = {
          */
         new HtmlWebpackPlugin({
             title: 'webpack',
-            template: './src/index.html'
+            template: './src/index.html',
+            // 压缩 html，默认 false 不压缩
+            minify: {
+                collapseWhitespace: true, // 去除回车换行符以及多余空格
+                removeComments: true, // 删除注释
+            }
         }),
         /**
          * 动态引入manifest.json
@@ -38,11 +45,40 @@ module.exports = {
             manifest: require(path.join(__dirname,'./react-manifest.json'),path.join(__dirname,'./antd-manifest.json'))
         }),
         // 从一个或多个包中提取文本到单独的文件中。
-        //官方不建议使用此插件独立打包css文件，建议使用MiniCssExtractPlugin独立打包css文件
+        // 已弃用，官方不建议使用此插件独立打包css文件，建议使用MiniCssExtractPlugin独立打包css文件
         // new ExtractTextPlugin({
         //     filename: '[name].bundle.css',
         //     allChunks: true
         // })
+        /**
+         * 缓存加速二次构建速度
+         */
+        // new HardSourceWebpackPlugin({
+        //     cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
+        //     configHash: function (webpackConfig) {
+        //         // node-object-hash on npm can be used to build this.
+        //         return require('node-object-hash')({ sort: false }).hash(webpackConfig);
+        //     },
+        //     environmentHash: {
+        //         root: process.cwd(),
+        //         directories: [],
+        //         files: ['package-lock.json', 'yarn.lock'],
+        //     },
+        //     info: {
+        //         // 'none' or 'test'.
+        //         mode: 'none',
+        //         // 'debug', 'log', 'info', 'warn', or 'error'.
+        //         level: 'debug',
+        //     },
+        //     cachePrune: {
+        //         maxAge: 2 * 24 * 60 * 60 * 1000,
+        //         sizeThreshold: 50 * 1024 * 1024
+        //     },
+        // }),
+        // js代码压缩插件
+        // new UglifyJsPlugin(),
+        // 默认情况下，它仅影响按需块
+        // new webpack.optimize.splitChunks()
     ],
     module: {
         rules: [
@@ -52,17 +88,17 @@ module.exports = {
                     'babel-loader?cacheDirectory=true',
                 ],
                 include: path.join(__dirname, './src'),
-                exclude: /node_modules/
+                exclude: path.join(__dirname, './node_modules')
             },
             {
                 test: /\.css$/,
                 use: [
-                    // 此地加载器的位置顺序异常重要，webpack会按照顺序加载加载器编译打包文件
+                    // 加载器的位置顺序异常重要，webpack会按照顺序加载加载器编译打包文件
                     // 'style-loader',
                     MiniCssExtractPlugin.loader,
                     {loader: 'css-loader'},
                 ],
-                exclude: /node_modules/
+                exclude: path.join(__dirname, './node_modules')
             },
             // {
             //     test: /\.less$/,
@@ -72,7 +108,7 @@ module.exports = {
             //         {loader: 'css-loader'},
             //         {loader: 'less-loader'},
             //     ],
-            //     exclude: /node_modules/
+            //     exclude: path.join(__dirname, './node_modules')
             // },
             {
                 test: /\.(png|jpg|gif|svg|jpeg)$/,
@@ -84,7 +120,7 @@ module.exports = {
                         }
                     }
                 ],
-                exclude: /node_modules/
+                exclude: path.join(__dirname, './node_modules')
             },
             // 此配置已弃用，已按照官方建议修改，
             // css文件的独立打包不再使用ExtractTextPlugin，而是使用MiniCssExtractPlugin插件
@@ -94,7 +130,7 @@ module.exports = {
             //         fallback: "style-loader",
             //         use: "css-loader"
             //     }),
-            //     exclude: /node_modules/
+            //     exclude: path.join(__dirname, './node_modules')
             // },
 
             // {
@@ -113,10 +149,11 @@ module.exports = {
             //     //     'postcss-loader',
             //     //     'sass-loader'
             //     // ],
-            //     exclude: /node_modules/
+            //     exclude: path.join(__dirname, './node_modules')
             // }
         ]
     },
     devtool: false,
-    cache: true
+    cache: true,
+    watch: true
 }

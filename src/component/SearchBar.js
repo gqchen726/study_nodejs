@@ -9,19 +9,25 @@ const localContext = require('../cache/LocalContext');
 export class SearchBar extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            keywords: props.keywords
+        }
     }
 
     autoSave = (event) => {
-        let keyWords = event.target.value;
-
-
-
+        let keywords = event.target.value;
 
         this.setState({
+            keywords: keywords
         })
     }
     search = () => {
-
+        let {keywords} = this.state; 
+        // 发送请求
+        // 保存关键词
+        if (keywords) {
+            this.props.saveSearchKeyWords(keywords);
+        }
     }
 
     render() {
@@ -33,6 +39,8 @@ export class SearchBar extends React.Component {
                     placeholder={'请输入关键词'}
                     maxLength={128}
                     onChangeCapture={this.autoSave}
+                    value={this.state.keywords?this.state.keywords:null}
+                    onPressEnter={this.search}
                 />
                 <Button
                     style={{width:'10%'}}

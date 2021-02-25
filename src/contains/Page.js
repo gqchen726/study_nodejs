@@ -9,7 +9,7 @@ import {
     TeamOutlined,
     UserOutlined,
     UploadOutlined,
-    VideoCameraOutlined,
+    VideoCameraOutlined, HomeOutlined, BarsOutlined,
 } from '@ant-design/icons';
 import Switch from "antd/es/switch";
 import SubMenu from "antd/es/menu/SubMenu";
@@ -21,7 +21,7 @@ import {Clock} from "../component/Clock";
 import {LeftNavigationMenu} from "./LeftNavigationMenu";
 import {SearchResult} from "./SearchResult";
 import {DataShowGrid} from "./DataShowGrid";
-import {DataShowCard} from "./DataShowCard";
+import {MyRouter} from "./MyRouter";
 
 
 export class Page extends React.Component {
@@ -55,6 +55,12 @@ export class Page extends React.Component {
         })
     };
 
+    renderRoutes = () => {
+        return (
+            <MyRouter />
+        );
+    }
+
     render () {
         let {lineMode} = this.state;
         let {lightTheme} = this.state;
@@ -79,10 +85,10 @@ export class Page extends React.Component {
                             theme='light'
                             defaultSelectedKeys={['1']}
                         >
-                            <Menu.Item key="sub0" title="首页" icon={<UserOutlined/>}>
+                            <Menu.Item key="sub0" title="首页" icon={<HomeOutlined />}>
                                 <Link to={'/home'}>首页</Link>
                             </Menu.Item>
-                            <SubMenu key="sub1" title="景区查看" icon={<UserOutlined/>}>
+                            <SubMenu key="sub1" title="景区查看" icon={<BarsOutlined />}>
                                 <Menu.Item key="5">大同古城墙</Menu.Item>
                                 <Menu.Item key="6">华严寺</Menu.Item>
                                 <Menu.Item key="6">善化寺</Menu.Item>
@@ -94,46 +100,18 @@ export class Page extends React.Component {
                                 <Link to={'/mine'}>个人中心</Link>
                             </Menu.Item>
 
-                            <Menu.Item key="sub3" title="我的订单" icon={<UserOutlined/>}>
+                            <Menu.Item key="sub3" title="我的订单" icon={<UploadOutlined/>}>
                                 <Link to={'/menu'}>我的订单</Link>
                             </Menu.Item>
 
-                            <Menu.Item key="sub4" title="我的收藏" icon={<UserOutlined/>}>
+                            <Menu.Item key="sub4" title="我的收藏" icon={<BarChartOutlined/>}>
                                 <Link to={'/menu'}>我的收藏</Link>
                             </Menu.Item>
 
-                            <Menu.Item key="sub5" title="浏览历史" icon={<UserOutlined/>}>
+                            <Menu.Item key="sub5" title="浏览历史" icon={<CloudOutlined/>}>
                                 <Link to={'/searchResult'}>浏览历史</Link>
                             </Menu.Item>
 
-
-
-
-
-                            {/*<Menu.Item key="1" icon={<UserOutlined/>}>*/}
-                            {/*    nav 1*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="2" icon={<VideoCameraOutlined/>}>*/}
-                            {/*    nav 2*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="3" icon={<UploadOutlined/>}>*/}
-                            {/*    nav 3*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="4" icon={<BarChartOutlined/>}>*/}
-                            {/*    nav 4*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="5" icon={<CloudOutlined/>}>*/}
-                            {/*    nav 5*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="6" icon={<AppstoreOutlined/>}>*/}
-                            {/*    nav 6*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="7" icon={<TeamOutlined/>}>*/}
-                            {/*    nav 7*/}
-                            {/*</Menu.Item>*/}
-                            {/*<Menu.Item key="8" icon={<ShopOutlined/>}>*/}
-                            {/*    nav 8*/}
-                            {/*</Menu.Item>*/}
                         </Menu>
 
                     </Sider>
@@ -148,31 +126,9 @@ export class Page extends React.Component {
                         {/*</Header>*/}
                         <UserStateBar user={this.state.user} getUser={this.getUser} />
                         <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
-                            <div className="site-layout-background" style={{padding: 24, textAlign: 'center'}}>
-                                <Route exact path='/'>
-                                    <Home />
-                                </Route>
-                                <Route exact path='/home'>
-                                    <Home />
-                                </Route>
-                                <Route exact path='/mine'>
-                                    <Clock />
-                                </Route>
-                                <Route exact path='/menu'>
-                                    <LeftNavigationMenu />
-                                </Route>
-                                <Route exact path='/searchResult'>
-                                    <SearchResult />
-                                </Route>
-                                <Route exact path='/dataInfo'>
-                                    <DataShowGrid />
-                                </Route>
-
-                            </div>
-
-
-
-
+                            {
+                                this.renderRoutes() ? this.renderRoutes():null
+                            }
 
                         </Content>
                         <Footer style={{textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>

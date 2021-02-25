@@ -14,10 +14,9 @@ export class CarouselMap extends React.Component {
                 lineHeight: '160px',
                 textAlign: 'center',
                 background: '#364d79',
-            }
+            },
         }
     }
-
 
     render() {
         const {contentStyle} = this.state;
