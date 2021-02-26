@@ -8,10 +8,7 @@
     "dev:start": "node conf/server.js --env=dev-start",
     "build:dll": "webpack  --progress --color --config webpack.config.js --env=build-dll",
     "build:dist": "webpack  --progress --color --config webpack.config.js --env=build-dist",
-    "build": "webpack  --progress --color --config webpack.prod.config.js",
-    "package": "npm run build:dll && npm run prod:build",
-    "prod:build": "webpack  --progress --color --config webpack.config.js --env=prod-build",
-    "start": "webpack-dev-server --config webpack.dev.config.js --color --progress"
+    "build:package": "npm run build:dll && npm run build:dist"
   },
   "keywords": [],
   "author": "gechen",
