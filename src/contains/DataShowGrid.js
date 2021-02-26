@@ -21,18 +21,23 @@ export class DataShowGrid extends React.Component {
     }
 
     renderDataShowCards = () => {
+        let {datas} = this.props;
+        if (!datas) {
+            return null;
+        }
         let dataShowCards = [];
-        console.log(this.props.datas)
-        dataShowCards = this.props.datas.map((data) => {
+        dataShowCards = datas.map((data) => {
             return <DataShowCard data={data} />
         })
-        console.log(dataShowCardss)
+        console.log(dataShowCards)
         return dataShowCards;
     }
     renderCols = () => {
+        let dataShowCards = this.renderDataShowCards();
+        if (!dataShowCards) return null;
         return (
             <Col sm={10} md={6} lg={4} xl={4}>
-                {this.renderDataShowCards()}
+                {dataShowCards}
             </Col>
         );
     }

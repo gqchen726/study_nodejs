@@ -1,21 +1,25 @@
 const minimist = require('minimist');
 const args = minimist(process.argv.slice(1));
-const path = require('path');
 const webpack = require('webpack');
 const webpackDevServer = require('webpack-dev-server');
+const env = args['env'];
 
-const config = require('../webpack.dev.config');
-
-let port = args['port'];
-let isCompiled = true;
+let config = require('../webpack.config');
 let compiler = webpack(config);
-new webpackDevServer(compiler,config.devServer).listen(
-    port,
-    'localhost',
-     () => {
-        console.log(`start webpackDevServer listening ${port}`);
-    }
-);
+let isCompiled = true;
+
+if ('dev-start' === env) {
+    let port = config.devServer.port;
+    new webpackDevServer(compiler,config.devServer).listen(
+        port,
+        config.devServer.host,
+        () => {
+            console.log(`start webpackDevServer listening ${port}`);
+        }
+    );
+}
+
+
 compiler.plugin('done', () => {
     if (isCompiled) {
         setTimeout( () => {

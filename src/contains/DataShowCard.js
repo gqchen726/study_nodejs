@@ -12,7 +12,6 @@ export class DataShowCard extends React.Component {
 
 
 
-
     render() {
         let {data} = this.props;
         return (

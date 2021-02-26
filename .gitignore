@@ -66,6 +66,5 @@ study_nodejs.iml
 package-lock.json
 /node_modules/
 /dist/
-antd-manifest.json
-react-manifest.json
+*-manifest.json
 package-locked.json

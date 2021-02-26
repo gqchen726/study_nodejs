@@ -167,7 +167,6 @@ module.exports = {
         // webpack打包环境
         nodeEnv: 'production',
         removeAvailableModules: true,
-
     },
     devtool: false,
     cache: true,

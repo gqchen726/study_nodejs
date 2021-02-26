@@ -1,6 +1,3 @@
-import { Layout, Menu } from 'antd';
-import React from 'react'
-
 import {
     AppstoreOutlined,
     BarChartOutlined,
@@ -17,12 +14,12 @@ import {UserStateBar} from "./UserStateBar";
 import {Route} from "react-router";
 import {Home} from "./Home";
 import {HashRouter, Link} from "react-router-dom";
-import {Clock} from "../component/Clock";
 import {LeftNavigationMenu} from "./LeftNavigationMenu";
 import {SearchResult} from "./SearchResult";
 import {DataShowGrid} from "./DataShowGrid";
 import {MyRouter} from "./MyRouter";
-
+import React from "react";
+import { Layout, Menu } from 'antd';
 
 export class Page extends React.Component {
 
@@ -129,7 +126,9 @@ export class Page extends React.Component {
                             {
                                 this.renderRoutes() ? this.renderRoutes():null
                             }
+                            {
 
+                            }
                         </Content>
                         <Footer style={{textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>
                     </Layout>

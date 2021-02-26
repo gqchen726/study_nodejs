@@ -1,5 +1,5 @@
 const path = require('path');
-const promission = ['dev','test','prod'];
+const promission = ['dev-start','build-dll','build-dist','prod-build'];
 const minimist = require('minimist');
 const args = minimist(process.argv.slice(1));
 
@@ -14,5 +14,5 @@ function buildConfig(wantEnv) {
     return config;
 }
 
-let assign = Object.assign(buildConfig(args['env']));
+let assign = Object.assign(buildConfig(env));
 module.exports = assign;

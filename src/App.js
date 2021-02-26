@@ -1,13 +1,5 @@
 // import './public/css/App.css';
 import React from "react";
-import {MyRouter} from "./contains/MyRouter";
-import {
-    Route, Router, Switch
-} from "react-router";
-import {hashHistory} from 'history'
-import {Home} from "./contains/Home";
-import {HashRouter} from "react-router-dom";
-import {Login} from "./contains/Login";
 import localContext from "./cache/LocalContext";
 import {Page} from "./contains/Page";
 
