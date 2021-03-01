@@ -3,6 +3,8 @@ import React from 'react'
 import {CarouselMap} from "./CarouselMap";
 import {SearchBar} from "../component/SearchBar";
 import {DataShowCard} from "./DataShowCard";
+import Card from "antd/es/card";
+import Meta from "antd/es/card/Meta";
 
 
 const localContext = require('../cache/LocalContext');
@@ -39,6 +41,7 @@ export class Home extends React.Component {
                     <br /><br />
                     {/*<DataShowGrid />*/}
                     {/*<DataShowCard style={{width:'20%',height:'10%'}} imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' />*/}
+
                 </div>
 
 

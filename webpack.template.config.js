@@ -4,12 +4,12 @@ const webpack = require('webpack');
 const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
 const HappyPack = require('happypack');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
     entry: path.join(__dirname,'./src/index.js'),
     output: {
@@ -71,43 +71,51 @@ module.exports = {
         /**
          * 缓存加速二次构建速度
          */
-        new HardSourceWebpackPlugin({
-            cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
-            configHash: function (webpackConfig) {
-                // node-object-hash on npm can be used to build this.
-                return require('node-object-hash')({ sort: false }).hash(webpackConfig);
-            },
-            environmentHash: {
-                root: process.cwd(),
-                directories: [],
-                files: ['package-lock.json', 'yarn.lock'],
-            },
-            info: {
-                // 'none' or 'test'.
-                mode: 'none',
-                // 'debug', 'log', 'info', 'warn', or 'error'.
-                level: 'debug',
-            },
-            cachePrune: {
-                maxAge: 2 * 24 * 60 * 60 * 1000,
-                sizeThreshold: 50 * 1024 * 1024
-            },
-            // test: /mini-css-extract-plugin[\\/]dist[\\/]loader/
-        }),
-        // js代码压缩插件
+        // new HardSourceWebpackPlugin({
+        //     cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
+        //     configHash: function (webpackConfig) {
+        //         // node-object-hash on npm can be used to build this.
+        //         return require('node-object-hash')({ sort: false }).hash(webpackConfig);
+        //     },
+        //     environmentHash: {
+        //         root: process.cwd(),
+        //         directories: [],
+        //         files: ['package-lock.json', 'yarn.lock'],
+        //     },
+        //     info: {
+        //         // 'none' or 'test'.
+        //         mode: 'none',
+        //         // 'debug', 'log', 'info', 'warn', or 'error'.
+        //         level: 'debug',
+        //     },
+        //     cachePrune: {
+        //         maxAge: 2 * 24 * 60 * 60 * 1000,
+        //         sizeThreshold: 50 * 1024 * 1024
+        //     },
+        //     // test: /mini-css-extract-plugin[\\/]dist[\\/]loader/
+        // }),
+        /**
+         * js代码压缩插件
+         *  webpack4以下使用
+         *  webpack4弃用其而改用optimization.minimize来压缩js代码
+         */
         // new UglifyJsPlugin(),
         // 打包速度分析
-        new SpeedMeasurePlugin(),
+        // new SpeedMeasurePlugin(),
         new HappyPack({
             id: 'jsx',
-            threads: 4, // 固定线程数，但是不建议
             loaders: ['babel-loader?cacheDirectory=true']
         }),
         new HappyPack({
             id: 'style',
-            threads: 2, // 固定线程数，但是不建议
-            loaders: ['style-loader', 'css-loader','less-loader'],
-            // loaders: [MiniCssExtractPlugin.loader,'css-loader']
+            // loaders: ['style-loader', 'css-loader','less-loader'],
+            loaders: [
+                {
+                    loader:MiniCssExtractPlugin.loader,
+                },
+                {loader: 'css-loader'},
+                {loader: 'less-loader'},
+            ]
         }),
     ],
     module: {
@@ -161,15 +169,28 @@ module.exports = {
                 }
             }
         },
-        concatenateModules: true,
-        // minimize: true,
-        noEmitOnErrors: false,
+        minimize: true,
+        minimizer: [new TerserPlugin({
+            test: /\.js(\?.*)?$/i,    //匹配参与压缩的文件
+            parallel: true,    //使用多进程并发运行
+            terserOptions: {    //Terser 压缩配置
+                output:{comments: false},
+                compress: {
+                    warnings: false, // 删除警告
+                    drop_debugger: true, // 删除调试
+                    drop_console: true, // 删除console
+                    pure_funcs: ['console.log'] // 删除console
+                }
+            },
+            extractComments: true,    //将注释剥离到单独的文件中
+            sourceMap: true, // Must be set to true if using source-maps in production
+
+        })],
         // webpack打包环境
         nodeEnv: 'production',
-        removeAvailableModules: true,
     },
     devtool: false,
     cache: true,
     // 监测代码的改变，代码改变时自动打包
-    watch: true,
+    // watch: true,
 }

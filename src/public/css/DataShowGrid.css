@@ -1,5 +1,14 @@
 @import '~antd/dist/antd.css';
 
+.ant-row {
+    margin-left: -23px;
+    margin-right: -107px;
+    row-gap: 100px;
+}
+.GirdOfCard {
+    width: 25%;
+    text-align: left;
+}
 .dataShowGrid {
     padding-left: 5%;
     width: 80%;

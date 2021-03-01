@@ -2,6 +2,8 @@ import React from 'react'
 // import '../public/css/App.css'
 import {Link} from "react-router-dom";
 import Image from "antd/es/image";
+import Meta from "antd";
+import Card from "antd";
 
 
 const localContext = require('../cache/LocalContext');

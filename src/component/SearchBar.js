@@ -10,7 +10,7 @@ export class SearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            keywords: props.keywords
+            keywords: props.keywords ? props.keywords:null
         }
     }
 
@@ -20,14 +20,15 @@ export class SearchBar extends React.Component {
         this.setState({
             keywords: keywords
         })
+        if (keywords) {
+            this.props.saveSearchKeyWords(keywords);
+        }
     }
     search = () => {
         let {keywords} = this.state; 
         // 发送请求
         // 保存关键词
-        if (keywords) {
-            this.props.saveSearchKeyWords(keywords);
-        }
+
     }
 
     render() {

@@ -1,21 +1,24 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const HappyPack = require('happypack');
-const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
-
+const HappyPack  = require('happypack');
 let baseConfig = {
     entry: path.join(__dirname,'./../src/index.js'),
     output: {
         path: path.join(__dirname,'./../dist'),
         filename: '[name].bundle.js',
-        publicPath: path.join(__dirname,'./../'),
     },
     plugins: [
+        /**
+         * 剥离css单独打包
+         */
+        new MiniCssExtractPlugin({
+            filename: "[name].bundle.css",
+        }),
+        /**
+         * 动态引入css、js等文件
+         */
         new HtmlWebpackPlugin({
             title: 'webpack',
             template: './src/index.html',
@@ -72,7 +75,7 @@ let baseConfig = {
             {
                 test: /\.js$/,
                 use: [
-                    {loader:'happypack/loader?id=jsx'},
+                    'babel-loader?cacheDirectory=true',
                 ],
                 include: path.join(__dirname, './../src'),
                 exclude: path.join(__dirname, './../node_modules')
@@ -80,7 +83,15 @@ let baseConfig = {
             {
                 test: /\.(css|less)$/,
                 use: [
-                    {loader:'happypack/loader?id=style'}
+                    // 加载器的位置顺序异常重要，webpack会按照顺序加载加载器编译打包文件
+                    // {loader: 'style-loader'},
+                    {
+                        loader:MiniCssExtractPlugin.loader,
+                    },
+                    {loader: 'css-loader'},
+                    {loader: 'less-loader'},
+                    // {loader: 'sass-loader'},
+                    // {loader: 'postcss-loader'},
                 ],
                 exclude: path.join(__dirname, './../node_modules')
             },

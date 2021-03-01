@@ -8,6 +8,7 @@
     "dev:start": "node conf/server.js --env=dev-start",
     "build:dll": "webpack  --progress --color --config webpack.config.js --env=build-dll",
     "build:dist": "webpack  --progress --color --config webpack.config.js --env=build-dist",
+    "build:test": "webpack  --progress --color --config webpack.template.config.js",
     "build:package": "npm run build:dll && npm run build:dist"
   },
   "keywords": [],
@@ -50,6 +51,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-lifecycles-compat": "^3.0.4",
+    "react-mixin": "^5.0.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "requirejs": "^2.3.6",
@@ -57,7 +59,6 @@
     "speed-measure-webpack-plugin": "^1.4.2",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^4.2.0",
-    "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.1",
     "webpack": "^4.12.0",
     "webpack-bundle-analyzer": "^4.3.0",

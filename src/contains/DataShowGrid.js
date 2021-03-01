@@ -6,6 +6,7 @@ import {DataShowCard} from "./DataShowCard";
 import '../public/css/DataShowGrid.css'
 import {Clock} from "../component/Clock";
 import {Input} from "antd";
+import {GirdOfCard} from "./GirdOfCard";
 
 
 const localContext = require('../cache/LocalContext');
@@ -25,30 +26,34 @@ export class DataShowGrid extends React.Component {
         if (!datas) {
             return null;
         }
+        console.log(datas)
         let dataShowCards = [];
         dataShowCards = datas.map((data) => {
-            return <DataShowCard data={data} />
+            return <DataShowCard key={data.id} data={data} />
         })
         console.log(dataShowCards)
+
         return dataShowCards;
     }
     renderCols = () => {
         let dataShowCards = this.renderDataShowCards();
         if (!dataShowCards) return null;
         return (
-            <Col sm={10} md={6} lg={4} xl={4}>
-                {dataShowCards}
-            </Col>
+            dataShowCards.map( (dataShowCard) => {
+                return <Col sm={10} md={6} lg={4} xl={4}>
+                            {dataShowCard}
+                        </Col>;
+            })
         );
     }
 
     render() {
         return (
             <div className='dataShowGrid'>
-                <Row gutter={{ xs:4,sm:4,md:12 }}>
-                    {this.renderCols()}
-                </Row>
-
+                {/*<Row gutter={{ xs:4,sm:4,md:12 }}>*/}
+                {/*    {this.renderCols()}*/}
+                {/*</Row>*/}
+                <GirdOfCard />
             </div>
         );
     }

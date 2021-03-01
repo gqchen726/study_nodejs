@@ -9,13 +9,21 @@ let devStartConfig = {
     module: baseConfig.module,
     devServer: {
         host:'localhost',   //服务器的ip地址
-        port:3031,  //端口
-        open:true,  //自动打开页面
+        contentBase: '../../dist',
+        open: true,
+        port: 3031,
+        hot: true,
+        hotOnly: true,
+        historyApiFallback: true,
+        publicPath: '/'
     },
-    plugins: baseConfig,
+    plugins: baseConfig.plugins,
     optimization:{
+        splitChunks: baseConfig.optimization.splitChunks,
         nodeEnv: 'development'
-    }
+    },
+    devtool: 'eval-source-map',
+    cache: true,
 };
 
 module.exports = devStartConfig;
