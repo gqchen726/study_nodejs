@@ -11,17 +11,14 @@ import {
 import Switch from "antd/es/switch";
 import SubMenu from "antd/es/menu/SubMenu";
 import {UserStateBar} from "./UserStateBar";
-import {Route} from "react-router";
-import {Home} from "./Home";
+import {Prompt} from "react-router";
 import {HashRouter, Link} from "react-router-dom";
-import {LeftNavigationMenu} from "./LeftNavigationMenu";
-import {SearchResult} from "./SearchResult";
-import {DataShowGrid} from "./DataShowGrid";
 import {MyRouter} from "./MyRouter";
 import React from "react";
 import { Layout, Menu } from 'antd';
 import './../public/css/Page.css'
 import {Button, message} from "antd/es";
+import history from "../common/history";
 export class Page extends React.Component {
 
     constructor(props) {
@@ -35,28 +32,7 @@ export class Page extends React.Component {
 
     }
 
-    componentDidMount() {
-        let user = {
-            name:"Tom",
-            age:"18",
-            gender:"male",
-            mobileNumber:"18306868857",
-            email:"cgq786153492@gmail.com",
-            address:"china",
-            birth:"1998/10/01",
-            registerCode:"000000",
-            administratorRights:"1"
-        };
-        this.setState({user: user})
-    }
 
-    /**
-     * 传入一个组件，验证用户是否登录，如未登录，弹出提示，如已登录，渲染组件
-     * @param component
-     */
-    accessControl = (component) => {
-
-    }
 
     saveSearchKeyWords = (keywords) => {
         this.setState({
@@ -85,7 +61,7 @@ export class Page extends React.Component {
 
     renderRoutes = () => {
         return (
-            <MyRouter user={this.state.user} />
+            <MyRouter user={this.state.user} getUser={this.getUser} />
         );
     }
 
@@ -104,6 +80,16 @@ export class Page extends React.Component {
         const { Header, Content, Footer, Sider } = Layout;
         return (
             <HashRouter>
+                <Prompt
+                    message={(location, action) => {
+                        if (action === 'POP') {
+                            console.log("Backing up...")
+                        }
+                        return !location.pathname.startsWith("/personalCenter" | "/myOrder" | "/browsingHistory" | "/myCollections")
+                            ? true
+                            : "您还未登录，请前去登录后再进行此操作!"
+                    }}
+                />
                 <Layout className={'Page'}>
                     <Sider
                         style={{
@@ -134,28 +120,19 @@ export class Page extends React.Component {
 
 
                             <Menu.Item key="sub2" title="个人中心" icon={<UserOutlined/>}>
-
-                                    <Button type="link" onClick={this.jurisdiction}>
-                                        <Link to={'/personalCenter'}>个人中心</Link>
-                                    </Button>
+                                <Link to={'/personalCenter'}>个人中心</Link>
                             </Menu.Item>
 
                             <Menu.Item key="sub3" title="我的订单" icon={<UploadOutlined/>}>
-                                <Button type="link" onClick={this.jurisdiction}>
-                                    <Link to={'/menu'}>我的订单</Link>
-                                </Button>
+                                <Link to={'/myOrder'}>我的订单</Link>
                             </Menu.Item>
 
                             <Menu.Item key="sub4" title="我的收藏" icon={<BarChartOutlined/>}>
-                                <Button type="link" onClick={this.jurisdiction}>
-                                    <Link to={'/collections'}>我的收藏</Link>
-                                </Button>
+                                <Link to={'/myCollections'}>我的收藏</Link>
                             </Menu.Item>
 
                             <Menu.Item key="sub5" title="浏览历史" icon={<CloudOutlined/>}>
-                                <Button type="link">
-                                    <Link to={'/searchResult'}>浏览历史</Link>
-                                </Button>
+                                <Link to={'/browsingHistory'}>浏览历史</Link>
                             </Menu.Item>
 
                         </Menu>

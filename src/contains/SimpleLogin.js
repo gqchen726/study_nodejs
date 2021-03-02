@@ -37,78 +37,81 @@ export class SimpleLogin extends React.Component {
         })
         let {user} = this.state;
         let result = null;
+
+        //真实请求
         // let url = `${this.state.globalUrl}/login/in`;
-        axios.post(userUrls.loginUrl, user).then(
-             (response) => {
-                 this.setState({
-                     isLoading: false,
-                 })
-                 if(response.code) {
-                     result = {
-                         stateMsg: 'failed',
-                         result:(
-                             <div className="Home-Login">
-                                 {/*<br />*/}
-                                 登录失败
-                             </div>
-                         )
-                     };
-                 } else {
-                     result = {
-                         stateMsg: 'success',
-                         user:user,
-                         result:(
-                             <div className="Home-Login">
-                                 {/*<br />*/}
-                                 登录成功
-                             </div>
-                         )
-                     };
-                 }
-            }).catch(
-                (error) => {
-                    result = {
-                        stateMsg: 'failed',
-                        error:error,
-                        result:(
-                            <div className="Home-Login">
-                                {/*<br />*/}
-                                发生错误
-                            </div>
-                        )
-                    };
-                });
-        this.toUser(result);
-
-
-        // let {globalUrl} = this.state;
-        //
-        // let contentType ="application/x-www-form-urlencoded; charset=utf-8";
-        // let ss = JSON.stringify(requestBody);
-        // Ajax.call('http://localhost:80/login', requestBody,"POST");
-
-
-
-
-
-        // user.name = "Tom";
-        //
-        // result = {
-        //     stateMsg: 'success',
-        //     user:user,
-        //     result:(
-        //         <div className="Home-Login">
-        //             {/*<br />*/}
-        //             登录成功
-        //         </div>
-        //     )
-        // };
-        //
+        // axios.post(userUrls.loginUrl, user).then(
+        //      (response) => {
+        //          this.setState({
+        //              isLoading: false,
+        //          })
+        //          if(response.code) {
+        //              result = {
+        //                  stateMsg: 'failed',
+        //                  result:(
+        //                      <div className="Home-Login">
+        //                          {/*<br />*/}
+        //                          登录失败
+        //                      </div>
+        //                  )
+        //              };
+        //          } else {
+        //              result = {
+        //                  stateMsg: 'success',
+        //                  user:user,
+        //                  result:(
+        //                      <div className="Home-Login">
+        //                          {/*<br />*/}
+        //                          登录成功
+        //                      </div>
+        //                  )
+        //              };
+        //          }
+        //     }).catch(
+        //         (error) => {
+        //             result = {
+        //                 stateMsg: 'failed',
+        //                 error:error,
+        //                 result:(
+        //                     <div className="Home-Login">
+        //                         {/*<br />*/}
+        //                         发生错误
+        //                     </div>
+        //                 )
+        //             };
+        //         });
         // this.toUser(result);
 
-        // if (this.state.rememberMe) {
-        //     localContext.put('user',user);
-        // }
+
+
+        // 模拟数据
+        user = {
+            name:"Tom",
+            age:"18",
+            gender:"male",
+            mobileNumber:this.state.mobileNumber,
+            email:"cgq786153492@gmail.com",
+            address:"china",
+            birth:"1998/10/01",
+            registerCode:"000000",
+            administratorRights:"1"
+        };
+        result = {
+            stateMsg: 'success',
+            user:user,
+            result:(
+                <div className="Home-Login">
+                    {/*<br />*/}
+                    登录成功
+                </div>
+            )
+        };
+        this.toUser(result);
+
+        // 本地缓存Cookie
+        if (this.state.rememberMe) {
+            localContext.put('user',user);
+        }
 
 
 

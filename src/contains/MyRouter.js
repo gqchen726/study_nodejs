@@ -1,5 +1,6 @@
 import React from 'react';
 import Lifecycle, {
+    Redirect,
     Route,
     Router, Switch
 } from "react-router";
@@ -25,12 +26,9 @@ export class MyRouter extends React.Component {
         }
     }
 
-
-
-    componentDidMount() {
-
+    getUser = (here,result) => {
+        this.props.getUser(here,result.user)
     }
-
 
     saveSearchKeyWords = (keywords) => {
         this.setState({
@@ -42,14 +40,10 @@ export class MyRouter extends React.Component {
      * 传入一个组件，验证用户是否登录，如未登录，弹出提示，如已登录，渲染组件
      * @param component
      */
-    // accessControl = (component) => {
-    //     let {user} = this.props;
-    //     if (!user) {
-    //         message.info(`您还未登录，请先去登录`).then(r => console.log(r));
-    //         return <Home keywords={this.state.keywords} saveSearchKeyWords={this.saveSearchKeyWords} />;
-    //     }
-    //     return component;
-    // }
+    accessControl = (component) => {
+        let {user} = this.props;
+        return !user ? <Redirect to={'/home'} />:<PersonalCenter user={this.props.user} />;
+    }
 
     render() {
         return (
@@ -70,11 +64,10 @@ export class MyRouter extends React.Component {
                     <SearchResultShow keywords={this.state.keywords} saveSearchKeyWords={this.saveSearchKeyWords} />
                 </Route>
                 <Route exact path='/personalCenter' >
-                    {/*{this.accessControl(<PersonalCenter user={this.props.user} />)}*/}
-                    <PersonalCenter user={this.props.user} />
+                    {this.accessControl(<PersonalCenter user={this.props.user} />)}
                 </Route>
                 <Route exact path='/login' >
-                    <SimpleLogin />
+                    <SimpleLogin getUser={this.getUser} />
                 </Route>
 
             </div>

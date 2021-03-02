@@ -80,18 +80,18 @@ export class UserStateBar extends React.Component {
     returnPageHandler = (user) => {
         let isLogin = !!user;
         let logined = [
-            {
-                type: 'ghost',
-                content: '我的订单'
-            },
-            {
-                type: 'default',
-                content: '浏览历史'
-            },
-            {
-                type: 'primary',
-                content: '个人中心'
-            },
+            // {
+            //     type: 'ghost',
+            //     content: '我的订单'
+            // },
+            // {
+            //     type: 'default',
+            //     content: '浏览历史'
+            // },
+            // {
+            //     type: 'primary',
+            //     content: '个人中心'
+            // },
             {
                 type: 'primary',
                 content: '登出',
