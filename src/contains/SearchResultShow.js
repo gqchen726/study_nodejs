@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {DataShowGrid} from "./DataShowGrid";
-import {SearchBar} from "../component/SearchBar";
+import {SearchBar} from "./SearchBar";
 
 export class SearchResultShow extends React.Component {
 

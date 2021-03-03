@@ -15,23 +15,16 @@ export class DataShowGrid extends React.Component {
         super(props);
     }
 
-    con = () => {
-        setTimeout(() => {
-            console.log(`x:${document.body.clientWidth},y:${document.body.clientHeight}`)
-        },1000)
-    }
 
     renderDataShowCards = () => {
         let {datas} = this.props;
         if (!datas) {
             return null;
         }
-        console.log(datas)
         let dataShowCards = [];
         dataShowCards = datas.map((data) => {
             return <DataShowCard key={data.id} data={data} />
         })
-        console.log(dataShowCards)
 
         return dataShowCards;
     }

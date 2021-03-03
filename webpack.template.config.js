@@ -11,7 +11,17 @@ const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
-    entry: path.join(__dirname,'./src/index.js'),
+    entry: {
+        index: {
+            import: path.join(__dirname,'./src/index.js'),
+            dependOn: 'shared',
+        },
+        another: {
+            import: path.join(__dirname,'./src/another-module.js'),
+            dependOn: 'shared'
+        },
+        shared: 'lodash'
+    },
     output: {
         path: path.join(__dirname,'./dist'),
         filename: '[name].bundle.js'
@@ -188,6 +198,7 @@ module.exports = {
         })],
         // webpack打包环境
         nodeEnv: 'production',
+        runtimeChunk: 'single'
     },
     devtool: false,
     cache: true,

@@ -75,7 +75,7 @@ export class Login extends React.Component {
 
         axios.post(this.state.loginCheckUrl, requestBody).then(
                  function (response) {
-                     console.log("success");
+
                      this.setState({
                          isLoading: false,
                      })
@@ -91,7 +91,7 @@ export class Login extends React.Component {
                      });
                  })
                  .catch(function (error) {
-                     console.log("success");
+
                      this.toUser({
                          state: 'failed',
                          error:error,
@@ -116,7 +116,7 @@ export class Login extends React.Component {
 
 
 
-        // user.name = "Tom";
+        // user.name.value = "Tom";
         //
         // this.toUser({
         //     state: 'success',
@@ -152,7 +152,7 @@ export class Login extends React.Component {
         this.setState({loading:true})
 
         let timerKey = setInterval(() => {
-            console.log("timer running");
+
             if (loadingCount > 0) {
                 getCheckCodeButtonContent = --loadingCount;
             } else {

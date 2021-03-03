@@ -5,49 +5,85 @@ import Card from "antd/es/card";
 import Meta from "antd/es/card/Meta";
 import Descriptions from "antd/es/descriptions";
 import Badge from "antd/es/badge";
+import {MyDescriptions} from "../component/MyDescriptions";
+import {Button} from "antd/es";
+import {CarouselMap} from "./CarouselMap";
 
 export class PersonalCenter extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isEditMode: false,
+        }
     }
 
-    renderDescs = () => {
-        if (!this.props.user) {
+    changeEditMode = () => {
+        this.setState({
+            isEditMode: !this.state.isEditMode,
+        })
+    }
+
+    renderDescs = (user) => {
+        let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
+        if (!user) {
             return null;
         }
-        let {user} = this.props;
+
+
         return (
-            <Descriptions title="User Info" layout="vertical" bordered={true}>
-                <Descriptions.Item label="昵称">{user.name}</Descriptions.Item>
-                <Descriptions.Item label="年龄">{user.age}</Descriptions.Item>
-                <Descriptions.Item label="性别">{user.gender}</Descriptions.Item>
-
-                <Descriptions.Item label="出生日期">{user.birth}</Descriptions.Item>
-                <Descriptions.Item label="手机号码">{user.mobileNumber}</Descriptions.Item>
-                <Descriptions.Item label="电子邮箱">{user.email}</Descriptions.Item>
-
-                <Descriptions.Item label="地址">{user.address}</Descriptions.Item>
-                <Descriptions.Item label="注册码">{user.registerCode}</Descriptions.Item>
-                <Descriptions.Item label="权限">
-                    Data disk type: MongoDB
-                    <br />
-                    Database version: 3.4
-                    <br />
-                    Package: dds.mongo.mid
-                    <br />
-                    Storage space: 10 GB
-                    <br />
-                    Replication factor: 3
-                    <br />
-                    Region: East China 1<br />
-                </Descriptions.Item>
-            </Descriptions>
+            <div className='personalCenter'>
+                {/*数据详情信息展示*/}
+                <Card
+                    title={user.name.value}
+                    extra={
+                        (!user || !user.administratorRights)?
+                            null:<Button type={"primary"} onClick={this.changeEditMode} >编辑</Button>
+                    }
+                >
+                    <MyDescriptions
+                        title={"Data Info"}
+                        layout={"horizontal"}
+                        bordered={true}
+                        columns={columns}
+                        descriptered={user}
+                        isAdminSpecific={true}
+                        isEditMode={this.state.isEditMode}
+                    />
+                </Card>
+            </div>
         );
+
+
     }
 
     render() {
-        return (
-            this.renderDescs()
-        )
+        let {user} = this.props;
+        this.renderDescs(user)
+        // let {user} = this.props;
+        // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
+        // return (
+        //     <div className='personalCenter'>
+        //         {/*数据详情信息展示*/}
+        //         <Card
+        //             title={user.name.value}
+        //             extra={
+        //                 (!user || !user.administratorRights)?
+        //                     null:<Button type={"primary"} onClick={this.changeEditMode} >编辑</Button>
+        //             }
+        //         >
+        //             {/*跑马灯*/}
+        //             <CarouselMap autoPlay={true} />
+        //             <MyDescriptions
+        //                 title={"Data Info"}
+        //                 layout={"horizontal"}
+        //                 bordered={true}
+        //                 columns={columns}
+        //                 descriptered={user}
+        //                 isAdminSpecific={true}
+        //                 isEditMode={this.state.isEditMode}
+        //             />
+        //         </Card>
+        //     </div>
+        // );
     }
 }

@@ -31,29 +31,29 @@ let baseConfig = {
         /**
          * 缓存加速二次构建速度
          */
-        new HardSourceWebpackPlugin({
-            cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
-            configHash: function (webpackConfig) {
-                // node-object-hash on npm can be used to build this.
-                return require('node-object-hash')({ sort: false }).hash(webpackConfig);
-            },
-            environmentHash: {
-                root: process.cwd(),
-                directories: [],
-                files: ['package-lock.json', 'yarn.lock'],
-            },
-            info: {
-                // 'none' or 'test'.
-                mode: 'none',
-                // 'debug', 'log', 'info', 'warn', or 'error'.
-                level: 'debug',
-            },
-            cachePrune: {
-                maxAge: 2 * 24 * 60 * 60 * 1000,
-                sizeThreshold: 50 * 1024 * 1024
-            },
-            // test: /mini-css-extract-plugin[\\/]dist[\\/]loader/
-        }),
+        // new HardSourceWebpackPlugin({
+        //     cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
+        //     configHash: function (webpackConfig) {
+        //         // node-object-hash on npm can be used to build this.
+        //         return require('node-object-hash')({ sort: false }).hash(webpackConfig);
+        //     },
+        //     environmentHash: {
+        //         root: process.cwd(),
+        //         directories: [],
+        //         files: ['package-lock.json', 'yarn.lock'],
+        //     },
+        //     info: {
+        //         // 'none' or 'test'.
+        //         mode: 'none',
+        //         // 'debug', 'log', 'info', 'warn', or 'error'.
+        //         level: 'debug',
+        //     },
+        //     cachePrune: {
+        //         maxAge: 2 * 24 * 60 * 60 * 1000,
+        //         sizeThreshold: 50 * 1024 * 1024
+        //     },
+        //     // test: /mini-css-extract-plugin[\\/]dist[\\/]loader/
+        // }),
         new HappyPack({
             id: 'jsx',
             loaders: ['babel-loader?cacheDirectory=true']

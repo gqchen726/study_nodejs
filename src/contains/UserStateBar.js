@@ -116,7 +116,7 @@ export class UserStateBar extends React.Component {
                     avatar={{ src: 'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
                     ghost={false}
                     // onBack={() => window.history.back()}
-                    title={!isLogin ? '请登录':user.name}
+                    title={!isLogin ? '请登录':user.name.value}
 
                     extra={this.returnExtraButton(buttonsPara)}
                     style={{padding:'0px 36px'}}

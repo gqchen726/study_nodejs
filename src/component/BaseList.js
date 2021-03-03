@@ -17,6 +17,7 @@ export class BaseList extends React.Component {
             </div>
         );
     }
-
-
+}
+BaseList.propTypes = {
+    list: PropTypes.array,
 }

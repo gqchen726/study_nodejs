@@ -2,7 +2,7 @@
 import React from "react";
 import localContext from "./cache/LocalContext";
 import {Page} from "./contains/Page";
-
+import MyErrorBoundary from "./common/MyErrorBoundary";
 
 
 class App extends React.Component {
@@ -22,8 +22,10 @@ class App extends React.Component {
 
     render() {
         return (
-            // <MyRouter user={this.state.user} getUser={this.getUser} />
-            <Page user={this.state.user} getUser={this.getUser} />
+            <MyErrorBoundary>
+                {/*<MyRouter user={this.state.user} getUser={this.getUser} />*/}
+                <Page user={this.state.user} getUser={this.getUser} />
+            </MyErrorBoundary>
         );
 
     }

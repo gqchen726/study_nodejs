@@ -16,6 +16,8 @@ import {PersonalCenter} from "./PersonalCenter";
 import {message} from "antd";
 import mixins from "react-mixin";
 import {SimpleLogin} from "./SimpleLogin";
+import {DataInfo} from "../component/DataInfo";
+import MyErrorBoundary from '../common/MyErrorBoundary'
 
 export class MyRouter extends React.Component {
 
@@ -58,9 +60,6 @@ export class MyRouter extends React.Component {
                     <LeftNavigationMenu />
                 </Route>
                 <Route exact path='/searchResult'>
-                    <SearchResult />
-                </Route>
-                <Route exact path='/dataInfo'>
                     <SearchResultShow keywords={this.state.keywords} saveSearchKeyWords={this.saveSearchKeyWords} />
                 </Route>
                 <Route exact path='/personalCenter' >
@@ -68,6 +67,12 @@ export class MyRouter extends React.Component {
                 </Route>
                 <Route exact path='/login' >
                     <SimpleLogin getUser={this.getUser} />
+                </Route>
+                <Route exact path='/dataInfo' >
+                    <DataInfo data={{name: "数据展示样板"}} user={this.props.user} />
+                </Route>
+                <Route exact path='/myCollections' >
+                    {this.accessControl(<PersonalCenter user={this.props.user} />)}
                 </Route>
 
             </div>

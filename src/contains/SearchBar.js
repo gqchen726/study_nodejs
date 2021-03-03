@@ -51,7 +51,7 @@ export class SearchBar extends React.Component {
                     <span
                         style={{font:{size:'11px'}}}
                     >
-                        <Link to={'/dataInfo'} >搜索</Link>
+                        <Link to={'/searchResult'} >搜索</Link>
                     </span>
                 </Button>
             </div>

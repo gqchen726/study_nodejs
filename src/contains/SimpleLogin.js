@@ -5,6 +5,7 @@ import "../public/css/Login.css";
 import axios from "axios";
 const localContext = require('../cache/LocalContext');
 import {userUrls} from "../public/ApiUrls/UserUrls";
+import {Page} from "./Page";
 export class SimpleLogin extends React.Component {
 
     constructor(props) {
@@ -30,6 +31,7 @@ export class SimpleLogin extends React.Component {
         };
 
     }
+
 
     login = () => {
         this.setState({
@@ -83,18 +85,53 @@ export class SimpleLogin extends React.Component {
         // this.toUser(result);
 
 
-
         // 模拟数据
         user = {
-            name:"Tom",
-            age:"18",
-            gender:"male",
-            mobileNumber:this.state.mobileNumber,
-            email:"cgq786153492@gmail.com",
-            address:"china",
-            birth:"1998/10/01",
-            registerCode:"000000",
-            administratorRights:"1"
+            name:{
+                value: "Tom",
+                isAllowEdit:true,
+                chineseName: "昵称"
+            },
+            age:{
+                value: "18",
+                isAllowEdit:true,
+                chineseName: "年龄"
+            },
+            gender:{
+                value: "male",
+                isAllowEdit:true,
+                chineseName: "性别"
+            },
+            mobileNumber:{
+                value: this.state.user.mobileNumber,
+                isAllowEdit:false,
+                chineseName: "手机号码"
+            },
+            email:{
+                value: "cgq786153492@gmail.com",
+                isAllowEdit:true,
+                chineseName: "电子邮箱"
+            },
+            address:{
+                value: "china",
+                isAllowEdit:true,
+                chineseName: "地址"
+            },
+            birth:{
+                value: "1998/10/01",
+                isAllowEdit:true,
+                chineseName: "出生日期"
+            },
+            registerCode:{
+                value: "000000",
+                isAllowEdit:true,
+                chineseName: "注册码"
+            },
+            administratorRights:{
+                value: "1",
+                isAllowEdit:true,
+                chineseName: "权限"
+            }
         };
         result = {
             stateMsg: 'success',
@@ -151,7 +188,6 @@ export class SimpleLogin extends React.Component {
                 }
             })
             .catch( (error) => {
-                console.log("error");
                 this.toUser({
                     stateMsg: 'failed',
                     error:error,
@@ -181,7 +217,7 @@ export class SimpleLogin extends React.Component {
         this.setState({loading:true})
 
         let timerKey = setInterval(() => {
-            console.log("timer running");
+
             if (loadingCount > 0) {
                 getCheckCodeButtonContent = --loadingCount;
             } else {
@@ -200,7 +236,6 @@ export class SimpleLogin extends React.Component {
      * @param event
      */
     autoSave = (event) => {
-        // console.log(event);
         let value = event.target.value;
         let id = event.target.id;
 

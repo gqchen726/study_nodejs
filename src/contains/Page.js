@@ -19,6 +19,11 @@ import { Layout, Menu } from 'antd';
 import './../public/css/Page.css'
 import {Button, message} from "antd/es";
 import history from "../common/history";
+import {MyPrompt} from "../component/MyPrompt";
+
+
+//创建context,定义一个全局变量
+const ThemeContext = React.createContext("light");
 export class Page extends React.Component {
 
     constructor(props) {
@@ -31,7 +36,6 @@ export class Page extends React.Component {
         };
 
     }
-
 
 
     saveSearchKeyWords = (keywords) => {
@@ -65,30 +69,16 @@ export class Page extends React.Component {
         );
     }
 
-
-    jurisdiction = () => {
-        let {user} = this.state;
-        if (!user) {
-            message.info(`您还未登录，请先去登录`).then(r => console.log(r));
-            return null;
-        }
-    }
-
     render () {
         let {lineMode} = this.state;
         let {lightTheme} = this.state;
         const { Header, Content, Footer, Sider } = Layout;
+        let rules = [];
         return (
             <HashRouter>
-                <Prompt
-                    message={(location, action) => {
-                        if (action === 'POP') {
-                            console.log("Backing up...")
-                        }
-                        return !location.pathname.startsWith("/personalCenter" | "/myOrder" | "/browsingHistory" | "/myCollections")
-                            ? true
-                            : "您还未登录，请前去登录后再进行此操作!"
-                    }}
+                {/*路由拦截*/}
+                <MyPrompt
+                    user={this.props.user}
                 />
                 <Layout className={'Page'}>
                     <Sider
@@ -134,6 +124,9 @@ export class Page extends React.Component {
                             <Menu.Item key="sub5" title="浏览历史" icon={<CloudOutlined/>}>
                                 <Link to={'/browsingHistory'}>浏览历史</Link>
                             </Menu.Item>
+                            <Menu.Item key="sub6" title="数据展示" icon={<CloudOutlined/>}>
+                                <Link to={'/dataInfo'}>数据展示</Link>
+                            </Menu.Item>
 
                         </Menu>
 
@@ -156,3 +149,4 @@ export class Page extends React.Component {
         )
     }
 }
+

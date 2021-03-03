@@ -1,7 +1,7 @@
 import React from 'react'
 // import '../public/css/App.css'
 import {CarouselMap} from "./CarouselMap";
-import {SearchBar} from "../component/SearchBar";
+import {SearchBar} from "./SearchBar";
 import {DataShowCard} from "./DataShowCard";
 import Card from "antd/es/card";
 import Meta from "antd/es/card/Meta";
@@ -16,7 +16,6 @@ export class Home extends React.Component {
         }
     }
 
-    onSearch = value => console.log(value);
 
 
     getUser = (here,user) => {
