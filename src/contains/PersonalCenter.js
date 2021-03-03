@@ -8,13 +8,19 @@ import Badge from "antd/es/badge";
 import {MyDescriptions} from "../component/MyDescriptions";
 import {Button} from "antd/es";
 import {CarouselMap} from "./CarouselMap";
+import {withRouter} from "react-router";
 
-export class PersonalCenter extends React.Component {
+
+class PersonalCenter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isEditMode: false,
         }
+    }
+
+    componentDidMount() {
+        console.log(this)
     }
 
     changeEditMode = () => {
@@ -28,7 +34,6 @@ export class PersonalCenter extends React.Component {
         if (!user) {
             return null;
         }
-
 
         return (
             <div className='personalCenter'>
@@ -58,7 +63,7 @@ export class PersonalCenter extends React.Component {
 
     render() {
         let {user} = this.props;
-        this.renderDescs(user)
+        return this.renderDescs(user);
         // let {user} = this.props;
         // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
         // return (
@@ -87,3 +92,4 @@ export class PersonalCenter extends React.Component {
         // );
     }
 }
+export const PersonalCenterW = withRouter(PersonalCenter);

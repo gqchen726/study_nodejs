@@ -16,6 +16,7 @@ export class Home extends React.Component {
         }
     }
 
+    onSearch = value => console.log(value);
 
 
     getUser = (here,user) => {

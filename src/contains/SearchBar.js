@@ -24,12 +24,39 @@ export class SearchBar extends React.Component {
             this.props.saveSearchKeyWords(keywords);
         }
     }
+
+
     search = () => {
-        let {keywords} = this.state; 
-        // 发送请求
-        // 保存关键词
+        let {keywords} = this.state;
+        let url = 'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4';
+        // 发送axios请求
+
+        // json模拟数据
+        let datas = [
+            {
+                name: {
+                    value: "模拟数据1",
+                    isAllowEdit:true,
+                    chineseName: "名称"
+                },code: {
+                    value: "S00001",
+                    isAllowEdit:true,
+                    chineseName: "编号"
+                },description: {
+                    value: "这是一条模拟数据的描述信息",
+                    isAllowEdit:true,
+                    chineseName: "描述"
+                },price: {
+                    value: "$20",
+                    isAllowEdit:true,
+                    chineseName: "单价"
+                },
+            }
+        ];
+        this.props.saveAny('datas',datas);
 
     }
+
 
     render() {
         return (
@@ -41,7 +68,7 @@ export class SearchBar extends React.Component {
                     maxLength={128}
                     onChangeCapture={this.autoSave}
                     value={this.state.keywords?this.state.keywords:null}
-                    onPressEnter={this.search}
+                    onPressEnter={this.props.search}
                 />
                 <Button
                     style={{width:'10%'}}

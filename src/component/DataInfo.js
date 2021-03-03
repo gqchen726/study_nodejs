@@ -4,6 +4,8 @@ import {Card} from "antd";
 import {Button} from "antd/es";
 import PropTypes from 'prop-types'
 import {MyDescriptions} from "./MyDescriptions";
+import {withRouter} from "react-router";
+
 
 const localContext = require('../cache/LocalContext');
 export class DataInfo extends React.Component {
@@ -24,10 +26,23 @@ export class DataInfo extends React.Component {
         })
     }
 
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired
+    };
+
+
 
     render() {
-        let {data} = this.props;
+        let {datas} = this.props;
+        console.log(this)
         let {user} = this.props;
+        console.log(this.props.match)
+        let {key} = this.props.match.params
+        if (!datas) {
+            return null;
+        }
         let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
         return (
             <div className='dataInfo'>
@@ -46,7 +61,7 @@ export class DataInfo extends React.Component {
                         layout={"horizontal"}
                         bordered={true}
                         columns={columns}
-                        descriptered={user}
+                        descriptered={datas[key]}
                         isAdminSpecific={true}
                         isEditMode={this.state.isEditMode}
                     />
@@ -55,6 +70,7 @@ export class DataInfo extends React.Component {
         );
     }
 }
+export const DataInfoW =  withRouter(DataInfo);
 DataInfo.defaultTypes = {
     data:{
         name: "数据展示样板"
@@ -62,5 +78,5 @@ DataInfo.defaultTypes = {
 }
 DataInfo.propTypes = {
     user:PropTypes.object,
-    data:PropTypes.object,
+    data:PropTypes.any,
 }
