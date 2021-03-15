@@ -22,6 +22,10 @@ export class UserStateBar extends React.Component {
 
     componentDidMount() {
         this.returnPageHandler(this.state.user);
+        this.getLoginCard();
+    }
+
+    getLoginCard = () => {
         this.setState({
             modalContent:<SimpleLogin getUser={this.getUser} />,
         })
@@ -31,13 +35,18 @@ export class UserStateBar extends React.Component {
 
     getUser = (here,result) => {
         if (here && result) {
-            if(result.stateMsg === 'success') {
+            if(result.stateMsg === 'loginSuccess') {
                 this.props.getUser(here,result.user)
             }
             let modalContent = result.result;
             this.setState({
                 modalContent:modalContent
             })
+            setTimeout(() => {
+                if (result.stateMsg === 'registerSuccess') {
+                    this.getLoginCard();
+                }
+            },1000)
         }
     }
 
@@ -116,7 +125,8 @@ export class UserStateBar extends React.Component {
                     avatar={{ src: 'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
                     ghost={false}
                     // onBack={() => window.history.back()}
-                    title={!isLogin ? '请登录':user.name.value}
+                    // title={!isLogin ? '请登录':user.name.value}
+                    title={!isLogin ? '请登录':user.name}
 
                     extra={this.returnExtraButton(buttonsPara)}
                     style={{padding:'0px 36px'}}

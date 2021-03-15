@@ -30,7 +30,7 @@ class PersonalCenter extends React.Component {
     }
 
     renderDescs = (user) => {
-        let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
+        // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
         if (!user) {
             return null;
         }
@@ -39,9 +39,9 @@ class PersonalCenter extends React.Component {
             <div className='personalCenter'>
                 {/*数据详情信息展示*/}
                 <Card
-                    title={user.name.value}
+                    title={user.name}
                     extra={
-                        (!user || !user.administratorRights)?
+                        (!user)?
                             null:<Button type={"primary"} onClick={this.changeEditMode} >编辑</Button>
                     }
                 >
@@ -49,9 +49,8 @@ class PersonalCenter extends React.Component {
                         title={"Data Info"}
                         layout={"horizontal"}
                         bordered={true}
-                        columns={columns}
+                        // columns={columns}
                         descriptered={user}
-                        isAdminSpecific={true}
                         isEditMode={this.state.isEditMode}
                     />
                 </Card>
@@ -70,7 +69,7 @@ class PersonalCenter extends React.Component {
         //     <div className='personalCenter'>
         //         {/*数据详情信息展示*/}
         //         <Card
-        //             title={user.name.value}
+        //             title={user.name}
         //             extra={
         //                 (!user || !user.administratorRights)?
         //                     null:<Button type={"primary"} onClick={this.changeEditMode} >编辑</Button>

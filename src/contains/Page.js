@@ -6,13 +6,17 @@ import {
     TeamOutlined,
     UserOutlined,
     UploadOutlined,
-    VideoCameraOutlined, HomeOutlined, BarsOutlined,
+    VideoCameraOutlined,
+    HomeOutlined,
+    BarsOutlined,
+    MenuUnfoldOutlined,
+    MenuFoldOutlined,
 } from '@ant-design/icons';
 import Switch from "antd/es/switch";
 import SubMenu from "antd/es/menu/SubMenu";
 import {UserStateBar} from "./UserStateBar";
 import {Prompt} from "react-router";
-import {HashRouter, Link} from "react-router-dom";
+import {HashRouter, Link, BrowserRouter} from "react-router-dom";
 import {MyRouter} from "./MyRouter";
 import React from "react";
 import { Layout, Menu } from 'antd';
@@ -20,6 +24,7 @@ import './../public/css/Page.css'
 import {Button, message} from "antd/es";
 import history from "../common/history";
 import {MyPrompt} from "../component/MyPrompt";
+import {MyRouterWithHook} from "./MyRouterWithHook";
 
 
 //创建context,定义一个全局变量
@@ -33,6 +38,7 @@ export class Page extends React.Component {
             lightTheme: true,
             user:props.user,
             keywords:null,
+            collapsed: false
         };
 
     }
@@ -56,6 +62,11 @@ export class Page extends React.Component {
             lineMode: !this.state.lineMode,
         })
     };
+    changeState = () => {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        })
+    };
 
     changeTheme = () => {
         this.setState({
@@ -66,12 +77,12 @@ export class Page extends React.Component {
     renderRoutes = () => {
         return (
             <MyRouter user={this.state.user} getUser={this.getUser} />
+            // <MyRouterWithHook user={this.state.user} getUser={this.getUser} />
         );
     }
 
     render () {
-        let {lineMode} = this.state;
-        let {lightTheme} = this.state;
+        let {lineMode, lightTheme, collapsed} = this.state;
         const { Header, Content, Footer, Sider } = Layout;
         let rules = [];
         return (
@@ -89,14 +100,25 @@ export class Page extends React.Component {
                             left: 0,
                         }}
                         theme='light'
+                        trigger={null}
+                        collapsible
+                        collapsed={collapsed}
                     >
                         <div className="logo"/>
-                        <Switch onChange={this.changeMode} />
+                        <div className={'modeControl'}>
+                            <Switch onChange={this.changeMode} />更换菜单样式
+                            <br />
+                            <Button type="primary" onClick={this.changeState} style={{ marginBottom: 16 }}>
+                                {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+                                {!collapsed ? "缩起菜单":null}
+                            </Button>
+                        </div>
 
                         <Menu
                             mode={!lineMode ? 'vertical' : 'inline'}
                             theme='light'
                             defaultSelectedKeys={['1']}
+                            inlineCollapsed={collapsed}
                         >
                             <Menu.Item key="sub0" title="首页" icon={<HomeOutlined />}>
                                 <Link to={'/home'}>首页</Link>

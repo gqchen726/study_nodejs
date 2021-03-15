@@ -54,21 +54,21 @@ let baseConfig = {
         //     },
         //     // test: /mini-css-extract-plugin[\\/]dist[\\/]loader/
         // }),
-        new HappyPack({
-            id: 'jsx',
-            loaders: ['babel-loader?cacheDirectory=true']
-        }),
-        new HappyPack({
-            id: 'style',
-            // loaders: ['style-loader', 'css-loader','less-loader'],
-            loaders: [
-                {
-                    loader:MiniCssExtractPlugin.loader,
-                },
-                {loader: 'css-loader'},
-                {loader: 'less-loader'},
-            ]
-        }),
+        // new HappyPack({
+        //     id: 'jsx',
+        //     loaders: ['babel-loader?cacheDirectory=true']
+        // }),
+        // new HappyPack({
+        //     id: 'style',
+        //     // loaders: ['style-loader', 'css-loader','less-loader'],
+        //     loaders: [
+        //         {
+        //             loader:MiniCssExtractPlugin.loader,
+        //         },
+        //         {loader: 'css-loader'},
+        //         {loader: 'less-loader'},
+        //     ]
+        // }),
     ],
     module: {
         rules: [

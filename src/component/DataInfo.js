@@ -4,7 +4,10 @@ import {Card} from "antd";
 import {Button} from "antd/es";
 import PropTypes from 'prop-types'
 import {MyDescriptions} from "./MyDescriptions";
-import {withRouter} from "react-router";
+import {
+    Link,
+    withRouter
+} from "react-router-dom";
 
 
 const localContext = require('../cache/LocalContext');
@@ -32,26 +35,36 @@ export class DataInfo extends React.Component {
         history: PropTypes.object.isRequired
     };
 
+    returnMode = (user,isAdminSpecific) => {
+        if (!isAdminSpecific) {
+            return (!user)?
+                null:<Button type={"primary"} onClick={this.changeEditMode} >编辑</Button>
+        } else if (isAdminSpecific) {
+            return (!user || !user.admin)?
+                null:<Button type={"primary"} onClick={this.changeEditMode} >编辑</Button>
+        }
+    }
 
 
     render() {
-        let {datas} = this.props;
         console.log(this)
-        let {user} = this.props;
-        console.log(this.props.match)
+        let {datas} = this.props;
         let {key} = this.props.match.params
-        if (!datas) {
+        let data = datas[key];
+        let {user} = this.props;
+        let {isAdminSpecific} = this.props;
+
+        if (!data) {
             return null;
         }
-        let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
+        // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
         return (
             <div className='dataInfo'>
-                {/*数据详情信息展示*/}
+                {/*数据详情信息展示面板*/}
                 <Card
-                    title={data.name.value}
+                    title={data.name}
                     extra={
-                        (!user || !user.administratorRights)?
-                            null:<Button type={"primary"} onClick={this.changeEditMode} >编辑</Button>
+                        this.returnMode(user,isAdminSpecific)
                     }
                 >
                     {/*跑马灯*/}
@@ -60,22 +73,40 @@ export class DataInfo extends React.Component {
                         title={"Data Info"}
                         layout={"horizontal"}
                         bordered={true}
-                        columns={columns}
-                        descriptered={datas[key]}
+                        descriptered={data}
                         isAdminSpecific={true}
                         isEditMode={this.state.isEditMode}
                     />
+                </Card>
+                {/*用户操作面板*/}
+                <Card>
+                    <Button
+                        style={{width:'10%'}}
+                        onClick={this.search}
+                    >
+                        <span
+                            style={{font:{size:'11px'}}}
+                        >
+                            <Link to={`/result${404}`} >收藏</Link>
+                        </span>
+                    </Button>
+                    <Button
+                        style={{width:'10%'}}
+                        onClick={this.search}
+                    >
+                        <span
+                            style={{font:{size:'11px'}}}
+                        >
+                            <Link to={`/orderGenerate/${key}`} >购买</Link>
+                        </span>
+                    </Button>
                 </Card>
             </div>
         );
     }
 }
 export const DataInfoW =  withRouter(DataInfo);
-DataInfo.defaultTypes = {
-    data:{
-        name: "数据展示样板"
-    }
-}
+
 DataInfo.propTypes = {
     user:PropTypes.object,
     data:PropTypes.any,

@@ -2,6 +2,9 @@
 .Page {
     height: 150vh;
 }
+.modeControl {
+    text-align: center;
+}
 .logo {
     height: 32px;
     margin: 16px;

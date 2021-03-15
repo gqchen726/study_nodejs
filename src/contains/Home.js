@@ -5,6 +5,10 @@ import {SearchBar} from "./SearchBar";
 import {DataShowCard} from "./DataShowCard";
 import Card from "antd/es/card";
 import Meta from "antd/es/card/Meta";
+// import Route from "react-router/modules/Route";
+// import {useRouteMatch} from "react-router";
+import {SearchResultShow} from "./SearchResultShow";
+import {Switch} from "antd";
 
 
 const localContext = require('../cache/LocalContext');
@@ -27,7 +31,10 @@ export class Home extends React.Component {
     }
 
     render() {
+        console.log(this)
         const style = { background: '#0092ff', padding: '8px 0' };
+        // let {path,url} = useRouteMatch();
+
         return (
             <div id='root' className="App">
                 {/*<header className="App-header">*/}
@@ -35,13 +42,16 @@ export class Home extends React.Component {
                 {/*</header>*/}
 
                 <div style={{width:'100%'}} >
-                    <SearchBar saveSearchKeyWords={this.props.saveSearchKeyWords} />
+                    <SearchBar saveSearchKeyWords={this.props.saveSearchKeyWords} saveAny={this.props.saveAny} />
                     <br /><br />
                     <CarouselMap autoPlay={true} />
                     <br /><br />
-                    {/*<DataShowGrid />*/}
-                    {/*<DataShowCard style={{width:'20%',height:'10%'}} imageSrc='http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' />*/}
 
+
+
+                    {/*<Switch>*/}
+                    {/*    <Route path={`${path}/searchResultShow`} component={SearchResultShow} children={datas} />*/}
+                    {/*</Switch>*/}
                 </div>
 
 

@@ -4,8 +4,8 @@ import React from "react";
 import "../public/css/Login.css";
 import axios from "axios";
 const localContext = require('../cache/LocalContext');
-import {userUrls} from "../public/ApiUrls/UserUrls";
 import {Page} from "./Page";
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 export class SimpleLogin extends React.Component {
 
     constructor(props) {
@@ -14,9 +14,6 @@ export class SimpleLogin extends React.Component {
             options: null,
             mobileNumber:null,
             user: {},
-            // globalUrl:`http://localhost:8000/login`,
-            // globalUrl:`http://192.168.1.6:8000/mytest`,
-            globalUrls:userUrls,
             cardList: [],
             cardContentList:[],
             key: 'loginForPassword',
@@ -38,112 +35,125 @@ export class SimpleLogin extends React.Component {
             isLoading: true,
         })
         let {user} = this.state;
-        let result = null;
 
-        //真实请求
-        // let url = `${this.state.globalUrl}/login/in`;
-        // axios.post(userUrls.loginUrl, user).then(
-        //      (response) => {
-        //          this.setState({
-        //              isLoading: false,
-        //          })
-        //          if(response.code) {
-        //              result = {
-        //                  stateMsg: 'failed',
-        //                  result:(
-        //                      <div className="Home-Login">
-        //                          {/*<br />*/}
-        //                          登录失败
-        //                      </div>
-        //                  )
-        //              };
-        //          } else {
-        //              result = {
-        //                  stateMsg: 'success',
-        //                  user:user,
-        //                  result:(
-        //                      <div className="Home-Login">
-        //                          {/*<br />*/}
-        //                          登录成功
-        //                      </div>
-        //                  )
-        //              };
-        //          }
-        //     }).catch(
-        //         (error) => {
-        //             result = {
-        //                 stateMsg: 'failed',
-        //                 error:error,
-        //                 result:(
-        //                     <div className="Home-Login">
-        //                         {/*<br />*/}
-        //                         发生错误
-        //                     </div>
-        //                 )
-        //             };
-        //         });
-        // this.toUser(result);
+        // 真实请求
+        axios.post(urlsUtil.user.loginUrl, user).then(
+             (response) => {
+                 let data = response.data;
+                 let result;
+                 this.setState({
+                     isLoading: false,
+                 })
+                 if (data.code == 0) {
+                     console.log("success")
+
+                     result = {
+                         stateMsg: 'loginSuccess',
+                         user:data.body,
+                         result:(
+                             <div className="Home-Login">
+                                 {/*<br />*/}
+                                 登录成功
+                                 {data.message}
+                             </div>
+                         )
+                     };
+                     localContext.remove('user');
+                     // 本地缓存Cookie
+                     if (this.state.rememberMe) {
+                         localContext.put('user',result.user);
+                     }
+                 }
+                 else if(data.code == 1) {
+                     console.log("failed")
+                     result = {
+                         stateMsg: 'loginFailed',
+                         result:(
+                             <div className="Home-Login">
+                                 {/*<br />*/}
+                                 登录失败
+                                 {data.message}
+                             </div>
+                         )
+                     };
+                 }
+                 this.props.getUser(this,result);
+
+            })
+            // .catch(
+            //     (error) => {
+            //         result = {
+            //             stateMsg: 'failed',
+            //             error:error,
+            //             result:(
+            //                 <div className="Home-Login">
+            //                     {/*<br />*/}
+            //                     网络异常
+            //                 </div>
+            //             )
+            //         };
+            //     });
 
 
-        // 模拟数据
-        user = {
-            name:{
-                value: "Tom",
-                isAllowEdit:true,
-                chineseName: "昵称"
-            },
-            age:{
-                value: "18",
-                isAllowEdit:true,
-                chineseName: "年龄"
-            },
-            gender:{
-                value: "male",
-                isAllowEdit:true,
-                chineseName: "性别"
-            },
-            mobileNumber:{
-                value: this.state.user.mobileNumber,
-                isAllowEdit:false,
-                chineseName: "手机号码"
-            },
-            email:{
-                value: "cgq786153492@gmail.com",
-                isAllowEdit:true,
-                chineseName: "电子邮箱"
-            },
-            address:{
-                value: "china",
-                isAllowEdit:true,
-                chineseName: "地址"
-            },
-            birth:{
-                value: "1998/10/01",
-                isAllowEdit:true,
-                chineseName: "出生日期"
-            },
-            registerCode:{
-                value: "000000",
-                isAllowEdit:true,
-                chineseName: "注册码"
-            },
-            administratorRights:{
-                value: "1",
-                isAllowEdit:true,
-                chineseName: "权限"
-            }
-        };
-        result = {
-            stateMsg: 'success',
-            user:user,
-            result:(
-                <div className="Home-Login">
-                    {/*<br />*/}
-                    登录成功
-                </div>
-            )
-        };
-        this.toUser(result);
+        // // 模拟数据
+        // user = {
+        //     name:{
+        //         value: "Tom",
+        //         isAllowEdit:true,
+        //         chineseName: "昵称"
+        //     },
+        //     age:{
+        //         value: "18",
+        //         isAllowEdit:true,
+        //         chineseName: "年龄"
+        //     },
+        //     gender:{
+        //         value: "male",
+        //         isAllowEdit:true,
+        //         chineseName: "性别"
+        //     },
+        //     mobileNumber:{
+        //         value: this.state.user.mobileNumber,
+        //         isAllowEdit:false,
+        //         chineseName: "手机号码"
+        //     },
+        //     email:{
+        //         value: "cgq786153492@gmail.com",
+        //         isAllowEdit:true,
+        //         chineseName: "电子邮箱"
+        //     },
+        //     address:{
+        //         value: "china",
+        //         isAllowEdit:true,
+        //         chineseName: "地址"
+        //     },
+        //     birth:{
+        //         value: "1998/10/01",
+        //         isAllowEdit:true,
+        //         chineseName: "出生日期"
+        //     },
+        //     registerCode:{
+        //         value: "000000",
+        //         isAllowEdit:true,
+        //         chineseName: "注册码"
+        //     },
+        //     administratorRights:{
+        //         value: "1",
+        //         isAllowEdit:true,
+        //         chineseName: "权限"
+        //     }
+        // };
+        // result = {
+        //     stateMsg: 'success',
+        //     user:user,
+        //     result:(
+        //         <div className="Home-Login">
+        //             {/*<br />*/}
+        //             登录成功
+        //         </div>
+        //     )
+        // };
+        // this.props.getUser(this,result);
 
         // 本地缓存Cookie
         if (this.state.rememberMe) {
@@ -160,50 +170,37 @@ export class SimpleLogin extends React.Component {
         let {user} = this.state;
         let result = null;
         // let url = `${this.state.globalUrl}/user/create`;
-        axios.post(userUrls.registerUrl, user).then(
+        axios.post(urlsUtil.user.registerUrl, user).then(
              (response) => {
+                 let data = response.data;
                 this.setState({
                     isLoading: false,
                 })
-                if(response.code) {
+                if(data.code == 1) {
                     result = {
-                        stateMsg: 'success',
+                        stateMsg: 'registerFailed',
                         result:(
                             <div className="Home-Login">
                                 {/*<br />*/}
                                 注册失败
+                                {data.message}
                             </div>
                         )
                     };
                 } else {
                     result = {
-                        stateMsg: 'success',
+                        stateMsg: 'registerSuccess',
                         result:(
                             <div className="Home-Login">
                                 {/*<br />*/}
-                                注册成功
+                                注册成功,1s后自动跳转至登录
+                                {data.message}
                             </div>
                         )
                     };
                 }
+                 this.props.getUser(this,result);
             })
-            .catch( (error) => {
-                this.toUser({
-                    stateMsg: 'failed',
-                    error:error,
-                    result:(
-                        <div className="Home-Login">
-                            {/*<br />*/}
-                            发生错误
-                        </div>
-                    )
-                });
-            });
-        this.toUser(result);
-    }
-
-    toUser = (result) => {
-        this.props.getUser(this,result);
     }
 
     onTabChange = (key,type) => {
@@ -242,8 +239,8 @@ export class SimpleLogin extends React.Component {
         let {user} = this.state;
 
 
-        if(id === "username") {
-            user.username = value;
+        if(id === "name") {
+            user.name = value;
         } else if(id === "mobileNumber") {
             user.mobileNumber = value;
         } else if(id === "checkCode") {
@@ -293,7 +290,7 @@ export class SimpleLogin extends React.Component {
             if (targetValue && !phoneRegExp.test(targetValue)) {
                 tipMessage.phoneNumberTip = <Alert type='error' message='手机号码中不得出现除0～9的字符' />;
             } else if (targetValue.length === 11 && this.state.isGoLogin === true) {
-                let url = `${userUrls.checkMobileNumber}?mobileNumber=${targetValue}`;
+                let url = `${urlsUtil.user.checkMobileNumber}?mobileNumber=${targetValue}`;
 
                 axios.get(url).then(
                     (response) => {
@@ -502,7 +499,7 @@ export class SimpleLogin extends React.Component {
                         {/*用户名输入框*/}
                         <div style={{ width: '100%' }}>
                             用&nbsp;&nbsp;户&nbsp;&nbsp;名:&nbsp;&nbsp;
-                            <Input id='username' style={{ width: '80%' }} placeholder={'请输入用户名'} allowClear={false} maxLength={30} onChangeCapture={this.autoSave} />
+                            <Input id='name' style={{ width: '80%' }} placeholder={'请输入用户名'} allowClear={false} maxLength={30} onChangeCapture={this.autoSave} />
                         </div>
                         <br /><br />
                         {/*手机号码输入框*/}

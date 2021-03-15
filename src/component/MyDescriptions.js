@@ -8,42 +8,60 @@ export class MyDescriptions extends React.Component {
         super(props);
     }
 
-    renderDescItemList = (descriptered,columns) => {
+    renderDescItemList = (descriptered) => {
         if (!descriptered) {
             return null;
         }
-        return columns.map( (column,index) => {
-            let fieldObj = descriptered[column];
-            return fieldObj ?
-                <Descriptions.Item key={index} label={fieldObj.chineseName}>{fieldObj.value}</Descriptions.Item>:null;
+
+
+        let infos = [];
+        Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
+            infos.push(
+                <Descriptions.Item
+                    key={key}
+                    label={col}
+                >
+                    {descriptered[col]}
+                </Descriptions.Item>
+            );
         })
+        return infos;
     }
-    renderSpecificDescItemList = (descriptered,columns) => {
+    renderSpecificDescItemList = (descriptered) => {
         if (!descriptered) {
             return null;
         }
-        return columns.map( (column,index) => {
-            let fieldObj = descriptered[column];
-            return fieldObj ?
-                <Descriptions.Item key={index} label={fieldObj.chineseName}>
-                    <Input
-                        id={column}
-                        value={fieldObj.value}
-                        disabled={fieldObj.isAllowEdit}
+
+
+        let infos = [];
+        Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
+            infos.push(
+                <Descriptions.Item key={key} label={col}>
+                     <Input
+                        id={key}
+                        value={descriptered[col]}
+                        // disabled={fieldObj.isAllowEdit}
                         bordered={false}
                         allowClear={true}
                         maxLength={20}
                         onChangeCapture={this.autoSave}
-                    />
-                </Descriptions.Item>:null;
+                     />
+                </Descriptions.Item>
+                // <Descriptions.Item
+                //     key={key}
+                //     label={col}
+                // >
+                //     {descriptered[col].value}
+                // </Descriptions.Item>
+            );
         })
+        return infos;
     }
 
 
 
     render() {
         let {descriptered} = this.props;
-        let {columns} = this.props;
         let {title} = this.props;
         let {bordered} = this.props;
         let {layout} = this.props;
@@ -56,8 +74,8 @@ export class MyDescriptions extends React.Component {
             >
                 {
                     !isEditMode?
-                        this.renderDescItemList(descriptered,columns):
-                        this.renderSpecificDescItemList(descriptered,columns)
+                        this.renderDescItemList(descriptered):
+                        this.renderSpecificDescItemList(descriptered)
                 }
             </Descriptions>
         )
@@ -68,7 +86,6 @@ MyDescriptions.propTypes = {
     title: PropTypes.string,
     bordered: PropTypes.bool,
     descriptered: PropTypes.object,
-    columns: PropTypes.array,
     //horizontal | vertical
     layout: PropTypes.string,
 }
