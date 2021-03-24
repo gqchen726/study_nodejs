@@ -25,7 +25,7 @@ export class StateBar extends React.Component {
         this.setState({
             modalContent:<Login getUser={this.getUser} />,
         })
-        console.log(localContext.get('user'));
+
     }
 
     getUser = (here,result) => {

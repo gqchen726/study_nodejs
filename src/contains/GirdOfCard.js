@@ -37,7 +37,7 @@ export class GirdOfCard extends React.Component {
                 let page = i / 8;
                 cardGirdOfSplitPage[page] = cardGirds[i];
         }
-        console.log(cardGirdOfSplitPage);
+
         return cardGirdOfSplitPage[currentPage];
     }
 
@@ -69,7 +69,8 @@ export class GirdOfCard extends React.Component {
     render() {
         let {datas} = this.props;
         let {currentPage} = this.props;
-        console.log(this)
+
+        console.log(datas)
         return (
             <Card className={'resultShow'} title={"result"} >
                 {

@@ -1,4 +1,4 @@
-import { Button, Card, Input, Select, Tooltip, Switch, Alert } from "antd/es";
+import {Button, Card, Input, Select, Tooltip, Switch, Alert, notification, message} from "antd/es";
 // import {CheckOutlined} from '@ant-design/icons';
 import React from "react";
 import "../public/css/Login.css";
@@ -6,18 +6,26 @@ import axios from "axios";
 const localContext = require('../cache/LocalContext');
 import {Page} from "./Page";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-export class SimpleLogin extends React.Component {
+import {useHistory, withRouter} from "react-router";
+import {Link} from "react-router-dom";
+export class SimLogin extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             options: null,
             mobileNumber:null,
-            user: {},
+            user: {
+                mobileNumber: null,
+                password: null,
+                rePassword: null,
+                name: null,
+                checkCode: null
+            },
             cardList: [],
             cardContentList:[],
             key: 'loginForPassword',
-            isGoLogin:false,
+            isRegisterCard:false,
             getUser: props.getUser,
             logonCredentials: null,
             loading: false,
@@ -25,12 +33,18 @@ export class SimpleLogin extends React.Component {
             getCheckCodeButtonContent: '获取验证码',
             rememberMe: false,
             tipMessage: {},
+            verificationOfPass: false
         };
 
     }
 
 
+    /**
+     * 登录业务逻辑
+     */
     login = () => {
+        // 清除用户登录凭证
+        localContext.remove('user');
         this.setState({
             isLoading: true,
         })
@@ -58,42 +72,46 @@ export class SimpleLogin extends React.Component {
                              </div>
                          )
                      };
-                     localContext.remove('user');
+                     result = data.body;
                      // 本地缓存Cookie
                      if (this.state.rememberMe) {
                          localContext.put('user',result.user);
                      }
+                     this.props.getUser(this,result);
+
                  }
                  else if(data.code == 1) {
-                     console.log("failed")
-                     result = {
-                         stateMsg: 'loginFailed',
-                         result:(
-                             <div className="Home-Login">
-                                 {/*<br />*/}
-                                 登录失败
-                                 {data.message}
-                             </div>
-                         )
-                     };
+                     // result = {
+                     //     stateMsg: 'loginFailed',
+                     //     result:(
+                     //         <div className="Home-Login">
+                     //             {/*<br />*/}
+                     //             登录失败
+                     //             {data.message}
+                     //         </div>
+                     //     )
+                     // };
+                     notification.open({
+                         message: 'login tips',
+                         description: data.message
+                     });
+                     // message.error(data.body.message);
                  }
-                 this.props.getUser(this,result);
+
+
 
             })
-            // .catch(
-            //     (error) => {
-            //         result = {
-            //             stateMsg: 'failed',
-            //             error:error,
-            //             result:(
-            //                 <div className="Home-Login">
-            //                     {/*<br />*/}
-            //                     网络异常
-            //                 </div>
-            //             )
-            //         };
-            //     });
-
+            .catch(
+                (error) => {
+                    this.setState({
+                        isLoading: false,
+                    })
+                    console.log(error)
+                    notification.open({
+                        message: 'login tips',
+                        description: '网络异常'
+                    })
+                });
 
         // // 模拟数据
         // user = {
@@ -143,7 +161,7 @@ export class SimpleLogin extends React.Component {
         //         chineseName: "权限"
         //     }
         // };
-        // result = {
+        // let result = {
         //     stateMsg: 'success',
         //     user:user,
         //     result:(
@@ -154,15 +172,20 @@ export class SimpleLogin extends React.Component {
         //     )
         // };
         // this.props.getUser(this,result);
-
-        // 本地缓存Cookie
-        if (this.state.rememberMe) {
-            localContext.put('user',user);
-        }
+        //
+        //
+        // // 本地缓存Cookie
+        // if (this.state.rememberMe) {
+        //     localContext.put('user',user);
+        // }
 
 
 
     }
+
+    /**
+     * 注册业务逻辑
+     */
     register = () => {
         this.setState({
             isLoading: true,
@@ -187,6 +210,7 @@ export class SimpleLogin extends React.Component {
                             </div>
                         )
                     };
+
                 } else {
                     result = {
                         stateMsg: 'registerSuccess',
@@ -199,15 +223,28 @@ export class SimpleLogin extends React.Component {
                         )
                     };
                 }
-                 this.props.getUser(this,result);
+                 notification.open({
+                     message: 'register tips',
+                     description: data.message
+                 });
+                 // this.props.getUser(this,result);
             })
     }
 
+    /**
+     * 登录标签的切换
+     * @param key 标签key
+     * @param type 标签类型
+     */
     onTabChange = (key,type) => {
         this.setState({
             [type] :key
         });
     }
+
+    /**
+     * 获取验证码
+     */
     getCheckCode = () => {
         let loadingCount = 60;
         let getCheckCodeButtonContent;
@@ -268,11 +305,33 @@ export class SimpleLogin extends React.Component {
         let {tipMessage} = this.state;
 
         if (user.password != user.rePassword) {
-            tipMessage.passwordTip = <Alert type='error' message='两次输入的密码不一致' />;
+            return false;
         } else {
-            tipMessage.passwordTip = null;
+            return true;
         }
-        return tipMessage;
+    }
+
+    /**
+     * 按钮控制，当输入框校验不通过时，登录或注册按钮禁用点击
+     * @returns {boolean}
+     */
+    buttonControl = () => {
+        let {user} = this.state;
+        let {verificationOfPass} = this.state;
+        let {key} = this.state;
+        let {isRegisterCard} = this.state;
+        if (verificationOfPass) {
+            if (isRegisterCard) {
+                return ((user.password && user.mobileNumber && user.name && user.rePassword && user.checkCode) ? true:false);
+            } else {
+                if (key == "loginForPassword") {
+                    return ((user.password && user.mobileNumber) ? true:false);
+                } else {
+                    return ((user.checkCode && user.mobileNumber) ? true:false);
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -280,38 +339,90 @@ export class SimpleLogin extends React.Component {
      * @param mobileNumber
      */
     verificationOfTextContentValidity = (targetType,targetValue) => {
-        let phoneRegExp = /^[0-9]{0,11}$/;
-        let passwordRegExp = /^[0-9a-zA-Z]{8,20}$/;
+        // /^[1-9][0-9]{10}$/
+        let phoneRegExp =   /^.*(?=.{11})[1-9].*$/;
+        let passwordRegExp = /^.*(?=.{6,})(?=.*\d)((?=.*[A-Z])|(?=.*[a-z]))(?=.*[!@#$%^&*?.]).*$/;
 
         let {tipMessage} = this.state;
         let {user} = this.state;
+        let verificationOfPass;
 
         if (targetType === "mobileNumber") {
-            if (targetValue && !phoneRegExp.test(targetValue)) {
-                tipMessage.phoneNumberTip = <Alert type='error' message='手机号码中不得出现除0～9的字符' />;
-            } else if (targetValue.length === 11 && this.state.isGoLogin === true) {
-                let url = `${urlsUtil.user.checkMobileNumber}?mobileNumber=${targetValue}`;
+            // if (targetValue.length == 11 && !phoneRegExp.test(targetValue)) {
+            //     tipMessage.phoneNumberTip = <Alert type='error' message='非法的手机号码' />;
+            //     verificationOfPass = false;
+            // } else if (targetValue.length === 11 && this.state.isRegisterCard === true) {
+            //     tipMessage.phoneNumberTip = null;
+            //     let url = `${urlsUtil.user.checkMobileNumber}?mobileNumber=${targetValue}`;
+            //
+            //     axios.get(url).then(
+            //         (response) => {
+            //             let code = response.data.body.code;
+            //             if (!code) {
+            //                 tipMessage.phoneNumberTip = <Alert type='error' message={response.data.message} />;
+            //                 verificationOfPass = false;
+            //             } else {
+            //                 verificationOfPass = true;
+            //             }
+            //         }
+            //     );
+            //     // let res = '该手机号码已被注册';
+            //     // tipMessage.phoneNumberTip = <Alert type='error' message={res} />;
+            // }
+            if (targetValue === "") {
+                tipMessage.phoneNumberTip = null;
+                verificationOfPass = false;
+            } else if (!phoneRegExp.test(targetValue)) {
+                tipMessage.phoneNumberTip = <Alert type='error' message='手机号码非法' />;
+                verificationOfPass = false;
+            }
+            // else if (targetValue.length < 11) {
+            //     tipMessage.phoneNumberTip = <Alert type='error' message='请输入有效的11位电话号码' />;
+            //     verificationOfPass = false;
+            // }
+            else if (targetValue.length === 11) {
+                tipMessage.phoneNumberTip = null;
+                if (this.state.isRegisterCard === true) {
+                    let url = `${urlsUtil.user.checkMobileNumber}?mobileNumber=${targetValue}`;
 
-                axios.get(url).then(
-                    (response) => {
-                        if (!response.code) {
-                            tipMessage.phoneNumberTip = <Alert type='error' message={response.data.message} />;
+                    axios.get(url).then(
+                        (response) => {
+                            let body = response.data.body;
+                            if (!body) {
+                                console.log("该手机号码已被注册")
+                                tipMessage.phoneNumberTip = <Alert type='error' message={"该手机号码已被注册"} />;
+                                verificationOfPass = false;
+                            } else {
+                                verificationOfPass = true;
+                            }
+                            this.setState({
+                                tipMessage: tipMessage,
+                                verificationOfPass: verificationOfPass
+                            })
                         }
-                    }
-                );
-                // let res = '该手机号码已被注册';
-                // tipMessage.phoneNumberTip = <Alert type='error' message={res} />;
+                    );
+                    // let res = '该手机号码已被注册';
+                    // tipMessage.phoneNumberTip = <Alert type='error' message={res} />;
+                }
             } else {
                 tipMessage.phoneNumberTip = null;
+                verificationOfPass = true;
             }
         } else if (targetType === "password" || targetType === "rePassword") {
             if (targetValue && !passwordRegExp.test(targetValue)) {
-                tipMessage.passwordTip = <Alert type='error' message='合法密码应介于8~20位之间且仅允许且必须出现出现大小写字母和数字' />;
+                tipMessage.passwordTip = <Alert type='error' message='合法密码应介于8~20位之间且仅允许且必须出现出现字母、数字和特殊字符' />;
+                verificationOfPass = false;
             } else {
+                verificationOfPass = true;
                 tipMessage.passwordTip = null;
                 if (user.password && user.rePassword) {
-                    tipMessage = this.rePasswordCheck(user);
-
+                    if (!this.rePasswordCheck(user)) {
+                        tipMessage.passwordTip = <Alert type='error' message='两次输入的密码不一致' />;
+                        verificationOfPass = false;
+                    } else {
+                        tipMessage.passwordTip = null;
+                        verificationOfPass = true;
+                    }
                 }
             }
         }
@@ -322,6 +433,7 @@ export class SimpleLogin extends React.Component {
         setTimeout(() => {
             this.setState({
                 tipMessage: tipMessage,
+                verificationOfPass: verificationOfPass
             })
         },0)
     }
@@ -329,26 +441,52 @@ export class SimpleLogin extends React.Component {
      * 登录与注册卡片的互相转换
      */
     cardStateSwitch = () => {
-        let {isGoLogin} = this.state;
+        let {isRegisterCard} = this.state;
         this.setState({
-            isGoLogin: !isGoLogin
+            isRegisterCard: !isRegisterCard,
+            verificationOfPass: false,
+            user: {
+                mobileNumber: null,
+                password: null,
+                rePassword: null,
+                name: null,
+                checkCode: null
+            },
+            tipMessage: {}
         });
     }
 
 
-    componentDidMount = () => {
-        let optionsArr = ["+86","+1"];
-        let options = optionsArr.map( (items) => <Select.Option key={items} >{items}</Select.Option>)
-        this.setState({
-            options:options,
-        });
-    }
+    // componentDidMount = () => {
+    //     let optionsArr = ["+86","+1"];
+    //     let options = optionsArr.map( (items) => <Select.Option key={items} >{items}</Select.Option>)
+    //     this.setState({
+    //         options:options,
+    //     });
+    // }
 
+    /**
+     * 返回登录按钮
+     * @returns {JSX.Element}
+     */
     returnLoginButton = () => {
         return (
-            <Button type={"primary"} style={{width:'30%'}} onClick={this.login} loading={this.state.isLoading}>登陆</Button>
+            <Button
+                type={"primary"}
+                disabled={!this.buttonControl()}
+                style={{width:'30%'}}
+                onClick={this.login}
+                loading={this.state.isLoading}
+            >
+                登陆
+                {/*<Link to={`/`} onClick={this.login} >登陆</Link>*/}
+            </Button>
         );
     }
+
+    /**
+     * 记住登录状态localStorage
+     */
     isRememberMe = () => {
         let {rememberMe} = this.state;
         this.setState({rememberMe: !rememberMe})
@@ -476,7 +614,7 @@ export class SimpleLogin extends React.Component {
                 onTabChange={key => {
                     this.onTabChange(key, 'key');
                 }}
-                extra={<Button type={"primary"} onClick={this.cardStateSwitch} >{this.state.isGoLogin ? "登陆":"注册"}</Button>}
+                extra={<Button type={"primary"} onClick={this.cardStateSwitch} >{this.state.isRegisterCard ? "登陆":"注册"}</Button>}
             >
                 {cardContentList[key]}
             </Card>
@@ -484,7 +622,9 @@ export class SimpleLogin extends React.Component {
         return loginCard;
     }
 
-
+    /**
+     * 注册卡片的渲染
+     **/
     renderRegisterCard = () => {
 
         const customerRegisterCard = (
@@ -492,7 +632,7 @@ export class SimpleLogin extends React.Component {
             <Card
                 // style={{width:'160%'}}
                 title="注册"
-                extra={<Button type={"primary"} onClick={this.cardStateSwitch} >{this.state.isGoLogin ? "登陆":"注册"}</Button>}
+                extra={<Button type={"primary"} onClick={this.cardStateSwitch} >{this.state.isRegisterCard ? "登陆":"注册"}</Button>}
             >
                 <div>
                     <Input.Group compact>
@@ -566,7 +706,7 @@ export class SimpleLogin extends React.Component {
                         </div>
                     </Input.Group>
                     <br />
-                    <Button type={"primary"} style={{width:'30%'}} onClick={this.register}>注册</Button>
+                    <Button type={"primary"} disabled={!this.buttonControl()} style={{width:'30%'}} loading={this.state.isLoading} onClick={this.register}>注册</Button>
                 </div>
             </Card>
 
@@ -575,10 +715,10 @@ export class SimpleLogin extends React.Component {
     }
 
     render() {
-        let {isGoLogin} = this.state;
+        let {isRegisterCard} = this.state;
         let currentCard;
 
-        if(!isGoLogin) {
+        if(!isRegisterCard) {
             let loginCard = this.renderLoginCard();
             currentCard = loginCard;
         } else {
@@ -592,3 +732,4 @@ export class SimpleLogin extends React.Component {
         );
     }
 }
+export const SimpleLogin = withRouter(SimLogin)

@@ -10,7 +10,9 @@ import Space from "antd/es/space";
 import {MyResult} from "../component/MyResult";
 import {Link} from "react-router-dom";
 import Input from "antd/es/input";
-
+import axios from "axios";
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import "./../public/css/OrderStep.css"
 const { Step } = Steps;
 
 export class OrderSteps extends React.Component {
@@ -42,15 +44,54 @@ export class OrderSteps extends React.Component {
             })
         }
     }
+
+
     next = () => {
         let {status} = this.state;
+        let {datas} = this.props;
+        let {user} = this.props;
+        let {key} = this.props.match.params
+        let data = datas[key];
+        let {productNum} = this.state;
         if ("process" == status.GenericOrderStatus) {
             //在此向后端发送请求,生成订单，返回订单号，设置state
+            let orderGenerate = {
+                // order : {
+                //     productCode: data.productCode,
+                //     productNum: productNum,
+                // },
+                productCode: data.productCode,
+                productNum: productNum,
+                mobileNumber: user.mobileNumber,
+            }
+            // axios.post(urlsUtil.order.genericOrderUrl,orderGenerate).then((response) => {
+            //     let order = response.data.body;
+            //     console.log(order)
+            //     this.setState({
+            //         orderGenerate: order,
+            //     })
+            // });
+
+            // 模拟订单数据
+            let order = {
+                order: {
+                    orderCode: "TL10000001",
+                    status: "未支付",
+                    totalPrice: data.price * productNum,
+                    generationYTime: new Date().toString(),
+                    User_id: user.mobileNumber,
+                    startTime: new Date().toString(),
+                    endTime: new Date(7).toString(),
+                    productId: data.id
+                },
+                product: data,
+            }
+
             status.GenericOrderStatus = "finish";
             status.PayStatus = "process";
             this.setState({
                 status: status,
-                orderCode: "TL000000001111",
+                orderGenerate: order,
             })
             return ;
         }
@@ -68,7 +109,9 @@ export class OrderSteps extends React.Component {
     }
     reduce = () => {
         let {productNum} = this.state;
-        productNum--;
+        if(productNum > 0) {
+            productNum--
+        }
         this.setState({
             productNum: productNum,
         })
@@ -87,10 +130,12 @@ export class OrderSteps extends React.Component {
         let {datas} = this.props;
         let {key} = this.props.match.params
         let data = datas[key];
+        let {orderGenerate} = this.state;
+        console.log(orderGenerate)
         // if (!data.map) {
         //     return ;
         // }
-        console.log(data)
+
         if (status.GenericOrderStatus == "process") {
             return (
                 <Space direction={"vertical"} size={"small"} align={"center"}>
@@ -123,15 +168,32 @@ export class OrderSteps extends React.Component {
                 </Space>
             );
         }
-        if (status.GenericOrderStatus == "process") {
-            let {orderCode} = this.state;
+        if (status.PayStatus == "process") {
+
             return (
-                <Space>
-                    {
-                        orderCode
-                    }
-                    <MyDescriptions descriptered={data} />
-                </Space>
+                // <Space>
+                //     {
+                //         orderGenerate.order.orderCode
+                //     }
+                //     <br />
+                //     <MyDescriptions descriptered={orderGenerate.order} title={"订单信息"} bordered={true} layout={"horizontal"} />
+                //     <br />
+                //     <MyDescriptions descriptered={orderGenerate.product} title={"产品信息"} bordered={true} layout={"vertical"} />
+                // </Space>
+                <div>
+                    <br />
+                    <div className={"OrderCode"}>
+                        {
+                            orderGenerate.order.orderCode
+                        }
+                    </div>
+                    <div className={"OrderDetail"}>
+                        <br />
+                        <MyDescriptions descriptered={orderGenerate.order} title={"订单信息"} bordered={true} layout={"horizontal"} />
+                        <br />
+                        <MyDescriptions descriptered={orderGenerate.product} title={"产品信息"} bordered={true} layout={"vertical"} />
+                    </div>
+                </div>
             );
         }
         if (status.Done == "finish") {

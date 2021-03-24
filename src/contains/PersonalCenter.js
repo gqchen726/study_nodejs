@@ -19,9 +19,7 @@ class PersonalCenter extends React.Component {
         }
     }
 
-    componentDidMount() {
-        console.log(this)
-    }
+
 
     changeEditMode = () => {
         this.setState({

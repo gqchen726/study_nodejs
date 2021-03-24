@@ -167,7 +167,7 @@ export class Login extends React.Component {
         },60*1000)
     }
     saveName = (name) => {
-        console.log(name);
+
     }
     /**
      * 密码框改变时自动保存到user对象中

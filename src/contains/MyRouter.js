@@ -19,7 +19,7 @@ export class MyRouter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            keywords:null
+            keywords:null,
         }
 
     }
@@ -63,6 +63,7 @@ export class MyRouter extends React.Component {
     }
 
     render() {
+        console.log(this)
         // return (
         //     <div className="site-layout-background" style={{padding: 24, textAlign: 'center'}}>
         //         <Switch>
@@ -102,12 +103,17 @@ export class MyRouter extends React.Component {
         return <MyRouterWithHook
                     getUser={this.getUser}
                     saveAny={this.saveAny}
-                    saveSearchKeyWords={this.saveSearchKeyWords}
                     accessControl={this.accessControl}
                     keywords={this.state.keywords}
                     user={this.props.user}
                     datas={this.state.datas}
                 />
+    }
+
+    componentWillUnmount = () => {
+        this.setState = (state,callback)=>{
+            return ;
+        };
     }
 
 }

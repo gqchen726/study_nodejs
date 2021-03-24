@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from "antd/es/input";
 import Button from "antd/es/button";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import axios from "axios";
 // import {useRouteMatch} from "react-router";
 // import '../public/css/App.css'
@@ -12,24 +12,29 @@ export class SearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            keywords: props.keywords ? props.keywords:null
+            keywords: props.keywords ? props.keywords:null,
+            searchIng: false
         }
     }
 
-    autoSave = (event) => {
-        let keywords = event.target.value;
-
-        this.setState({
-            keywords: keywords
-        })
-        if (keywords) {
-            this.props.saveSearchKeyWords(keywords);
-        }
-    }
+    // autoSave = (event) => {
+    //     let keywords = event.target.value;
+    //
+    //     this.setState({
+    //         keywords: keywords
+    //     })
+    //     if (keywords) {
+    //         // this.props.saveSearchKeyWords(keywords);
+    //         this.props.saveAny('keywords',keywords);
+    //     }
+    // }
 
 
     search = () => {
         let {keywords} = this.state;
+        if (!keywords) {
+            this.props.saveAny('keywords',keywords);
+        }
         let url = 'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4';
 
 
@@ -55,34 +60,50 @@ export class SearchBar extends React.Component {
         //         },
         //     }
         // ];
-        let datas = [];
-        for (let i = 0; i < 35; i++) {
-            datas.push({
-                name: `模拟数据${i}`,
-                code: `S0000${i}`,
-                description: "这是一条模拟数据的描述信息",
-                price: "$20",
-            })
-        }
+
+        // let datas = [];
+        // for (let i = 0; i < 35; i++) {
+        //     datas.push({
+        //         name: `模拟数据${i}`,
+        //         code: `S0000${i}`,
+        //         description: "这是一条模拟数据的描述信息",
+        //         price: "$20",
+        //     })
+        // }
+        // this.props.saveAny('datas',datas);
+        // this.setState({
+        //     datas: datas
+        // })
+
 
         // 发送axios请求
-        // axios.get(`${urlsUtil.product.searchUrl}?keywords=${this.state.keywords}`).then(
-        //     (response) => {
-        //         let {data} = response;
-        //         console.log(response);
-        //     }
-        // )
+        this.setState({
+            searchIng: true
+        })
+        axios.get(`${urlsUtil.product.searchUrl}?keywords=${this.state.keywords}`).then(
+            (response) => {
+
+                let datas = response.data.body;
+
+                this.props.saveAny('datas',datas);
+                // 本地缓存
+                // localContext.put("datas",datas);
+                this.setState({
+                    searchIng: false,
+                })
+            }
+        )
 
 
-        this.props.saveAny('datas',datas);
 
-        // 本地缓存
-        localContext.put("datas",datas);
+
+
     }
 
 
     render() {
         // let {url} = useRouteMatch()
+        let {searchIng} = this.state;
         return (
             <div className='searchBar' style={{ width: '90%' }}>
                 <Input
@@ -90,7 +111,7 @@ export class SearchBar extends React.Component {
                     style={{ width: '80%' }}
                     placeholder={'请输入关键词'}
                     maxLength={128}
-                    onChangeCapture={this.autoSave}
+                    // onChangeCapture={this.autoSave}
                     value={this.state.keywords?this.state.keywords:null}
                     onPressEnter={this.props.search}
                 />
@@ -98,11 +119,12 @@ export class SearchBar extends React.Component {
                     style={{width:'10%'}}
                     type={"primary"}
                     onClick={this.search}
+                    loading={searchIng}
                 >
                     <span
                         style={{font:{size:'11px'}}}
                     >
-                        <Link to={'/searchResult'} >搜索</Link>
+                        <Link to={`/searchResult`} >搜索</Link>
                         {/*<Link to={`${url}/searchResultShow`} >搜索</Link>*/}
                     </span>
                 </Button>

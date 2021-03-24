@@ -146,9 +146,6 @@ export class Page extends React.Component {
                             <Menu.Item key="sub5" title="浏览历史" icon={<CloudOutlined/>}>
                                 <Link to={'/browsingHistory'}>浏览历史</Link>
                             </Menu.Item>
-                            <Menu.Item key="sub6" title="数据展示" icon={<CloudOutlined/>}>
-                                <Link to={'/dataInfo'}>数据展示</Link>
-                            </Menu.Item>
 
                         </Menu>
 

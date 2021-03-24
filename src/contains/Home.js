@@ -2,13 +2,8 @@ import React from 'react'
 // import '../public/css/App.css'
 import {CarouselMap} from "./CarouselMap";
 import {SearchBar} from "./SearchBar";
-import {DataShowCard} from "./DataShowCard";
-import Card from "antd/es/card";
-import Meta from "antd/es/card/Meta";
 // import Route from "react-router/modules/Route";
 // import {useRouteMatch} from "react-router";
-import {SearchResultShow} from "./SearchResultShow";
-import {Switch} from "antd";
 
 
 const localContext = require('../cache/LocalContext');
@@ -20,7 +15,7 @@ export class Home extends React.Component {
         }
     }
 
-    onSearch = value => console.log(value);
+
 
 
     getUser = (here,user) => {
@@ -31,7 +26,7 @@ export class Home extends React.Component {
     }
 
     render() {
-        console.log(this)
+
         const style = { background: '#0092ff', padding: '8px 0' };
         // let {path,url} = useRouteMatch();
 
@@ -42,12 +37,15 @@ export class Home extends React.Component {
                 {/*</header>*/}
 
                 <div style={{width:'100%'}} >
-                    <SearchBar saveSearchKeyWords={this.props.saveSearchKeyWords} saveAny={this.props.saveAny} />
+                    <SearchBar keywords={this.props.keywords} saveAny={this.props.saveAny} />
+                    {/*<Link to={'/searchResult'} >数据检索</Link>*/}
                     <br /><br />
                     <CarouselMap autoPlay={true} />
                     <br /><br />
 
-
+                    {/*<Link to={'/login'}>*/}
+                    {/*    登录*/}
+                    {/*</Link>*/}
 
                     {/*<Switch>*/}
                     {/*    <Route path={`${path}/searchResultShow`} component={SearchResultShow} children={datas} />*/}

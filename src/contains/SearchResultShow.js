@@ -3,6 +3,9 @@ import React from 'react';
 import {SearchBar} from "./SearchBar";
 import {GirdOfCard, GirdOfCardW} from "./GirdOfCard";
 import Pagination from "antd/es/pagination";
+import {withRouter} from "react-router";
+import axios from "axios";
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 
 export class SearchResultShow extends React.Component {
 
@@ -13,11 +16,15 @@ export class SearchResultShow extends React.Component {
         }
     }
 
+
     renderSearchBar = () => {
-        return <SearchBar keywords={this.props.keywords} saveSearchKeyWords={this.props.saveSearchKeyWords} />;
+        // return <SearchBar keywords={this.props.keywords} saveSearchKeyWords={this.props.saveSearchKeyWords} />;
+        return <SearchBar keywords={this.props.keywords} saveAny={this.props.saveAny} />
     }
     renderGirdOfCard = (datas,currentPage) => {
         let datasSplitPage = this.getDatasSplitPage(datas);
+        console.log(datas)
+        console.log(datasSplitPage[currentPage-1])
         return <GirdOfCard datas={datasSplitPage[currentPage-1]} />;
     }
     renderOldGirdOfCard = (datas,currentPage) => {
@@ -42,6 +49,9 @@ export class SearchResultShow extends React.Component {
             tempArr.push(datas[i]);
             counter++;
             if (i == 0) {
+                if (datas.length == 1) {
+                    datasSplitPage.push(tempArr);
+                }
                 continue;
             } else if (counter == 9 || i == datas.length-1) {
                 datasSplitPage.push(tempArr);
@@ -52,7 +62,7 @@ export class SearchResultShow extends React.Component {
             //     datasSplitPage.push(tempArr);
             // }
         }
-        console.log(datasSplitPage);
+
         return datasSplitPage;
     }
 
@@ -60,11 +70,13 @@ export class SearchResultShow extends React.Component {
 
 
     render() {
-        console.log(this)
         // let datas = this.props.children.datas? this.props.children:this.props;
         let {currentPage} = this.state;
         let {datas} = this.props;
-        let total = datas.length;
+        if (!datas) {
+            return <div>data is null</div>;
+        }
+        // let total = datas.length;
         return (
             <div>
                 {this.renderSearchBar()}
@@ -74,7 +86,8 @@ export class SearchResultShow extends React.Component {
                 <Pagination
                     current={currentPage}
                     onChange={this.onChange}
-                    total={total}
+                    // total={total}
+                    total={15}
                     pageSize={8}
                     showQuickJumper={true}
                 />
@@ -83,3 +96,4 @@ export class SearchResultShow extends React.Component {
     }
 
 }
+export const SearchResultShowW = withRouter(SearchResultShow)

@@ -47,7 +47,7 @@ export class DataInfo extends React.Component {
 
 
     render() {
-        console.log(this)
+
         let {datas} = this.props;
         let {key} = this.props.match.params
         let data = datas[key];
@@ -70,7 +70,7 @@ export class DataInfo extends React.Component {
                     {/*跑马灯*/}
                     <CarouselMap autoPlay={true} />
                     <MyDescriptions
-                        title={"Data Info"}
+                        title={"产品信息"}
                         layout={"horizontal"}
                         bordered={true}
                         descriptered={data}
