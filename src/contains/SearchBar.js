@@ -17,17 +17,17 @@ export class SearchBar extends React.Component {
         }
     }
 
-    // autoSave = (event) => {
-    //     let keywords = event.target.value;
-    //
-    //     this.setState({
-    //         keywords: keywords
-    //     })
-    //     if (keywords) {
-    //         // this.props.saveSearchKeyWords(keywords);
-    //         this.props.saveAny('keywords',keywords);
-    //     }
-    // }
+    autoSave = (event) => {
+        let keywords = event.target.value;
+
+        this.setState({
+            keywords: keywords
+        })
+        if (keywords) {
+            // this.props.saveSearchKeyWords(keywords);
+            this.props.saveAny('keywords',keywords);
+        }
+    }
 
 
     search = () => {
@@ -111,7 +111,7 @@ export class SearchBar extends React.Component {
                     style={{ width: '80%' }}
                     placeholder={'请输入关键词'}
                     maxLength={128}
-                    // onChangeCapture={this.autoSave}
+                    onChangeCapture={this.autoSave}
                     value={this.state.keywords?this.state.keywords:null}
                     onPressEnter={this.props.search}
                 />

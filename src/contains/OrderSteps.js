@@ -28,6 +28,20 @@ export class OrderSteps extends React.Component {
         }
     }
 
+    componentWillMount() {
+        this.state = {
+            status: {
+                GenericOrderStatus: "process",
+                PayStatus: "wait",
+                Done: "wait"
+            },
+            productNum: 1,
+            datas: this.props.datas
+        }
+
+    }
+
+
     previous = () => {
         let {status} = this.state;
         if ("process" == status.GenericOrderStatus) {
@@ -64,34 +78,36 @@ export class OrderSteps extends React.Component {
                 productNum: productNum,
                 mobileNumber: user.mobileNumber,
             }
-            // axios.post(urlsUtil.order.genericOrderUrl,orderGenerate).then((response) => {
-            //     let order = response.data.body;
-            //     console.log(order)
-            //     this.setState({
-            //         orderGenerate: order,
-            //     })
-            // });
+            axios.post(urlsUtil.order.genericOrderUrl,orderGenerate).then((response) => {
+                let orderGenerate = response.data.body;
 
-            // 模拟订单数据
-            let order = {
-                order: {
-                    orderCode: "TL10000001",
-                    status: "未支付",
-                    totalPrice: data.price * productNum,
-                    generationYTime: new Date().toString(),
-                    User_id: user.mobileNumber,
-                    startTime: new Date().toString(),
-                    endTime: new Date(7).toString(),
-                    productId: data.id
-                },
-                product: data,
-            }
+                setTimeout(() => {
+                    this.setState({
+                        orderGenerate: orderGenerate,
+                    })
+                },0)
+            });
+
+            // // 模拟订单数据
+            // let order = {
+            //     order: {
+            //         orderCode: "TL10000001",
+            //         status: "未支付",
+            //         totalPrice: data.price * productNum,
+            //         generationYTime: new Date().toString(),
+            //         User_id: user.mobileNumber,
+            //         startTime: new Date().toString(),
+            //         endTime: new Date(7).toString(),
+            //         productId: data.id
+            //     },
+            //     product: data,
+            // }
 
             status.GenericOrderStatus = "finish";
             status.PayStatus = "process";
             this.setState({
                 status: status,
-                orderGenerate: order,
+                // orderGenerate: order,
             })
             return ;
         }
@@ -127,14 +143,16 @@ export class OrderSteps extends React.Component {
 
     returnOrderCard = (productNum) => {
         let {status} = this.state;
-        let {datas} = this.props;
+        let {datas} = this.state;
         let {key} = this.props.match.params
         let data = datas[key];
         let {orderGenerate} = this.state;
-        console.log(orderGenerate)
+        console.log(this);
         // if (!data.map) {
         //     return ;
         // }
+
+
 
         if (status.GenericOrderStatus == "process") {
             return (
@@ -170,6 +188,8 @@ export class OrderSteps extends React.Component {
         }
         if (status.PayStatus == "process") {
 
+            if (!orderGenerate) return <div>data is null</div>
+
             return (
                 // <Space>
                 //     {
@@ -184,7 +204,8 @@ export class OrderSteps extends React.Component {
                     <br />
                     <div className={"OrderCode"}>
                         {
-                            orderGenerate.order.orderCode
+                            orderGenerate.order.orderId
+                            // "TL1111111111111"
                         }
                     </div>
                     <div className={"OrderDetail"}>

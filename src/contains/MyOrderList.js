@@ -14,14 +14,16 @@ export default class MyOrderList extends React.Component {
 
     componentWillMount() {
         // 获取订单列表
-        axios.post(urlsUtil.order.searchOrderUrl,this.props.user).then((response) => {
+        axios.get(`${urlsUtil.order.searchOrderUrl}?mobileNumber=${this.props.user.mobileNumber}`).then((response) => {
             let body = response.data.body;
             let orders;
             if (Array.isArray(body)) {
                 orders = body.map((order) => {
+                    // order.action = <Link to={`/orderDetail/TL000000${i}`}>view</Link>;
                     return order.order
                 })
             }
+            console.log(orders)
             this.setState({
                 orders:orders
             })
@@ -39,11 +41,16 @@ export default class MyOrderList extends React.Component {
         } else {
             return ;
         }
-        console.log(data)
+        // console.log(data)
         data.id? columns.push({
             title: '订单号',
             dataIndex: 'id',
             key: 'id',
+        }):null;
+        data.orderId? columns.push({
+            title: '订单号',
+            dataIndex: 'orderId',
+            key: 'orderId',
         }):null;
         data.name? columns.push({
             title: '名字',
@@ -60,6 +67,11 @@ export default class MyOrderList extends React.Component {
             dataIndex: 'price',
             key: 'price',
         }):null;
+        data.totalPrice? columns.push({
+            title: '总价',
+            dataIndex: 'totalPrice',
+            key: 'totalPrice',
+        }):null;
         data.address? columns.push({
             title: '住址',
             dataIndex: 'address',
@@ -75,7 +87,13 @@ export default class MyOrderList extends React.Component {
             dataIndex: 'action',
             key: 'action',
         }):null;
+        data.generationDate? columns.push({
+            title: '订单生成日期',
+            dataIndex: 'generationDate',
+            key: 'generationDate',
+        }):null;
 
+        console.log(columns)
         return columns;
     }
 
