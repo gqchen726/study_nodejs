@@ -14,7 +14,7 @@ export default class MyOrderList extends React.Component {
 
     componentWillMount() {
         // 获取订单列表
-        axios.post(urlsUtil.order.searchOrderUrl,this.props.user).then((response) => {
+        axios.get(`${urlsUtil.order.searchOrderUrl}?mobileNumber=${this.props.user.mobileNumber}`).then((response) => {
             let body = response.data.body;
             let orders;
             if (Array.isArray(body)) {

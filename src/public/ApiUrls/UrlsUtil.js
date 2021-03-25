@@ -19,6 +19,6 @@ export const urlsUtil = {
     },
     order: {
         genericOrderUrl: `${baseUrls.orderBaseUrl}/create`,
-        searchOrderUrl: `${baseUrls.orderBaseUrl}/search`,
+        searchOrderUrl: `${baseUrls.orderBaseUrl}/listAllOrder`,
     }
 }

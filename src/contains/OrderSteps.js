@@ -64,16 +64,15 @@ export class OrderSteps extends React.Component {
                 productNum: productNum,
                 mobileNumber: user.mobileNumber,
             }
-            // axios.post(urlsUtil.order.genericOrderUrl,orderGenerate).then((response) => {
-            //     let order = response.data.body;
-            //     console.log(order)
-            //     this.setState({
-            //         orderGenerate: order,
-            //     })
-            // });
-
+             axios.post(urlsUtil.order.genericOrderUrl,orderGenerate).then((response) => {
+                 let order = response.data.body;
+                 console.log(order)
+                 this.setState({
+                     orderGenerate: order,
+                 })
+             });
             // 模拟订单数据
-            let order = {
+            /*let order = {
                 order: {
                     orderCode: "TL10000001",
                     status: "未支付",
@@ -85,13 +84,13 @@ export class OrderSteps extends React.Component {
                     productId: data.id
                 },
                 product: data,
-            }
+            }*/
 
             status.GenericOrderStatus = "finish";
             status.PayStatus = "process";
             this.setState({
                 status: status,
-                orderGenerate: order,
+               // orderGenerate: order,
             })
             return ;
         }
