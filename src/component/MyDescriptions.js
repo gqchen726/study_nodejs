@@ -57,6 +57,8 @@ export class MyDescriptions extends React.Component {
             })
         },0)
 
+        this.props.saveNewDescriptered(this.state.descriptered);
+
     }
 
     renderDescItemList = (descriptered) => {
@@ -151,6 +153,7 @@ MyDescriptions.propTypes = {
     descriptered: PropTypes.object,
     //horizontal | vertical
     layout: PropTypes.string,
+    saveNewDescriptered: PropTypes.func
 }
 MyDescriptions.defaultProps = {
     title: "template",

@@ -6,9 +6,11 @@ import Meta from "antd/es/card/Meta";
 import Descriptions from "antd/es/descriptions";
 import Badge from "antd/es/badge";
 import {MyDescriptions} from "../component/MyDescriptions";
-import {Button} from "antd/es";
+import {Button, notification} from "antd/es";
 import {CarouselMap} from "./CarouselMap";
 import {withRouter} from "react-router";
+import axios from "axios";
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 
 
 class PersonalCenter extends React.Component {
@@ -16,6 +18,33 @@ class PersonalCenter extends React.Component {
         super(props);
         this.state = {
             isEditMode: false,
+        }
+    }
+
+    onClickHandler = () => {
+        let {isEditMode} = this.state;
+        let {newDescriptered} = this.state;
+
+        if (isEditMode) {
+            if (!newDescriptered) {
+                return ;
+            }
+            axios.post(urlsUtil.user.updatePersonInfo,newDescriptered).then((response) => {
+                let {responseBody} = response.data;
+                if (!responseBody.code) {
+                    this.setState({
+                        newDescriptered : responseBody.body,
+                    })
+                    this.changeEditMode();
+                } else {
+                    notification.open({
+                        message: 'save info tips',
+                        description: responseBody.message
+                    });
+                }
+            })
+        } else {
+            this.changeEditMode();
         }
     }
 
@@ -27,11 +56,18 @@ class PersonalCenter extends React.Component {
         })
     }
 
-    renderDescs = (user) => {
+    saveNewDescriptered = (newDescriptered) => {
+        this.setState({
+            newDescriptered : newDescriptered
+        })
+    }
+
+    renderDescs = (user,isEditMode) => {
         // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
         if (!user) {
             return null;
         }
+
 
         return (
             <div className='personalCenter'>
@@ -40,7 +76,7 @@ class PersonalCenter extends React.Component {
                     title={user.name}
                     extra={
                         (!user)?
-                            null:<Button type={"primary"} onClick={this.changeEditMode} >编辑</Button>
+                            null:<Button type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
                     }
                 >
                     <MyDescriptions
@@ -50,6 +86,7 @@ class PersonalCenter extends React.Component {
                         // columns={columns}
                         descriptered={user}
                         isEditMode={this.state.isEditMode}
+                        saveNewDescriptered={this.saveNewDescriptered}
                     />
                 </Card>
             </div>
@@ -60,7 +97,8 @@ class PersonalCenter extends React.Component {
 
     render() {
         let {user} = this.props;
-        return this.renderDescs(user);
+        let {isEditMode} = this.state;
+        return this.renderDescs(user,isEditMode);
         // let {user} = this.props;
         // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
         // return (
