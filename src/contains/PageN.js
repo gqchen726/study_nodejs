@@ -36,7 +36,7 @@ export class PageN extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            lineMode: false,
+            lineMode: true,
             lightTheme: true,
             user:props.user,
             keywords:null,
@@ -142,6 +142,9 @@ export class PageN extends React.Component {
 
                         <Menu.Item key="sub5" title="浏览历史" icon={<CloudOutlined/>}>
                             <Link to={'/browsingHistory'}>浏览历史</Link>
+                        </Menu.Item>
+                        <Menu.Item key="sub6" title="修改密码" icon={<CloudOutlined/>}>
+                            <Link to={'/userPasswordOfUpdate'}>修改密码</Link>
                         </Menu.Item>
 
                     </Menu>

@@ -20,8 +20,6 @@ export class MyDescriptions extends React.Component {
         let id = event.target.id;
         let {descriptered} = this.state;
 
-        console.log(descriptered)
-        console.log(id)
         if(id === "name") {
             descriptered.name = value;
         } else if(id === "mobileNumber") {
@@ -62,13 +60,15 @@ export class MyDescriptions extends React.Component {
     }
 
     renderDescItemList = (descriptered) => {
-        if (!descriptered) {
-            return null;
-        }
+        // if (!descriptered) {
+        //     return <div>please to login</div>;
+        // }
 
 
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
+        if (col == "orders" || col == "souseNames") {
+        } else {
             infos.push(
                 <Descriptions.Item
                     key={key}
@@ -77,6 +77,8 @@ export class MyDescriptions extends React.Component {
                     {descriptered[col]}
                 </Descriptions.Item>
             );
+        }
+
         })
         return infos;
     }
@@ -88,7 +90,7 @@ export class MyDescriptions extends React.Component {
 
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
-            console.log(col)
+            // console.log(col)
             if (col == "password" || col == "mobileNumber" || col == "admin" || col == "registerCode") {
                 infos.push(
                     <Descriptions.Item key={key} label={col}>
@@ -98,7 +100,7 @@ export class MyDescriptions extends React.Component {
                             disabled={true}
                             bordered={false}
                             allowClear={true}
-                            maxLength={20}
+                            maxLength={30}
                             onChangeCapture={this.autoSave}
                         />
                     </Descriptions.Item>
@@ -112,8 +114,7 @@ export class MyDescriptions extends React.Component {
                             value={descriptered[col]}
                             // disabled={fieldObj.isAllowEdit}
                             bordered={false}
-                            allowClear={true}
-                            maxLength={20}
+                            maxLength={30}
                             onChangeCapture={this.autoSave}
                         />
                     </Descriptions.Item>

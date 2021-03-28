@@ -6,6 +6,7 @@ import axios from "axios";
 // import {useRouteMatch} from "react-router";
 // import '../public/css/App.css'
 import {urlsUtil} from "./../public/ApiUrls/UrlsUtil"
+import "./../public/css/SearchBar.css"
 
 const localContext = require('../cache/LocalContext');
 export class SearchBar extends React.Component {
@@ -23,18 +24,13 @@ export class SearchBar extends React.Component {
         this.setState({
             keywords: keywords
         })
-        if (keywords) {
-            // this.props.saveSearchKeyWords(keywords);
-            this.props.saveAny('keywords',keywords);
-        }
+
     }
 
 
     search = () => {
         let {keywords} = this.state;
-        if (!keywords) {
-            this.props.saveAny('keywords',keywords);
-        }
+
         let url = 'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4';
 
 
@@ -124,7 +120,13 @@ export class SearchBar extends React.Component {
                     <span
                         style={{font:{size:'11px'}}}
                     >
-                        <Link to={`/searchResult`} >搜索</Link>
+                        <Link to={`/searchResult`} >
+                            <span
+                                className='SearchBar'
+                            >
+                                搜索
+                            </span>
+                        </Link>
                         {/*<Link to={`${url}/searchResultShow`} >搜索</Link>*/}
                     </span>
                 </Button>

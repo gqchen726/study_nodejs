@@ -58,7 +58,7 @@ let buildDistConfig = {
     devtool: false,
     cache: true,
     // 监测代码的改变，代码改变时自动打包
-    // watch: true,
+    watch: true,
 };
 
 module.exports = buildDistConfig;

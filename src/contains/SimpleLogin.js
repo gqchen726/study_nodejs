@@ -72,6 +72,7 @@ export class SimLogin extends React.Component {
                              </div>
                          )
                      };
+                     //PageN专属
                      result = data.body;
                      // 本地缓存Cookie
                      if (this.state.rememberMe) {
@@ -199,13 +200,12 @@ export class SimLogin extends React.Component {
                 this.setState({
                     isLoading: false,
                 })
-                if(data.code == 1) {
+                if(!data.code) {
                     result = {
                         stateMsg: 'registerFailed',
                         result:(
                             <div className="Home-Login">
                                 {/*<br />*/}
-                                注册失败
                                 {data.message}
                             </div>
                         )
@@ -217,17 +217,18 @@ export class SimLogin extends React.Component {
                         result:(
                             <div className="Home-Login">
                                 {/*<br />*/}
-                                注册成功,1s后自动跳转至登录
-                                {data.message}
+                                {data.message},1s后自动跳转
                             </div>
                         )
                     };
+                    //PageN专属
+                    result = data.body;
                 }
                  notification.open({
                      message: 'register tips',
                      description: data.message
                  });
-                 // this.props.getUser(this,result);
+                 this.props.getUser(this,result);
             })
     }
 
@@ -289,6 +290,7 @@ export class SimLogin extends React.Component {
         }
         this.verificationOfTextContentValidity(id,value);
 
+        this.buttonControl()
 
 
         this.setState({
@@ -322,16 +324,18 @@ export class SimLogin extends React.Component {
         let {isRegisterCard} = this.state;
         if (verificationOfPass) {
             if (isRegisterCard) {
-                return ((user.password && user.mobileNumber && user.name && user.rePassword && user.checkCode) ? true:false);
+                verificationOfPass = ((user.password && user.mobileNumber && user.name && user.rePassword && user.checkCode) ? true:false);
             } else {
                 if (key == "loginForPassword") {
-                    return ((user.password && user.mobileNumber) ? true:false);
+                    verificationOfPass = ((user.password && user.mobileNumber) ? true:false);
                 } else {
-                    return ((user.checkCode && user.mobileNumber) ? true:false);
+                    verificationOfPass = ((user.checkCode && user.mobileNumber) ? true:false);
                 }
             }
         }
-        return false;
+        this.setState({
+            verificationOfPass:verificationOfPass
+        })
     }
 
     /**
@@ -339,8 +343,9 @@ export class SimLogin extends React.Component {
      * @param mobileNumber
      */
     verificationOfTextContentValidity = (targetType,targetValue) => {
-        // /^[1-9][0-9]{10}$/
-        let phoneRegExp =   /^.*(?=.{11})[1-9].*$/;
+        // /^[1-9][0-9]{11}$/
+        let phoneRegExp =   /^[0-9]{11}$/
+        // let phoneRegExp =   /^.*(?=.{11})[1-9].*$/;
         let passwordRegExp = /^.*(?=.{6,})(?=.*\d)((?=.*[A-Z])|(?=.*[a-z]))(?=.*[!@#$%^&*?.]).*$/;
 
         let {tipMessage} = this.state;
@@ -382,6 +387,10 @@ export class SimLogin extends React.Component {
             // }
             else if (targetValue.length === 11) {
                 tipMessage.phoneNumberTip = null;
+                if (!phoneRegExp.test(targetValue)) {
+                    tipMessage.phoneNumberTip = <Alert type='error' message='手机号码非法' />;
+                    verificationOfPass = false;
+                }
                 if (this.state.isRegisterCard === true) {
                     let url = `${urlsUtil.user.checkMobileNumber}?mobileNumber=${targetValue}`;
 
@@ -410,7 +419,7 @@ export class SimLogin extends React.Component {
             }
         } else if (targetType === "password" || targetType === "rePassword") {
             if (targetValue && !passwordRegExp.test(targetValue)) {
-                tipMessage.passwordTip = <Alert type='error' message='合法密码应介于8~20位之间且仅允许且必须出现出现字母、数字和特殊字符' />;
+                tipMessage.passwordTip = <Alert type='error' message='合法密码应介于8~20位之间且仅允许且必须出现字母、数字和特殊字符' />;
                 verificationOfPass = false;
             } else {
                 verificationOfPass = true;
@@ -446,11 +455,11 @@ export class SimLogin extends React.Component {
             isRegisterCard: !isRegisterCard,
             verificationOfPass: false,
             user: {
-                mobileNumber: null,
-                password: null,
-                rePassword: null,
-                name: null,
-                checkCode: null
+                // mobileNumber: null,
+                // password: null,
+                // rePassword: null,
+                // name: null,
+                // checkCode: null
             },
             tipMessage: {}
         });
@@ -469,11 +478,11 @@ export class SimLogin extends React.Component {
      * 返回登录按钮
      * @returns {JSX.Element}
      */
-    returnLoginButton = () => {
+    returnLoginButton = (verificationOfPass) => {
         return (
             <Button
                 type={"primary"}
-                disabled={!this.buttonControl()}
+                disabled={!verificationOfPass}
                 style={{width:'30%'}}
                 onClick={this.login}
                 loading={this.state.isLoading}
@@ -495,7 +504,7 @@ export class SimLogin extends React.Component {
      * 登录卡片组件的渲染
      * @returns {JSX.Element}
      */
-    renderLoginCard = () => {
+    renderLoginCard = (verificationOfPass) => {
 
         const cardList = [
             {
@@ -551,7 +560,7 @@ export class SimLogin extends React.Component {
                 </Input.Group>
                 <br />
                 <p style={{textAlign: 'left'}}>记住我<Switch checked={this.state.rememberMe} size='small' onClick={this.isRememberMe} /></p>
-                {this.returnLoginButton()}
+                {this.returnLoginButton(verificationOfPass)}
             </div>
         );
         /*
@@ -625,7 +634,7 @@ export class SimLogin extends React.Component {
     /**
      * 注册卡片的渲染
      **/
-    renderRegisterCard = () => {
+    renderRegisterCard = (verificationOfPass) => {
 
         const customerRegisterCard = (
 
@@ -706,7 +715,7 @@ export class SimLogin extends React.Component {
                         </div>
                     </Input.Group>
                     <br />
-                    <Button type={"primary"} disabled={!this.buttonControl()} style={{width:'30%'}} loading={this.state.isLoading} onClick={this.register}>注册</Button>
+                    <Button type={"primary"} disabled={!verificationOfPass} style={{width:'30%'}} loading={this.state.isLoading} onClick={this.register}>注册</Button>
                 </div>
             </Card>
 
@@ -717,12 +726,13 @@ export class SimLogin extends React.Component {
     render() {
         let {isRegisterCard} = this.state;
         let currentCard;
+        let {verificationOfPass} = this.state;
 
         if(!isRegisterCard) {
-            let loginCard = this.renderLoginCard();
+            let loginCard = this.renderLoginCard(verificationOfPass);
             currentCard = loginCard;
         } else {
-            let customerRegisterCard = this.renderRegisterCard();
+            let customerRegisterCard = this.renderRegisterCard(verificationOfPass);
             currentCard = customerRegisterCard;
         }
         return (

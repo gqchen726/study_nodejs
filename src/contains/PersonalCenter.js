@@ -18,6 +18,7 @@ class PersonalCenter extends React.Component {
         super(props);
         this.state = {
             isEditMode: false,
+            isLoading: false,
         }
     }
 
@@ -29,19 +30,33 @@ class PersonalCenter extends React.Component {
             if (!newDescriptered) {
                 return ;
             }
+            this.setState({
+                isLoading: true
+            })
             axios.post(urlsUtil.user.updatePersonInfo,newDescriptered).then((response) => {
-                let {responseBody} = response.data;
+                let responseBody = response.data;
+                console.log(response)
+
+                this.changeEditMode();
                 if (!responseBody.code) {
                     this.setState({
-                        newDescriptered : responseBody.body,
+                        user : responseBody.body,
                     })
-                    this.changeEditMode();
                 } else {
                     notification.open({
                         message: 'save info tips',
                         description: responseBody.message
                     });
                 }
+            }).catch((error) => {
+                console.log(error)
+                notification.open({
+                    message: 'save info tips',
+                    description: error.toString()
+                });
+            })
+            this.setState({
+                isLoading: false
             })
         } else {
             this.changeEditMode();
@@ -62,7 +77,7 @@ class PersonalCenter extends React.Component {
         })
     }
 
-    renderDescs = (user,isEditMode) => {
+    renderDescs = (user,isEditMode,isLoading) => {
         // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
         if (!user) {
             return null;
@@ -76,7 +91,7 @@ class PersonalCenter extends React.Component {
                     title={user.name}
                     extra={
                         (!user)?
-                            null:<Button type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+                            null:<Button loading={isLoading} type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
                     }
                 >
                     <MyDescriptions
@@ -98,7 +113,8 @@ class PersonalCenter extends React.Component {
     render() {
         let {user} = this.props;
         let {isEditMode} = this.state;
-        return this.renderDescs(user,isEditMode);
+        let {isLoading} = this.state;
+        return this.renderDescs(user,isEditMode,isLoading);
         // let {user} = this.props;
         // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
         // return (

@@ -87,7 +87,7 @@ export class SearchResultShow extends React.Component {
                     current={currentPage}
                     onChange={this.onChange}
                     // total={total}
-                    total={15}
+                    total={datas.length}
                     pageSize={8}
                     showQuickJumper={true}
                 />

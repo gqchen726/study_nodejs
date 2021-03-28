@@ -1,5 +1,5 @@
-const baseUrl = "http://192.168.1.8:8000/mytest";
-// const baseUrl = "http://localhost:8000/mytest";
+// const baseUrl = "http://192.168.1.8:8000/mytest";
+const baseUrl = "http://localhost:8000/mytest";
 // const baseUrl = "http://1.15.85.206:8000/mytest";
 const baseUrls = {
     userBaseUrl: `${baseUrl}/user`,
@@ -13,6 +13,7 @@ export const urlsUtil = {
         updatePersonInfo: `${baseUrls.userBaseUrl}/update`,
         checkMobileNumber: `${baseUrls.userBaseUrl}/checkMobileNumber`,
         getCollections: `${baseUrls.userBaseUrl}/getCollections`,
+        changePassword: `${baseUrls.userBaseUrl}/changePassword`,
     },
     product: {
         addUrl: `${baseUrls.productBaseUrl}/create`,

@@ -26,7 +26,8 @@ export class Home extends React.Component {
     }
 
     render() {
-
+        let {keywords} = this.props;
+        let {saveAny} = this.props;
         const style = { background: '#0092ff', padding: '8px 0' };
         // let {path,url} = useRouteMatch();
 
@@ -37,7 +38,7 @@ export class Home extends React.Component {
                 {/*</header>*/}
 
                 <div style={{width:'100%'}} >
-                    <SearchBar keywords={this.props.keywords} saveAny={this.props.saveAny} />
+                    <SearchBar keywords={keywords} saveAny={saveAny} />
                     {/*<Link to={'/searchResult'} >数据检索</Link>*/}
                     <br /><br />
                     <CarouselMap autoPlay={true} />

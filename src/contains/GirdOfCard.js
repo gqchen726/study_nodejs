@@ -15,6 +15,7 @@ export class GirdOfCard extends React.Component {
 
     renderAllCardGirds = (datas,currentPage) => {
         if (!datas) return;
+        console.log(datas)
         let cardGirds = datas.map((data,index) => {
             return (
                 <Card.Grid key={index} className={"GirdOfCard"} >
@@ -26,7 +27,7 @@ export class GirdOfCard extends React.Component {
                             hoverable
                             cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
                         >
-                            <Meta title={data.name} description={data.description} />
+                            <Meta title={data.productName} description={data.description} />
                         </Card>
                     </Link>
                 </Card.Grid>
@@ -55,7 +56,7 @@ export class GirdOfCard extends React.Component {
                             hoverable
                             cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
                         >
-                            <Meta title={data.name} description={data.description} />
+                            <Meta title={data.productName} description={data.description} />
                         </Card>
                     </Link>
                 </Card.Grid>
@@ -70,7 +71,6 @@ export class GirdOfCard extends React.Component {
         let {datas} = this.props;
         let {currentPage} = this.props;
 
-        console.log(datas)
         return (
             <Card className={'resultShow'} title={"result"} >
                 {

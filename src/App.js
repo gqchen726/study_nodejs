@@ -1,4 +1,3 @@
-// import './public/css/App.css';
 import React from "react";
 import localContext from "./cache/LocalContext";
 import {Page} from "./contains/Page";
