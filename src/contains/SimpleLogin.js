@@ -46,7 +46,7 @@ export class SimLogin extends React.Component {
         // 清除用户登录凭证
         localContext.remove('user');
         this.setState({
-            isLoading: true,
+            loading: true,
         })
         let {user} = this.state;
 
@@ -56,7 +56,7 @@ export class SimLogin extends React.Component {
                  let data = response.data;
                  let result;
                  this.setState({
-                     isLoading: false,
+                     loading: false,
                  })
                  if (data.code == 0) {
                      console.log("success")
@@ -105,7 +105,7 @@ export class SimLogin extends React.Component {
             .catch(
                 (error) => {
                     this.setState({
-                        isLoading: false,
+                        loading: false,
                     })
                     console.log(error)
                     notification.open({
@@ -189,7 +189,7 @@ export class SimLogin extends React.Component {
      */
     register = () => {
         this.setState({
-            isLoading: true,
+            loading: true,
         })
         let {user} = this.state;
         let result = null;
@@ -198,7 +198,7 @@ export class SimLogin extends React.Component {
              (response) => {
                  let data = response.data;
                 this.setState({
-                    isLoading: false,
+                    loading: false,
                 })
                 if(!data.code) {
                     result = {
@@ -239,7 +239,14 @@ export class SimLogin extends React.Component {
      */
     onTabChange = (key,type) => {
         this.setState({
-            [type] :key
+            [type] : key,
+            loading: false,
+            loadingCount: null,
+            getCheckCodeButtonContent: '获取验证码',
+            rememberMe: false,
+            tipMessage: {},
+            verificationOfPass: false,
+            user: {}
         });
     }
 
@@ -287,11 +294,35 @@ export class SimLogin extends React.Component {
             user.password = value;
         } else if(id === "rePassword") {
             user.rePassword = value;
+        } else if(id === "email") {
+            user.email = value;
         }
         this.verificationOfTextContentValidity(id,value);
 
+        // if (!!user.name) {
+        //     this.verificationOfTextContentValidity("name",user.name);
+        // }
+        // if (!!user.mobileNumber) {
+        //     this.verificationOfTextContentValidity("mobileNumber",user.mobileNumber);
+        // }
+        // if (!!user.checkCode) {
+        //     this.verificationOfTextContentValidity("checkCode",user.checkCode);
+        // }
+        // if (!!user.password) {
+        //     this.verificationOfTextContentValidity("password",user.password);
+        // }
+        // if (!!user.rePassword) {
+        //     this.verificationOfTextContentValidity("rePassword",user.rePassword);
+        // }
+
         this.buttonControl()
 
+        let {tipMessage} = this.state;
+        if (!!tipMessage.phoneNumberTip) {
+            this.setState({
+                verificationOfPass: false,
+            })
+        }
 
         this.setState({
             user: user,
@@ -345,6 +376,8 @@ export class SimLogin extends React.Component {
     verificationOfTextContentValidity = (targetType,targetValue) => {
         // /^[1-9][0-9]{11}$/
         let phoneRegExp =   /^[0-9]{11}$/
+        let checkCodeRegExp =   /^[0-9]{6}$/
+        let emailRegExp =   /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
         // let phoneRegExp =   /^.*(?=.{11})[1-9].*$/;
         let passwordRegExp = /^.*(?=.{6,})(?=.*\d)((?=.*[A-Z])|(?=.*[a-z]))(?=.*[!@#$%^&*?.]).*$/;
 
@@ -381,12 +414,13 @@ export class SimLogin extends React.Component {
                 tipMessage.phoneNumberTip = <Alert type='error' message='手机号码非法' />;
                 verificationOfPass = false;
             }
-            // else if (targetValue.length < 11) {
-            //     tipMessage.phoneNumberTip = <Alert type='error' message='请输入有效的11位电话号码' />;
-            //     verificationOfPass = false;
-            // }
+            else if (targetValue.length < 11) {
+                tipMessage.phoneNumberTip = <Alert type='error' message='请输入有效的11位电话号码' />;
+                verificationOfPass = false;
+            }
             else if (targetValue.length === 11) {
                 tipMessage.phoneNumberTip = null;
+                verificationOfPass = true;
                 if (!phoneRegExp.test(targetValue)) {
                     tipMessage.phoneNumberTip = <Alert type='error' message='手机号码非法' />;
                     verificationOfPass = false;
@@ -421,7 +455,10 @@ export class SimLogin extends React.Component {
             if (targetValue && !passwordRegExp.test(targetValue)) {
                 tipMessage.passwordTip = <Alert type='error' message='合法密码应介于8~20位之间且仅允许且必须出现字母、数字和特殊字符' />;
                 verificationOfPass = false;
-            } else {
+            } else if (targetValue == "") {
+                tipMessage.passwordTip = null;
+                verificationOfPass = false;
+            }else {
                 verificationOfPass = true;
                 tipMessage.passwordTip = null;
                 if (user.password && user.rePassword) {
@@ -434,7 +471,36 @@ export class SimLogin extends React.Component {
                     }
                 }
             }
+        } else if (targetType === "checkCode") {
+            if (targetValue && !checkCodeRegExp.test(targetValue)) {
+                tipMessage.checkCodeTip = <Alert type='error' message='请输入六位验证码' />;
+                verificationOfPass = false;
+            } else if (targetValue && checkCodeRegExp.test(targetValue)) {
+                verificationOfPass = true;
+                tipMessage.checkCodeTip = null;
+            }
+        } else if (targetType === "email") {
+            if (targetValue && !emailRegExp.test(targetValue)) {
+                tipMessage.emailTip = <Alert type='error' message='邮箱格式不正确' />;
+                verificationOfPass = false;
+            } else if (targetValue && emailRegExp.test(targetValue)) {
+                verificationOfPass = true;
+                tipMessage.emailTip = null;
+            }
         }
+
+        if (this.state.isRegisterCard === true) {
+            if ((!user.mobileNumber || !user.password || !user.rePassword || !user.checkCode || !user.name || !user.email)) {
+                verificationOfPass = false;
+            }
+        }
+
+        if (!!tipMessage.phoneNumberTip || !!tipMessage.passwordTip || !!tipMessage.checkCodeTip ) {
+            verificationOfPass = false;
+        }
+        // else {
+        //     verificationOfPass = false;
+        // }
 
 
         //利用setTimeout方法可以解决state的异步问题，
@@ -461,7 +527,11 @@ export class SimLogin extends React.Component {
                 // name: null,
                 // checkCode: null
             },
-            tipMessage: {}
+            tipMessage: {},
+            loading: false,
+            loadingCount: null,
+            getCheckCodeButtonContent: '获取验证码',
+            rememberMe: false,
         });
     }
 
@@ -485,7 +555,7 @@ export class SimLogin extends React.Component {
                 disabled={!verificationOfPass}
                 style={{width:'30%'}}
                 onClick={this.login}
-                loading={this.state.isLoading}
+                loading={this.state.loading}
             >
                 登陆
                 {/*<Link to={`/`} onClick={this.login} >登陆</Link>*/}
@@ -539,6 +609,7 @@ export class SimLogin extends React.Component {
                     </div>
                     <br />
                     {this.state.tipMessage.phoneNumberTip}
+
 
                     <br />
                     <div style={{width:'100%'}}>
@@ -600,10 +671,10 @@ export class SimLogin extends React.Component {
                         />
                     </div>
                     <br />
-                    {this.state.tipMessage.passwordTip}
+                    {this.state.tipMessage.checkCodeTip}
                 </Input.Group>
                 <br />
-                {this.returnLoginButton()}
+                {this.returnLoginButton(verificationOfPass)}
             </div>
         );
 
@@ -653,14 +724,29 @@ export class SimLogin extends React.Component {
                         <br /><br />
                         {/*手机号码输入框*/}
                         <div style={{width:'100%'}}>
+                            手机号码:&nbsp;&nbsp;
+                            <Input id='mobileNumber'
+                                   style={{ width: '80%' }}
+                                   placeholder={'请输入您的手机号码'}
+                                   allowClear={false}
+                                   maxLength={11}
+                                   onChangeCapture={this.autoSave}
+                            />
+                        </div>
+                        <br />
+                        {/*手机号码输入框提示*/}
+                        {this.state.tipMessage.phoneNumberTip}
+                        <br />
+                        {/*邮箱输入框*/}
+                        <div style={{width:'100%'}}>
 
                             <span style={{width:'100%'}}>
-                                手机号码:&nbsp;&nbsp;
-                                <Input id='mobileNumber'
+                                邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:&nbsp;&nbsp;
+                                <Input id='email'
                                        style={{ width: '50%' }}
-                                       placeholder={'请输入您的手机号码'}
+                                       placeholder={'请输入您的邮箱地址'}
                                        allowClear={false}
-                                       maxLength={11}
+                                       maxLength={128}
                                        onChangeCapture={this.autoSave}
                                 />
 
@@ -670,8 +756,8 @@ export class SimLogin extends React.Component {
                             </span>
                         </div>
                         <br />
-                        {/*手机号码输入框提示*/}
-                        {this.state.tipMessage.phoneNumberTip}
+                        {/*邮箱输入框提示*/}
+                        {this.state.tipMessage.emailTip}
                         <br />
                         {/*验证码输入框*/}
                         <div style={{width: '100%'}}>
@@ -684,7 +770,7 @@ export class SimLogin extends React.Component {
                                    onChangeCapture={this.autoSave}
                             />
                         </div>
-
+                        {this.state.tipMessage.checkCodeTip}
                         <br /><br />
                         {/*密码输入框*/}
                         <div style={{width:'100%'}}>
@@ -715,7 +801,7 @@ export class SimLogin extends React.Component {
                         </div>
                     </Input.Group>
                     <br />
-                    <Button type={"primary"} disabled={!verificationOfPass} style={{width:'30%'}} loading={this.state.isLoading} onClick={this.register}>注册</Button>
+                    <Button type={"primary"} disabled={!verificationOfPass} style={{width:'30%'}} loading={this.state.loading} onClick={this.register}>注册</Button>
                 </div>
             </Card>
 

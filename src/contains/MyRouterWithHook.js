@@ -21,6 +21,7 @@ import {MyResult} from "../component/MyResult";
 import {OrderDetail} from "../component/OrderDetail";
 import MyCollections from "./MyCollections";
 import {UserPasswordOfUpdate} from "./UserPasswordOfUpdate";
+import {NewDataInfoW} from "../component/NewDataInfo";
 // 学习不使用es6编写react组件
 // 编写函数组件而不是类组件
 // 学习Hook钩子函数的使用useHistory();
@@ -77,7 +78,7 @@ export const MyRouterWithHook = (props) => {
                 <Route exact path='/menu'>
                     <LeftNavigationMenu />
                 </Route>
-                <Route exact path='/searchResult'>
+                <Route exact path='/searchResult/:keywords'>
                     <SearchResultShowW keywords={props.keywords} saveAny={props.saveAny} datas={props.datas} />
                 </Route>
                 <Route exact path='/personalCenter' >
@@ -107,6 +108,9 @@ export const MyRouterWithHook = (props) => {
                 </Route>
                 <Route exact path='/userPasswordOfUpdate' >
                     <UserPasswordOfUpdate user={props.user} />
+                </Route>
+                <Route exact path='/addProduct' >
+                    <NewDataInfoW user={props.user} isAdminSpecific={true} />
                 </Route>
             </Switch>
 

@@ -27,6 +27,8 @@ import {MyPrompt} from "../component/MyPrompt";
 import {MyRouterWithHook} from "./MyRouterWithHook";
 import {SimpleLogin} from "./SimpleLogin";
 import {LoginPage} from "./LoginPage";
+import axios from "axios";
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 
 
 //创建context,定义一个全局变量
@@ -40,9 +42,40 @@ export class PageN extends React.Component {
             lightTheme: true,
             user:props.user,
             keywords:null,
-            collapsed: false
+            collapsed: false,
+            categorys: null,
+            menuItems: null
         };
 
+    }
+
+    componentWillMount() {
+        // axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
+        //     let data = response.data;
+        //     console.log(data)
+        //     console.log(data.body)
+        //     if (!data.code) {
+        //         this.setState({
+        //             categorys : data.body
+        //         })
+        //     }
+        // }
+        this.renderMenuItems();
+    }
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        this.renderMenuItems();
+    }
+
+    renderCategorys = () => {
+        axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
+            let data = response.data;
+            console.log(data)
+            console.log(data.body)
+            if (!data.code) {
+                return data.body;
+            }
+        })
     }
 
 
@@ -82,10 +115,35 @@ export class PageN extends React.Component {
             // <MyRouterWithHook user={this.props.user} getUser={this.getUser} />
         );
     }
+    renderMenuItems = () => {
+        axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
+            let data = response.data;
+            let menuItems = null;
+            console.log(data.body)
+            if (data.code) {
+                menuItems = data.body.map((value,index) => {
+                    return <Menu.Item key={index}><Link to={`/searchResult/${value}`}>{value}</Link></Menu.Item>;
+                })
+                console.log(menuItems)
+            }
+            let oldMenuItems = this.state.menuItems;
+            if (oldMenuItems != menuItems) {
+                // this.setState({
+                //     menuItems: menuItems
+                // })
+                this.state.menuItems = menuItems;
+            }
+        })
+        // if (!datas) return null;
+        // return data.map((value,index) => {
+        //     return <Menu.Item key={index}>{value}</Menu.Item>;
+        // })
+    }
 
     renderLayout = () => {
-        let {lineMode, lightTheme, collapsed} = this.state;
-        const { Header, Content, Footer, Sider } = Layout;
+        let {lineMode, lightTheme, collapsed, menuItems} = this.state;
+        let {user} = this.props;
+        const { Header, Content, Footer, Sider,} = Layout;
         let rules = [];
         return (
             <Layout className={'Page'}>
@@ -121,10 +179,7 @@ export class PageN extends React.Component {
                             <Link to={'/home'}>首页</Link>
                         </Menu.Item>
                         <SubMenu key="sub1" title="景区查看" icon={<BarsOutlined />}>
-                            <Menu.Item key="5">大同古城墙</Menu.Item>
-                            <Menu.Item key="6">华严寺</Menu.Item>
-                            <Menu.Item key="7">善化寺</Menu.Item>
-
+                            {menuItems}
                         </SubMenu>
 
 
@@ -146,6 +201,13 @@ export class PageN extends React.Component {
                         <Menu.Item key="sub6" title="修改密码" icon={<CloudOutlined/>}>
                             <Link to={'/userPasswordOfUpdate'}>修改密码</Link>
                         </Menu.Item>
+
+                        {
+                            !!user && user.admin ?
+                                <Menu.Item key="sub7" title="新增产品" icon={<CloudOutlined/>}>
+                                    <Link to={'/addProduct'}>新增产品</Link>
+                                </Menu.Item> : null
+                        }
 
                     </Menu>
 

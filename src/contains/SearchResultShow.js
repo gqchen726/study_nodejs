@@ -16,10 +16,73 @@ export class SearchResultShow extends React.Component {
         }
     }
 
+    componentWillMount() {
+
+        // let {match} = this.props;
+        // let keywords;
+        // if (!!match) keywords = match.params.keywords;
+        // if (keywords) {
+        //     axios.get(`${urlsUtil.product.searchUrl}?keywords=${keywords}`).then(
+        //         (response) => {
+        //
+        //             let datas = response.data.body;
+        //
+        //             this.props.saveAny('datas',datas);
+        //         }
+        //     )
+        // }
+        this.getDatas(this.props);
+    }
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        let {match} = this.props;
+        if (match) {
+            if (this.props.match.params.keywords != nextProps.match.params.keywords) {
+                this.getDatas(nextProps);
+            }
+        }
+    }
+
+    saveAny = (dataName,data) => {
+        switch (dataName) {
+            case 'datas':
+                this.setState({
+                    datas: data
+                })
+                return;
+            case 'keywords':
+                this.setState({
+                    keywords: data
+                })
+                return;
+        }
+    }
+
+    getDatas = (props) => {
+        let {match} = props;
+        let keywords;
+        if (!!match) {
+            keywords = match.params.keywords;
+        }
+        if (keywords) {
+            axios.get(`${urlsUtil.product.searchUrl}?keywords=${keywords}`).then(
+                (response) => {
+
+                    let datas = response.data.body;
+
+                    this.props.saveAny('datas',datas);
+                }
+            )
+        }
+    }
+
 
     renderSearchBar = () => {
+        let {match} = this.props;
+        let keywords;
+        if (!!match) keywords = match.params.keywords;
         // return <SearchBar keywords={this.props.keywords} saveSearchKeyWords={this.props.saveSearchKeyWords} />;
-        return <SearchBar keywords={this.props.keywords} saveAny={this.props.saveAny} />
+        return <SearchBar keywords={keywords ? keywords:this.props.keywords} saveAny={this.props.saveAny} />
     }
     renderGirdOfCard = (datas,currentPage) => {
         let datasSplitPage = this.getDatasSplitPage(datas);

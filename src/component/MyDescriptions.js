@@ -46,6 +46,12 @@ export class MyDescriptions extends React.Component {
             descriptered.description = value;
         } else if(id === "category") {
             descriptered.category = value;
+        } else if(id === "ex") {
+            descriptered.ex = value;
+        } else if(id === "productCode") {
+            descriptered.productCode = value;
+        } else if(id === "productName") {
+            descriptered.productName = value;
         }
 
 
@@ -67,7 +73,8 @@ export class MyDescriptions extends React.Component {
 
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
-        if (col == "orders" || col == "souseNames") {
+        if (col == "orders" || col == "souseNames" || col == "resources") {
+        } else if (col == "admin") {
         } else {
             infos.push(
                 <Descriptions.Item
@@ -91,7 +98,7 @@ export class MyDescriptions extends React.Component {
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
             // console.log(col)
-            if (col == "password" || col == "mobileNumber" || col == "admin" || col == "registerCode") {
+            if (col == "password" || col == "mobileNumber" || col == "admin" || col == "registerCode" || col == "admin") {
                 infos.push(
                     <Descriptions.Item key={key} label={col}>
                         <Input
@@ -105,7 +112,23 @@ export class MyDescriptions extends React.Component {
                         />
                     </Descriptions.Item>
                 );
-            } else if (col == "orders" || col == "souseNames") {
+            } else if (col == "orders" || col == "souseNames" || col == "resources") {
+            } else if (col == "description") {
+                //待改善，此处的描述应为文本域
+                infos.push(
+                    <Descriptions.Item key={key} label={col}>
+                        <Input.TextArea
+                            id={col}
+                            value={descriptered[col]}
+                            // disabled={fieldObj.isAllowEdit}
+                            bordered={false}
+                            maxLength={5000}
+                            autoSize={true}
+                            showCount={true}
+                            onChangeCapture={this.autoSave}
+                        />
+                    </Descriptions.Item>
+                );
             } else {
                 infos.push(
                     <Descriptions.Item key={key} label={col}>
@@ -137,12 +160,15 @@ export class MyDescriptions extends React.Component {
                 title={title}
                 layout={layout}
                 bordered={bordered}
+                size={"default"}
+                column={1}
             >
                 {
                     !isEditMode?
                         this.renderDescItemList(descriptered):
                         this.renderSpecificDescItemList(descriptered)
                 }
+                <Descriptions.Item key={"test"} label={"test"}>test</Descriptions.Item>
             </Descriptions>
         )
     }

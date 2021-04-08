@@ -7,6 +7,8 @@ import {Link} from "react-router-dom";
 
 import '../public/css/DataShowGrid.css'
 import {withRouter} from "react-router";
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import {arrayUtils} from "../common/ArrayUtils";
 
 export class GirdOfCard extends React.Component {
     constructor(props) {
@@ -46,6 +48,8 @@ export class GirdOfCard extends React.Component {
         // let datasSplitPage = this.getDatasSplitPage(datas);
         if (!datas) return;
         let cardGirds = datas.map((data,index) => {
+            let imgs = arrayUtils.split(data.resources,";");
+            console.log(imgs)
             return (
                 <Card.Grid key={index} className={"GirdOfCard"} >
                     <Link to={{
@@ -54,9 +58,9 @@ export class GirdOfCard extends React.Component {
                     }}>
                         <Card
                             hoverable
-                            cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                            cover={<img width={261} height={327} alt="example" src={(!!imgs && imgs.length>0) ? `${urlsUtil.image.get}?file=${imgs[0]}` : "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"} />}
                         >
-                            <Meta title={data.productName} description={data.description} />
+                            <Meta title={data.productName} description={data.productCode} />
                         </Card>
                     </Link>
                 </Card.Grid>
@@ -77,6 +81,7 @@ export class GirdOfCard extends React.Component {
                     this.renderCurrentCardGirds(datas)
                     // this.getCardGirds(datas,currentPage)
                 }
+                <br /><br /><br /><br />
             </Card>
             // <Switch>
             //     <Card className={'resultShow'} title={"result"} >
