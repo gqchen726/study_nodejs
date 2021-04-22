@@ -1,4 +1,4 @@
-import {Button, Card, Input, Select, Tooltip, Switch, Alert, notification, message} from "antd/es";
+import {Button, Card, Input, Select, Tooltip, Switch, Alert, notification, message, Image} from "antd/es";
 // import {CheckOutlined} from '@ant-design/icons';
 import React from "react";
 import "../public/css/Login.css";
@@ -72,7 +72,7 @@ export class SimLogin extends React.Component {
                              </div>
                          )
                      };
-                     //PageN专属
+                     //PageN专属,PageH需注释掉
                      result = data.body;
                      // 本地缓存Cookie
                      if (this.state.rememberMe) {
@@ -221,7 +221,7 @@ export class SimLogin extends React.Component {
                             </div>
                         )
                     };
-                    //PageN专属
+                    //PageN专属,PageH需注释掉
                     result = data.body;
                 }
                  notification.open({
@@ -718,12 +718,14 @@ export class SimLogin extends React.Component {
                     <Input.Group compact>
                         {/*用户名输入框*/}
                         <div style={{ width: '100%' }}>
+                            <span className={"necessity"}>*</span>
                             用&nbsp;&nbsp;户&nbsp;&nbsp;名:&nbsp;&nbsp;
                             <Input id='name' style={{ width: '80%' }} placeholder={'请输入用户名'} allowClear={false} maxLength={30} onChangeCapture={this.autoSave} />
                         </div>
                         <br /><br />
                         {/*手机号码输入框*/}
                         <div style={{width:'100%'}}>
+                            <span className={"necessity"}>*</span>
                             手机号码:&nbsp;&nbsp;
                             <Input id='mobileNumber'
                                    style={{ width: '80%' }}
@@ -741,6 +743,7 @@ export class SimLogin extends React.Component {
                         <div style={{width:'100%'}}>
 
                             <span style={{width:'100%'}}>
+                                <span className={"necessity"}>*</span>
                                 邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:&nbsp;&nbsp;
                                 <Input id='email'
                                        style={{ width: '50%' }}
@@ -761,6 +764,7 @@ export class SimLogin extends React.Component {
                         <br />
                         {/*验证码输入框*/}
                         <div style={{width: '100%'}}>
+                            <span className={"necessity"}>*</span>
                             验&nbsp;&nbsp;证&nbsp;&nbsp;码:&nbsp;&nbsp;
                             <Input id='checkCode'
                                    style={ { width: '80%'} }
@@ -774,6 +778,7 @@ export class SimLogin extends React.Component {
                         <br /><br />
                         {/*密码输入框*/}
                         <div style={{width:'100%'}}>
+                            <span className={"necessity"}>*</span>
                             密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;&nbsp;
                             <Input.Password
                                 id='password'
@@ -789,6 +794,7 @@ export class SimLogin extends React.Component {
                         {this.state.tipMessage.passwordTip}
                         <br />
                         <div style={{width:'100%'}}>
+                            <span className={"necessity"}>*</span>
                             密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;&nbsp;
                             <Input.Password
                                 id='rePassword'

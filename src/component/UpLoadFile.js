@@ -75,7 +75,7 @@ export class UpLoadFile extends React.Component {
                     onRemove={this.handleRemove}
                     disable={isEditMode}
                 >
-                    {fileList.length >= 8 ? null : uploadButton}
+                    {fileList.length >= this.props.maxLength ? null : uploadButton}
                 </Upload>
                 <Modal
                     visible={previewVisible}
@@ -92,5 +92,6 @@ export class UpLoadFile extends React.Component {
 UpLoadFile.propTypes = {
     action: PropTypes.string,
     isEditMode: PropTypes.bool,
-    getFileList: PropTypes.func
+    getFileList: PropTypes.func,
+    maxLength: PropTypes.number
 }

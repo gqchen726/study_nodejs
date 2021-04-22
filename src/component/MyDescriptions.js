@@ -1,7 +1,10 @@
 import React from 'react'
 import Descriptions from "antd/es/descriptions";
 import PropTypes from 'prop-types'
-import {Input} from "antd";
+import Image, {Input} from "antd";
+import {MyDatePicker} from "./MyDatePicker";
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import {UpLoadFile} from "./UpLoadFile";
 
 export class MyDescriptions extends React.Component {
     constructor(props) {
@@ -65,6 +68,18 @@ export class MyDescriptions extends React.Component {
 
     }
 
+    saveBirth = (data,dataString) => {
+        let {descriptered} = this.state;
+        descriptered.birth = dataString;
+        setTimeout(() => {
+            this.setState({
+                descriptered: descriptered,
+            })
+        },0)
+
+        this.props.saveNewDescriptered(this.state.descriptered);
+    }
+
     renderDescItemList = (descriptered) => {
         // if (!descriptered) {
         //     return <div>please to login</div>;
@@ -74,7 +89,22 @@ export class MyDescriptions extends React.Component {
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
         if (col == "orders" || col == "souseNames" || col == "resources") {
-        } else if (col == "admin") {
+        } else if (col == "admin" || col == "password") {
+        } else if (col == "avatar") {
+            infos.push(
+                <Descriptions.Item
+                    key={key}
+                    label={col}
+                >
+                    <Image
+                        key={key}
+                        src={`${urlsUtil.image.get}?file=${descriptered[col]}`}
+                        width={60}
+                        height={60}
+                        alt={descriptered[col]}
+                    />
+                </Descriptions.Item>
+            );
         } else {
             infos.push(
                 <Descriptions.Item
@@ -89,6 +119,13 @@ export class MyDescriptions extends React.Component {
         })
         return infos;
     }
+
+    getFileList = (fileList) => {
+        this.setState({
+            fileList:fileList
+        })
+    }
+
     renderSpecificDescItemList = (descriptered) => {
         if (!descriptered) {
             return null;
@@ -112,7 +149,34 @@ export class MyDescriptions extends React.Component {
                         />
                     </Descriptions.Item>
                 );
-            } else if (col == "orders" || col == "souseNames" || col == "resources") {
+            } else if (col == "orders" || col == "souseNames" || col == "resources" || col == "password") {
+            } else if (col == "birth") {
+                infos.push(
+                    <Descriptions.Item key={key} label={col}>
+                        <MyDatePicker title={""} onClickHandler={this.saveBirth} fromToday={false} />
+                    </Descriptions.Item>
+                );
+            } else if (col == "avatar") {
+                infos.push(
+                    <Descriptions.Item
+                        key={key}
+                        label={col}
+                    >
+                        {/*<Image
+                            key={key}
+                            src={`${urlsUtil.image.get}?file=${descriptered[col]}`}
+                            width={60}
+                            height={60}
+                            alt={descriptered[col]}
+                        />*/}
+                        <UpLoadFile
+                            maxLength={1}
+                            isEditMode={true}
+                            action={`${urlsUtil.image.upload}`}
+                            getFileList={this.getFileList}
+                        />
+                    </Descriptions.Item>
+                );
             } else if (col == "description") {
                 //待改善，此处的描述应为文本域
                 infos.push(

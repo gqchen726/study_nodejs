@@ -18,7 +18,7 @@ import Button from "antd/es/button";
 import {OrderSteps, OrderStepsW} from "./OrderSteps";
 import MyOrderList from "./MyOrderList";
 import {MyResult} from "../component/MyResult";
-import {OrderDetail} from "../component/OrderDetail";
+import {OrderDetail, OrderDetailW} from "../component/OrderDetail";
 import MyCollections from "./MyCollections";
 import {UserPasswordOfUpdate} from "./UserPasswordOfUpdate";
 import {NewDataInfoW} from "../component/NewDataInfo";
@@ -98,19 +98,22 @@ export const MyRouterWithHook = (props) => {
                     {renderResultPage(params.statusCode)}
                 </Route>
                 <Route exact path='/orderGenerate/:key' >
-                    <OrderStepsW datas={props.datas} user={props.user} />
+                    <OrderStepsW user={props.user} />
                 </Route>
-                <Route exact path='/myOrder' >
-                    <MyOrderList user={props.user} />
+                <Route exact path='/myOrders' >
+                    {props.accessControl(<MyOrderList user={props.user} />)}
                 </Route>
-                <Route exact path='/orderDetail/:key' >
-                    <OrderDetail user={props.user} />
+                <Route exact path='/orderDetail/:orderId' >
+                    <OrderDetailW user={props.user} />
                 </Route>
                 <Route exact path='/userPasswordOfUpdate' >
-                    <UserPasswordOfUpdate user={props.user} />
+                    {props.accessControl(<UserPasswordOfUpdate user={props.user} />)}
                 </Route>
                 <Route exact path='/addProduct' >
                     <NewDataInfoW user={props.user} isAdminSpecific={true} />
+                </Route>
+                <Route exact path='/orderInfo/:orderId' >
+                    <OrderStepsW user={props.user}  />
                 </Route>
             </Switch>
 

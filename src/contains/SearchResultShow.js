@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {SearchBar} from "./SearchBar";
+import {SearchBar, SearchBarW} from "./SearchBar";
 import {GirdOfCard, GirdOfCardW} from "./GirdOfCard";
 import Pagination from "antd/es/pagination";
 import {withRouter} from "react-router";
@@ -82,7 +82,7 @@ export class SearchResultShow extends React.Component {
         let keywords;
         if (!!match) keywords = match.params.keywords;
         // return <SearchBar keywords={this.props.keywords} saveSearchKeyWords={this.props.saveSearchKeyWords} />;
-        return <SearchBar keywords={keywords ? keywords:this.props.keywords} saveAny={this.props.saveAny} />
+        return <SearchBarW keywords={keywords ? keywords:this.props.keywords} saveAny={this.props.saveAny} />
     }
     renderGirdOfCard = (datas,currentPage) => {
         let datasSplitPage = this.getDatasSplitPage(datas);

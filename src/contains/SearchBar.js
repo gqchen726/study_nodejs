@@ -9,6 +9,7 @@ import {urlsUtil} from "./../public/ApiUrls/UrlsUtil"
 import "./../public/css/SearchBar.css"
 import Cascader from "antd/es/cascader";
 import { AutoComplete } from 'antd';
+import {SearchResultShow} from "./SearchResultShow";
 
 
 
@@ -230,7 +231,7 @@ export class SearchBar extends React.Component {
                     <span
                         style={{font:{size:'11px'}}}
                     >
-                        <Link to={`/searchResult`} >
+                        <Link to={`/searchResult/${optionValue}`} >
                             <span
                                 className='SearchBar'
                             >
@@ -244,6 +245,7 @@ export class SearchBar extends React.Component {
         );
     }
 }
+export const SearchBarW = withRouter(SearchBar)
 SearchBar.defaultProps = {
     optionValue: null,
 }

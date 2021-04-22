@@ -7,7 +7,7 @@ import {
 import {ButtonList} from "../component/ButtonList";
 import {SimpleLogin} from "./SimpleLogin";
 const localContext = require('../cache/LocalContext');
-
+import PropTypes from "prop-types"
 export class UserStateBar extends React.Component {
 
     constructor(props) {
@@ -21,7 +21,8 @@ export class UserStateBar extends React.Component {
     }
 
     componentDidMount() {
-        this.returnPageHandler(this.state.user);
+        let {user, mode} = this.props;
+        this.returnPageHandler(user, mode);
         this.getLoginCard();
     }
 
@@ -51,13 +52,14 @@ export class UserStateBar extends React.Component {
     }
 
 
-    returnExtraButton = (para) => {
-        return <ButtonList buttons={para} />;
+    returnExtraButton = (para,isbr) => {
+        return <ButtonList buttons={para} isBr={isbr} />;
     }
 
     hideModal = () => {
+        let {user, mode} = this.props;
         this.setState({visible: false})
-        this.returnPageHandler(this.props.user);
+        this.returnPageHandler(user, mode);
     }
     showModal = () => {
         this.setState({
@@ -86,7 +88,7 @@ export class UserStateBar extends React.Component {
         );
     }
 
-    returnPageHandler = (user) => {
+    returnPageHandler = (user,mode) => {
         let isLogin = !!user;
         let logined = [
             // {
@@ -108,6 +110,11 @@ export class UserStateBar extends React.Component {
                     localContext.remove('user');
                     window.location.reload();
                 }
+            },
+            {
+                type: 'primary',
+                content: '修改密码',
+                linkPath: "/userPasswordOfUpdate"
             }
         ];
         let noLogin = [
@@ -119,33 +126,51 @@ export class UserStateBar extends React.Component {
         ];
         let buttonsPara = isLogin ? logined:noLogin;
 
-        let pageHeader = (
-            <div>
-                <PageHeader
-                    avatar={{ src: 'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
-                    ghost={false}
-                    // onBack={() => window.history.back()}
-                    // title={!isLogin ? '请登录':user.name.value}
-                    title={!isLogin ? '请登录':user.name}
 
-                    extra={this.returnExtraButton(buttonsPara)}
-                    style={{padding:'0px 36px'}}
-                />
-            </div>
-        );
+        let pageHeader;
+        if (mode == "Icon") {
+            pageHeader =  (
+                <div>
+                    {this.returnExtraButton(buttonsPara,true)}
+                </div>
+            );
+        } else {
+            pageHeader = (
+                <div>
+                    <PageHeader
+                        avatar={{ src: 'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
+                        ghost={false}
+                        // onBack={() => window.history.back()}
+                        // title={!isLogin ? '请登录':user.name.value}
+                        title={!isLogin ? '请登录':user.name}
+
+                        extra={this.returnExtraButton(buttonsPara,false)}
+                        style={{padding:'0px 36px'}}
+                    />
+                </div>
+            );
+        }
         this.setState({pageHeader:pageHeader})
     }
 
     render() {
+        let {pageHeader} = this.state;
         return (
             <div>
                 <Space>
                     {this.returnLoginConversationBox()}
                 </Space>
                 <div>
-                    {this.state.pageHeader}
+                    {
+                        pageHeader
+                    }
                 </div>
             </div>
         );
     }
+}
+UserStateBar.propTypes = {
+    mode: PropTypes.string,
+    user: PropTypes.object,
+    getUser: PropTypes.func
 }

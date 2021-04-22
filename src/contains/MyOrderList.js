@@ -4,6 +4,9 @@ import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {Button} from "antd";
 import {Link} from "react-router-dom";
+import {Anchor, Box, Tip} from "grommet";
+import {Close, Send, User} from "grommet-icons";
+import {MyTip} from "../component/MyTip";
 export default class MyOrderList extends React.Component {
 
     constructor(props) {
@@ -19,8 +22,22 @@ export default class MyOrderList extends React.Component {
             let orders;
             if (Array.isArray(body)) {
                 orders = body.map((order) => {
-                    // order.action = <Link to={`/orderDetail/TL000000${i}`}>view</Link>;
+                    let {orderId} = order.order;
+                    let orderIdLink = <Anchor label={<span style={{fontSize:"18px",fontWeight:600}}>{orderId}</span>} href={`/#/orderDetail/${orderId}`} />;
+                    // let orderIdLink = <Anchor label={<span style={{fontSize:"18px",fontWeight:600}}>{orderId}</span>} href={`/#/orderInfo/${orderId}`} />;
+                    order.order.orderId = orderIdLink;
+                    // order.actions = <Link to={`/orderDetail/TL000000${i}`}>view</Link>;
+                    order.order.actions = (
+                        <Box direction="row">
+
+                            {MyTip("移除该订单",<Button icon={<Close />} onClick={() => {axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${order.order.orderId}&status=delete`)}} primary />)}
+
+                            <Button icon={<Send />} onClick={() => {axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${order.order.orderId}&status=submission`)}} />
+                            <Button icon={<User />} onClick={() => {}} />
+                        </Box>
+                    );
                     return order.order
+
                 })
             }
             console.log(orders)
@@ -82,15 +99,15 @@ export default class MyOrderList extends React.Component {
             dataIndex: 'status',
             key: 'status',
         }):null;
-        data.action? columns.push({
-            title: '操作',
-            dataIndex: 'action',
-            key: 'action',
-        }):null;
         data.generationDate? columns.push({
             title: '订单生成日期',
             dataIndex: 'generationDate',
             key: 'generationDate',
+        }):null;
+        data.actions? columns.push({
+            title: '操作',
+            dataIndex: 'actions',
+            key: 'actions',
         }):null;
 
         console.log(columns)

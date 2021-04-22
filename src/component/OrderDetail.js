@@ -1,90 +1,204 @@
-import React from 'react'
-import Descriptions from "antd/es/descriptions";
-import PropTypes from 'prop-types'
-import {Input} from "antd";
+import { Steps } from 'antd';
+import { UserOutlined, SolutionOutlined, LoadingOutlined, SmileOutlined } from '@ant-design/icons';
+import React from "react";
+import Card from "antd/es/card";
+import Button from "antd/es/button";
+import {MyDescriptions} from "./MyDescriptions";
+import {withRouter} from "react-router";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-import {MyDescriptions} from "./MyDescriptions";
-import {Link} from "react-router-dom";
-import Space from "antd/es/space";
-import Button from "antd/es/button";
+import "./../public/css/OrderStep.css"
+
+const { Step } = Steps;
+import {notification} from "antd/es";
 
 export class OrderDetail extends React.Component {
     constructor(props) {
         super(props);
-    }
-
-    componentWillMount() {
-        // 以订单号向后端获取订单
-        let {id} = this.props;
-
-        axios.get(`${urlsUtil.order.searchOrderUrl}?id=${id}`).then((response) => {
-            let order = response.data.body.order;
-            this.setState({
-                order:order,
-            })
-        }).catch(() => {
-
-        })
-
-        // 模拟数据
-        let i = 2;
-        let order = {
-            key: `order${i}`,
-            id: `TL000000${i}`,
-            name: `Edward King ${i}`,
-            price: 32,
-            address: `London, Park Lane no. ${i}`,
-            status: `${i%2 == 0?'已支付':'未支付'}`,
-            action: <Link to={`/orderDetail/TL000000${i}`}>view</Link>
-        };
-        this.setState({
-            order:order,
-        })
-    }
-
-    renderActions = (status) => {
-        if (status == "已支付") {
-            return (
-                <Space>
-                    <Button>打印电子发票</Button>
-                </Space>
-            )
-        } else {
-            return (
-                <Space>
-                    <Button>去支付</Button>
-                    <Button>删除该订单</Button>
-                </Space>
-            )
+        this.state = {
+            status: {
+                PayStatus: "process",
+                ViewDetail: "wait"
+            },
+            orderDetail: {},
         }
     }
 
+    componentWillMount() {
+        let {orderId} = this.props.match.params;
+        axios.get(`${urlsUtil.order.getOrderUrl}?orderId=${orderId}`).then((response) => {
+            let {data} = response;
+            if (data.code) {
+                let orderDetail = data.body;
+                console.log(orderDetail)
+                if (orderDetail.order.status === "generated") {
+                    setTimeout(() => {
+                        this.setState({
+                            orderDetail: orderDetail,
+                            status: {
+                                PayStatus: "process",
+                                ViewDetail: "wait"
+                            },
+                        })
+                    },0)
+                } else if(orderDetail.order.status === "paid") {
+                    setTimeout(() => {
+                        this.setState({
+                            orderDetail: orderDetail,
+                            status: {
+                                PayStatus: "finish",
+                                ViewDetail: "process"
+                            },
+                        })
+                    },0)
+                }
+            } else {
+                notification.open({
+                    message: 'orderDetail tips',
+                    description: data.message
+                });
+            }
+        })
+
+
+    }
+
+
+    next = () => {
+        let {status, orderDetail} = this.state;
+        console.log(orderDetail)
+        if ("process" == status.ViewDetail) {
+            return ;
+        }
+        if ("process" == status.PayStatus) {
+
+
+            axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${orderDetail.order.orderId}&status=paid`)
+                .then((response) => {
+                    let data = response.data;
+                    if (data.code) {
+                        let orderDetail = data.body;
+                        status.PayStatus = "finish";
+                        status.ViewDetail = "finish";
+                        this.setState({
+                            status: status,
+                            orderDetail: orderDetail
+                        })
+                    } else {
+                        notification.open({
+                            message: 'register tips',
+                            description: data.message
+                        });
+                    }
+                })
+            this.setState({
+                status: status
+            })
+        }
+    }
+
+    returnOrderCard = (status,orderDetail) => {
+        console.log(orderDetail)
+        if (!orderDetail.order) {
+            return ;
+        }
+        if (status.PayStatus == "process") {
+
+            if (!orderDetail) return <div>data is null</div>
+
+            return (
+                <div>
+                    <br />
+                    <div className={"OrderCode"}>
+                        {
+                            orderDetail.order.orderId ? orderDetail.order.orderId : null
+                        }
+                    </div>
+                    <div className={"OrderDetail"}>
+                        <br />
+                        <MyDescriptions
+                            descriptered={orderDetail.order}
+                            title={"订单信息"}
+                            bordered={true}
+                            layout={"horizontal"}
+                        />
+                        <br />
+                        <MyDescriptions
+                            descriptered={orderDetail.product}
+                            title={"产品信息"}
+                            bordered={true}
+                            layout={"horizontal"}
+                        />
+                    </div>
+                </div>
+            );
+        }
+        if (status.ViewDetail == "process") {
+            if (!orderDetail) return <div>data is null</div>
+
+            return (
+                <div>
+                    <br />
+                    <div className={"OrderCode"}>
+                        {
+                            orderDetail.order.orderId ? orderDetail.order.orderId : null
+                        }
+                    </div>
+                    <div className={"OrderDetail"}>
+                        <br />
+                        <MyDescriptions
+                            descriptered={orderDetail.order}
+                            title={"订单信息"}
+                            bordered={true}
+                            layout={"horizontal"}
+                        />
+                        <br />
+                        <MyDescriptions
+                            descriptered={orderDetail.product}
+                            title={"产品信息"}
+                            bordered={true}
+                            layout={"horizontal"}
+                        />
+                    </div>
+                </div>
+            );
+        }
+    }
     render() {
-        let {order} = this.state;
-        let {status} = order;
+        let {status, orderDetail} = this.state;
         return (
-            <div>
-                {/*// 订单详情*/}
-                {/*// 以Description展示基本信息*/}
-                <MyDescriptions
-                    bordered={false}
-                    isAdminSpecific={true}
-                    title={"订单详情"}
-                    descriptered={order}
-                />
-                {/*// 订单操作*/}
-                {/*// 判断订单的支付状态，*/}
-                {/*//  如果订单处于未支付状态，显示支付和删除订单按钮；*/}
-                {/*//  如果订单处于已支付状态，显示打印电子发票按钮；*/}
-                {this.renderActions(status)}
-            </div>
+            <Card>
+                <Steps>
+                    <Step status={status.PayStatus}
+                          title="Pay"
+                          icon={status.PayStatus == "process" ? <LoadingOutlined /> :<UserOutlined />}
+                    />
+                    <Step status={status.ViewDetail}
+                          title="ViewDetail"
+                          icon={<SmileOutlined />}
+                    />
+                </Steps>
+                {/*1.订单生成卡片*/}
+                {/*2.支付卡片*/}
+                {/*3.订单完成卡片*/}
+                {
+                    this.returnOrderCard(status, orderDetail)
+                }
+                {
+                    status.ViewDetail === "process" ? null: (
+                        <div>
+                            <Button
+                                type={"primary"}
+                                style={{width:'10%'}}
+                                onClick={this.next}
+                            >
+                                下一步
+                            </Button>
+                        </div>
+                    )
+                }
+            </Card>
         );
     }
 }
-OrderDetail.propTypes = {
-
-}
-OrderDetail.defaultProps = {
-
-}
+export const OrderDetailW = withRouter(OrderDetail)

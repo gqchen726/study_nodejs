@@ -160,45 +160,45 @@ export class PageN extends React.Component {
                     collapsed={collapsed}
                 >
                     <div className="logo"/>
-                    <div className={'modeControl'}>
-                        <Switch onChange={this.changeMode} />更换菜单样式
-                        <br />
-                        <Button type="primary" onClick={this.changeState} style={{ marginBottom: 16 }}>
-                            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
-                            {!collapsed ? "缩起菜单":null}
-                        </Button>
-                    </div>
+                    {/*<div className={'modeControl'}>*/}
+                    {/*    <Switch onChange={this.changeMode} />更换菜单样式*/}
+                    {/*    <br />*/}
+                    {/*    <Button type="primary" onClick={this.changeState} style={{ marginBottom: 16 }}>*/}
+                    {/*        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}*/}
+                    {/*        {!collapsed ? "缩起菜单":null}*/}
+                    {/*    </Button>*/}
+                    {/*</div>*/}
 
                     <Menu
                         mode={!lineMode ? 'vertical' : 'inline'}
                         theme='light'
-                        defaultSelectedKeys={['1']}
+                        defaultSelectedKeys={['home']}
                         inlineCollapsed={collapsed}
                     >
-                        <Menu.Item key="sub0" title="首页" icon={<HomeOutlined />}>
+                        <Menu.Item key="home" title="首页" icon={<HomeOutlined />}>
                             <Link to={'/home'}>首页</Link>
                         </Menu.Item>
-                        <SubMenu key="sub1" title="景区查看" icon={<BarsOutlined />}>
+                        <SubMenu key="productCategory" title="景区查看" icon={<BarsOutlined />}>
                             {menuItems}
                         </SubMenu>
 
 
-                        <Menu.Item key="sub2" title="个人中心" icon={<UserOutlined/>}>
+                        <Menu.Item key="personalCenter" title="个人中心" icon={<UserOutlined/>}>
                             <Link to={'/personalCenter'}>个人中心</Link>
                         </Menu.Item>
 
-                        <Menu.Item key="sub3" title="我的订单" icon={<UploadOutlined/>}>
-                            <Link to={'/myOrder'}>我的订单</Link>
+                        <Menu.Item key="myOrders" title="我的订单" icon={<UploadOutlined/>}>
+                            <Link to={'/myOrders'}>我的订单</Link>
                         </Menu.Item>
 
-                        <Menu.Item key="sub4" title="我的收藏" icon={<BarChartOutlined/>}>
+                        <Menu.Item key="myCollections" title="我的收藏" icon={<BarChartOutlined/>}>
                             <Link to={'/myCollections'}>我的收藏</Link>
                         </Menu.Item>
 
-                        <Menu.Item key="sub5" title="浏览历史" icon={<CloudOutlined/>}>
+                        <Menu.Item key="browsingHistory" title="浏览历史" icon={<CloudOutlined/>}>
                             <Link to={'/browsingHistory'}>浏览历史</Link>
                         </Menu.Item>
-                        <Menu.Item key="sub6" title="修改密码" icon={<CloudOutlined/>}>
+                        <Menu.Item key="userPasswordOfUpdate" title="修改密码" icon={<CloudOutlined/>}>
                             <Link to={'/userPasswordOfUpdate'}>修改密码</Link>
                         </Menu.Item>
 
@@ -217,7 +217,7 @@ export class PageN extends React.Component {
                     {/*<Header className="site-layout-background" style={{padding: 0}}>*/}
                     {/*    <StateBar user={this.props.user} getUser={this.getUser} />*/}
                     {/*</Header>*/}
-                    <UserStateBar user={this.props.user} getUser={this.getUser} />
+                    <UserStateBar user={this.props.user} getUser={this.getUser}/>
                     <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
                         {
                             this.renderRoutes() ? this.renderRoutes():null

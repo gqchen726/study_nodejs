@@ -90,6 +90,9 @@ export class UserPasswordOfUpdate extends React.Component {
         let loadingCount = 60;
         let getCheckCodeButtonContent;
         this.setState({loading:true})
+        axios.get(`${urlsUtil.user.getCheckCode}?mobileNumber=${this.props.user.mobileNumber}`,{withCredentials: true});
+
+
 
         let timerKey = setInterval(() => {
 
@@ -254,7 +257,7 @@ export class UserPasswordOfUpdate extends React.Component {
         return (
             <Button
                 type={"primary"}
-                disabled={!verificationOfPass}/*{!this.buttonControl()}*/
+                disabled={false}/*{!verificationOfPass}*//*{!this.buttonControl()}*/
                 style={{width:'30%'}}
                 onClick={this.updatePassword}
                 loading={this.state.isLoading}
@@ -340,8 +343,8 @@ export class UserPasswordOfUpdate extends React.Component {
                 <Input.Group compact>
                     <div style={{width:'100%'}}>
                         验&nbsp;&nbsp;证&nbsp;&nbsp;码:&nbsp;&nbsp;
-                        <Input.Password
-                            id='oldPassword'
+                        <Input
+                            id='checkCode'
                             style={{ width: '50%' }}
                             placeholder={'请输入验证码'}
                             allowClear={false}
@@ -393,7 +396,7 @@ export class UserPasswordOfUpdate extends React.Component {
                     {this.state.tipMessage.confirmNewPasswordTip}
                 </Input.Group>
                 <br />
-                {this.returnUpdatePasswordButton()}
+                {this.returnUpdatePasswordButton(verificationOfPass)}
             </div>
         );
 

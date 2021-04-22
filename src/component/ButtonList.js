@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button} from "antd/es";
+import {Link} from "react-router-dom";
 
 /**
  * Button
@@ -20,19 +21,34 @@ export class ButtonList extends React.Component {
         this.returnButtons = this.returnButtons.bind(this);
     }
 
-    returnButtons(buttons) {
+    returnButtons(buttons,isBr) {
         if(buttons && buttons.length > 0) {
             return buttons.map((obj) => {
-                return <Button key={obj.content} ghost={obj.ghost} type={obj.type} onClick={obj.handleClick}>{obj.content}</Button>;
+                return (
+                    <div>
+                        <Button
+                            key={obj.content}
+                            ghost={obj.ghost}
+                            type={obj.type}
+                            onClick={obj.handleClick?obj.handleClick:null}
+                        >
+                            {
+                                obj.linkPath ? <Link to={obj.linkPath}>{obj.content}</Link>:obj.content
+                            }
+                        </Button>
+                        {isBr ? <br /> : null}
+                    </div>
+                );
             })
         }
         return null;
     }
 
     render() {
+        let {buttons, isBr} = this.props;
         return (
             <div>
-                {this.returnButtons(this.props.buttons)}
+                {this.returnButtons(buttons, isBr)}
             </div>
         );
     }

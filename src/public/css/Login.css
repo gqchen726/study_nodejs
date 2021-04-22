@@ -10,3 +10,10 @@
     max-width: content-box;
     min-width: 412px;
 }
+.necessity {
+    color:red;
+}
+body {
+    background-image:url('http://192.168.1.5:3039/login-background.png');
+    background-color: lightskyblue;
+}

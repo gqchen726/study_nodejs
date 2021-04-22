@@ -59,7 +59,7 @@ export class MyRouter extends React.Component {
      */
     accessControl = (component) => {
         let {user} = this.props;
-        return !user ? <Redirect to={'/home'} />:<PersonalCenterW user={this.props.user} />;
+        return !user ? <Redirect to={'/home'} />:component;
     }
 
     render() {

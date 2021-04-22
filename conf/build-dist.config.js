@@ -40,12 +40,12 @@ let buildDistConfig = {
             parallel: true,    //使用多进程并发运行
             terserOptions: {    //Terser 压缩配置
                 output:{comments: false},
-                compress: {
+                /*compress: {
                     warnings: false, // 删除警告
                     drop_debugger: true, // 删除调试
                     drop_console: true, // 删除console
                     pure_funcs: ['console.log'] // 删除console
-                }
+                }*/
             },
             extractComments: true,    //将注释剥离到单独的文件中
             sourceMap: true, // Must be set to true if using source-maps in production

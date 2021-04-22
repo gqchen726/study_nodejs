@@ -1,4 +1,7 @@
-const util = {
+import {Button, notification} from "antd/es";
+import React from "react";
+
+export const util = {
     autoSaveOfUser: (obj,id) => {
 
 
@@ -14,13 +17,41 @@ const util = {
             obj.rePassword = value;
         }
 
-        return user;
+        return obj;
     },
-    autoSaveOfUser: function () {
-        new Promise(() => {
+    returnMode: (user,isAdminSpecific,isEditMode,onClickHandler) => {
+        if (!isAdminSpecific) {
+            return (!user)?
+                null:<Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+        } else if (isAdminSpecific) {
+            return (!user || !user.admin === "admin")?
+                null:<Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+        }
+    },
+    tipMessage: (tipLabel,message) => {
+        notification.open({
+            message: tipLabel,
+            description: message
+        });
+    },
+    codeTable: (property) => {
+        let result;
+        if (property == "name") {
+            result = "昵称";
+        }
 
-        }).then(() => {
-
-        })
+        //     address: null
+        // admin: "true"
+        // age: null
+        // approval: null
+        // avatar: null
+        // birth: null
+        // email: "cgq786153492@gmail.com"
+        // mobileNumber: "15383642823"
+        // name: "yong"
+        // orders: []
+        // password: "@WSX3edc4r"
+        // registerCode: "PBfzCj"
+        // sex: null
     }
 }

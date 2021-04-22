@@ -1,7 +1,7 @@
 import React from 'react'
 import {CarouselMap} from "../contains/CarouselMap";
 import {Card} from "antd";
-import {Button, notification} from "antd/es";
+import {Button, Carousel, notification} from "antd/es";
 import PropTypes from 'prop-types'
 import {MyDescriptions} from "./MyDescriptions";
 import {
@@ -21,7 +21,14 @@ export class NewDataInfo extends React.Component {
         this.state = {
             isEditMode: true,
             isLoading: false,
-            newData: props.newData
+            newData: {
+                category: "产品分类",
+                description: "这是一条描述信息",
+                ex: "额外描述",
+                price: "价格",
+                productCode: "产品代码",
+                productName: "产品名字",
+            }
         }
     }
 
@@ -151,12 +158,13 @@ export class NewDataInfo extends React.Component {
                     <br />
                     <br />
                     <span>
-                        上传景区图片
+                        上传景区风景图片
                     </span>
                     <UpLoadFile
                         action={urlsUtil.image.upload}
                         getFileList={this.getFileList}
                         isEditMode={this.state.isEditMode}
+                        maxLength={8}
                     />
                 </div>
             );
@@ -177,6 +185,11 @@ export class NewDataInfo extends React.Component {
         if (!newData) {
             return null;
         }
+        const lunboSetting = {
+            dots: true,
+            lazyLoad: true,
+            autoplay:true,
+        };
         // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
         return (
             <div className='dataInfo'>
@@ -189,6 +202,13 @@ export class NewDataInfo extends React.Component {
                 >
                     {/*跑马灯*/}
                     {this.renderCarouselMap(isEditMode,newData)}
+
+                    {/*跑马灯*/}
+                    {/*<div className="home-lunbo">
+                        <Carousel {...lunboSetting} >
+                            {this.renderImages(data)}
+                        </Carousel>
+                    </div>*/}
 
                     <MyDescriptions
                         title={"产品信息"}

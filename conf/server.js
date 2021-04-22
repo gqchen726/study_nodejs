@@ -24,6 +24,8 @@ compiler.plugin('done', () => {
     if (isCompiled) {
         setTimeout( () => {
                 console.log('compiler done!');
+                console.log(`Opened Http://localhost:3031`);
+                console.log(`please open Http://localhost:3031`);
             },350
         )
     }

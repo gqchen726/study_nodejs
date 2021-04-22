@@ -49,16 +49,24 @@ export class GirdOfCard extends React.Component {
         if (!datas) return;
         let cardGirds = datas.map((data,index) => {
             let imgs = arrayUtils.split(data.resources,";");
+            let {productCode} = data;
             console.log(imgs)
             return (
                 <Card.Grid key={index} className={"GirdOfCard"} >
                     <Link to={{
-                        pathname: `/dataInfo/${index}`,
+                        pathname: `/dataInfo/${productCode}`,
                         // search: `/${index}`,
                     }}>
                         <Card
                             hoverable
-                            cover={<img width={261} height={327} alt="example" src={(!!imgs && imgs.length>0) ? `${urlsUtil.image.get}?file=${imgs[0]}` : "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"} />}
+                            cover={
+                                <img
+                                    width={261}
+                                    height={327}
+                                    alt="example"
+                                    src={(!!imgs && imgs.length>0) ? `${urlsUtil.image.get}?file=${imgs[0]}` : "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"}
+                                />
+                            }
                         >
                             <Meta title={data.productName} description={data.productCode} />
                         </Card>

@@ -11,7 +11,7 @@ import {CarouselMap} from "./CarouselMap";
 import {withRouter} from "react-router";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-
+import {util} from "../common/Util";
 
 class PersonalCenter extends React.Component {
     constructor(props) {
@@ -19,8 +19,10 @@ class PersonalCenter extends React.Component {
         this.state = {
             isEditMode: false,
             isLoading: false,
+            user: props.user
         }
     }
+
 
     onClickHandler = () => {
         let {isEditMode} = this.state;
@@ -43,17 +45,10 @@ class PersonalCenter extends React.Component {
                         user : responseBody.body,
                     })
                 } else {
-                    notification.open({
-                        message: 'save info tips',
-                        description: responseBody.message
-                    });
+                    util.tipMessage('save info tips',responseBody.message)
                 }
             }).catch((error) => {
-                console.log(error)
-                notification.open({
-                    message: 'save info tips',
-                    description: error.toString()
-                });
+                util.tipMessage('save info tips',error.toString())
             })
             this.setState({
                 isLoading: false
@@ -111,7 +106,7 @@ class PersonalCenter extends React.Component {
     }
 
     render() {
-        let {user} = this.props;
+        let {user} = this.state;
         let {isEditMode} = this.state;
         let {isLoading} = this.state;
         return this.renderDescs(user,isEditMode,isLoading);

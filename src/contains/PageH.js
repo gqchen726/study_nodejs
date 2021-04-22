@@ -1,34 +1,32 @@
 import {
-    AppstoreOutlined,
     BarChartOutlined,
     CloudOutlined,
-    ShopOutlined,
-    TeamOutlined,
     UserOutlined,
     UploadOutlined,
-    VideoCameraOutlined,
     HomeOutlined,
     BarsOutlined,
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
 } from '@ant-design/icons';
-import Switch from "antd/es/switch";
 import SubMenu from "antd/es/menu/SubMenu";
 import {UserStateBar} from "./UserStateBar";
-import {Prompt, Route} from "react-router";
 import {HashRouter, Link, BrowserRouter} from "react-router-dom";
 import {MyRouter} from "./MyRouter";
 import React from "react";
-import { Layout, Menu } from 'antd';
-import './../public/css/Page.css'
-import {Button, message} from "antd/es";
-import history from "../common/history";
+import { Layout, /*Menu*/ } from 'antd';
+import './../public/css/PageH.css'
 import {MyPrompt} from "../component/MyPrompt";
-import {MyRouterWithHook} from "./MyRouterWithHook";
-import {SimpleLogin} from "./SimpleLogin";
-import {LoginPage} from "./LoginPage";
-
-
+import {Content, Footer, /*Header*/} from "antd/es/layout/layout";
+import axios from "axios";
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import { Power, User} from "grommet-icons";
+import {
+    Anchor,
+    Box,
+    Header,
+    Nav,
+    Menu,
+    ResponsiveContext,
+} from 'grommet';
+import {Grommet as GrommetIcon, Menu as MenuIcon } from 'grommet-icons';
 //创建context,定义一个全局变量
 const ThemeContext = React.createContext("light");
 export class PageH extends React.Component {
@@ -40,9 +38,23 @@ export class PageH extends React.Component {
             lightTheme: true,
             user:props.user,
             keywords:null,
-            collapsed: false
+            collapsed: false,
+            menuItems: [
+                {
+                    label: "init1"
+                },
+                {
+                    label: "init2"
+                },
+
+            ],
+            fontStyle: {fontSize:"18px",fontWeight:600}
         };
 
+    }
+
+    componentWillMount() {
+        this.renderMenuItems1();
     }
 
 
@@ -83,9 +95,224 @@ export class PageH extends React.Component {
         );
     }
 
-    renderLayout = () => {
-        let {lineMode, lightTheme, collapsed} = this.state;
-        const { Header, Content, Footer, Sider } = Layout;
+    renderMenuItems = () => {
+        axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
+            let data = response.data;
+            let menuItems = null;
+            console.log(data.body)
+            if (data.code) {
+                menuItems = data.body.map((value,index) => {
+                    return (
+                        <Menu.Item
+                            style={{width:110}}
+                            key={index}
+                        >
+                            <Link
+                                to={`/searchResult/${value}`}
+                            >
+                                {value}
+                            </Link>
+                        </Menu.Item>
+                    );
+                })
+                console.log(menuItems)
+            }
+            let oldMenuItems = this.state.menuItems;
+            if (oldMenuItems != menuItems) {
+                this.state.menuItems = menuItems;
+            }
+        })
+    }
+    renderMenuItems1 = () => {
+        const {fontStyle} = this.state;
+        axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
+            let data = response.data;
+            let menuItems = null;
+            console.log(data.body)
+            if (data.code) {
+                menuItems = data.body.map((value,index) => {
+                    return (
+                        {
+                            label: <span style={fontStyle}>{value}</span>,
+                            href: `/#/searchResult/${value}`,
+                        }
+                    );
+                })
+            }
+            let oldMenuItems = this.state.menuItems;
+            if (oldMenuItems != menuItems) {
+                this.setState({
+                    menuItems: menuItems
+                });
+            }
+        })
+    }
+    renderMenuItems2 = () => {
+        axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
+            let data = response.data;
+            let menuItems = null;
+            console.log(data.body)
+            if (data.code) {
+                menuItems = data.body.map((value,index) => {
+                    return (
+                        <Anchor
+                            href={`/searchResult/${value}`}
+                            label={value}
+                        />
+                    );
+                })
+            }
+            return menuItems;
+        })
+    }
+
+
+
+
+    renderLayout2 = () => {
+        let {menuItems} = this.state;
+        console.log(menuItems)
+        let {user} = this.props;
+        const { Header, Content, Footer} = Layout;
+        const {fontStyle} = this.state;
+        return (
+            <Layout className="layout"
+            >
+                <Header background="light-4" pad="small">
+                    {/*<Avatar src={gravatarLink} />*/}
+                    <Nav direction="row">
+                        <Anchor label={<span style={fontStyle}>首页</span>} href="/#/home" />
+
+                        {/*<ResponsiveContext.Consumer>*/}
+                        {/*    <Box justify="end" direction="row" gap="medium">*/}
+                        {/*        {this.renderMenuItems2}*/}
+                        {/*    </Box>*/}
+                        {/*</ResponsiveContext.Consumer>*/}
+                        {/*<Menu
+                            a11yTitle="Navigation Menu"
+                            dropProps={{ align: { top: 'bottom', right: 'right' } }}
+                            icon={<MenuIcon color="brand" />}
+                            items={menuItems}
+                        />*/}
+                        <Menu
+                            dropProps={{
+                                align: { top: 'bottom', left: 'left' },
+                                elevation: 'xlarge',
+                            }}
+                            label={<span style={fontStyle}>景区分类</span>}
+                            // icon={<MenuIcon color="brand" />}
+                            items={menuItems}
+                        />
+                        <Anchor label={<span style={fontStyle}>个人中心</span>} href="/#/personalCenter" />
+                        <Anchor label={<span style={fontStyle}>我的订单</span>} href="/#/myOrders" />
+                        <Anchor label={<span style={fontStyle}>我的收藏</span>} href="/#/myCollections" />
+                        <Anchor label={<span style={fontStyle}>浏览历史</span>} href="/#/browsingHistory" />
+                        {
+                            !!user && user.admin ?
+                                <Anchor label={<span style={fontStyle}>新增产品</span>} href="/addProduct" /> : null
+                        }
+                    </Nav>
+                </Header>
+                {/*<Header background="dark-1" pad="medium">
+                    <Box align="center" pad="small" direction={"row"}>
+                        <Link to={'/home'}>首页</Link>
+                        <Link to={'/personalCenter'}>个人中心</Link>
+                    </Box>
+                    <ResponsiveContext.Consumer>
+                        {responsive =>
+                            responsive === 'small' ? (
+                                <Menu
+                                    label="Click me"
+                                    items={[
+                                        { label: 'This is', onClick: () => {} },
+                                        { label: 'The Menu', onClick: () => {} },
+                                        { label: 'Component', onClick: () => {} },
+                                    ]}
+                                />
+                            ) : (
+                                <Nav direction="row">
+                                    <Anchor href="#" label="This is" />
+                                    <Anchor href="#" label="The Nav" />
+                                    <Anchor href="#" label="Component" />
+                                </Nav>
+                            )
+                        }
+                    </ResponsiveContext.Consumer>
+                </Header>*/}
+                {/*<UserStateBar user={this.state.user} getUser={this.getUser} />*/}
+                <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
+                    <div className="site-layout-content">
+                        {
+                            this.renderRoutes() ? this.renderRoutes():null
+                        }
+                    </div>
+                </Content>
+                <Footer style={{textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>
+            </Layout>
+        );
+    }
+    renderLayout3 = () => {
+        let {menuItems} = this.state;
+        let {user} = this.props;
+        const { Header, Content, Footer} = Layout;
+        return (
+            <Layout className="layout"
+            >
+                <Header background="light-4" pad="medium" height="xsmall">
+                    <Anchor
+                        href="https://tools.grommet.io/"
+                        icon={<GrommetIcon color="brand" />}
+                        label="Grommet Tools"
+                    />
+                    <ResponsiveContext.Consumer>
+                        {size =>
+                            size === 'small' ? (
+                                <Box justify="end">
+                                    <Menu
+                                        a11yTitle="Navigation Menu"
+                                        dropProps={{ align: { top: 'bottom', right: 'right' } }}
+                                        icon={<MenuIcon color="brand" />}
+                                        items={[
+                                            {
+                                                label: <Box pad="small">Grommet.io</Box>,
+                                                href: 'https://v2.grommet.io/',
+                                            },
+                                            {
+                                                label: <Box pad="small">Feedback</Box>,
+                                                href: 'https://github.com/grommet/grommet/issues',
+                                            },
+                                        ]}
+                                    />
+                                </Box>
+                            ) : (
+                                <Box justify="end" direction="row" gap="medium">
+                                    <Anchor href="https://v2.grommet.io/" label="Grommet.io" />
+                                    <Anchor
+                                        href="https://github.com/grommet/grommet/issues"
+                                        label="Feedback"
+                                    />
+                                </Box>
+                            )
+                        }
+                    </ResponsiveContext.Consumer>
+                </Header>
+
+                <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
+                    <div className="site-layout-content">
+                        {
+                            this.renderRoutes() ? this.renderRoutes():null
+                        }
+                    </div>
+                </Content>
+                <Footer style={{textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>
+            </Layout>
+        );
+    }
+
+    renderLayout4 = () => {
+        let {lineMode, lightTheme, collapsed, menuItems} = this.state;
+        let {user} = this.props;
+        const { Header, Content, Footer, Sider,} = Layout;
         let rules = [];
         return (
             <Layout className={'Page'}>
@@ -102,57 +329,25 @@ export class PageH extends React.Component {
                     collapsed={collapsed}
                 >
                     <div className="logo"/>
-                    <div className={'modeControl'}>
-                        <Switch onChange={this.changeMode} />更换菜单样式
-                        <br />
-                        <Button type="primary" onClick={this.changeState} style={{ marginBottom: 16 }}>
-                            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
-                            {!collapsed ? "缩起菜单":null}
-                        </Button>
-                    </div>
 
-                    <Menu
-                        mode={!lineMode ? 'vertical' : 'inline'}
-                        theme='light'
-                        defaultSelectedKeys={['1']}
-                        inlineCollapsed={collapsed}
-                    >
-                        <Menu.Item key="sub0" title="首页" icon={<HomeOutlined />}>
-                            <Link to={'/home'}>首页</Link>
-                        </Menu.Item>
-                        <SubMenu key="sub1" title="景区查看" icon={<BarsOutlined />}>
-                            <Menu.Item key="5">大同古城墙</Menu.Item>
-                            <Menu.Item key="6">华严寺</Menu.Item>
-                            <Menu.Item key="7">善化寺</Menu.Item>
-
-                        </SubMenu>
-
-
-                        <Menu.Item key="sub2" title="个人中心" icon={<UserOutlined/>}>
-                            <Link to={'/personalCenter'}>个人中心</Link>
-                        </Menu.Item>
-
-                        <Menu.Item key="sub3" title="我的订单" icon={<UploadOutlined/>}>
-                            <Link to={'/myOrder'}>我的订单</Link>
-                        </Menu.Item>
-
-                        <Menu.Item key="sub4" title="我的收藏" icon={<BarChartOutlined/>}>
-                            <Link to={'/myCollections'}>我的收藏</Link>
-                        </Menu.Item>
-
-                        <Menu.Item key="sub5" title="浏览历史" icon={<CloudOutlined/>}>
-                            <Link to={'/browsingHistory'}>浏览历史</Link>
-                        </Menu.Item>
-
-                    </Menu>
+                    <Box align="center" pad="large">
+                        <Link to={'/home'}>首页</Link>
+                    </Box>
+                    {/*<Box align="center" pad="large">
+                        <Menu
+                            dropProps={{ align: { top: 'bottom', left: 'left' } }}
+                            label="actions"
+                            items={menuItems}
+                        />
+                    </Box>*/}
+                    <Box align="center" pad="large">
+                        <Link to={'/personalCenter'}>个人中心</Link>
+                    </Box>
 
                 </Sider>
                 <Layout className="site-layout"
                 >
-                    {/*<Header className="site-layout-background" style={{padding: 0}}>*/}
-                    {/*    <StateBar user={this.state.user} getUser={this.getUser} />*/}
-                    {/*</Header>*/}
-                    <UserStateBar user={this.state.user} getUser={this.getUser} />
+                    <UserStateBar user={this.props.user} getUser={this.getUser}/>
                     <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
                         {
                             this.renderRoutes() ? this.renderRoutes():null
@@ -165,21 +360,13 @@ export class PageH extends React.Component {
     }
 
     render () {
-        let {lineMode, lightTheme, collapsed} = this.state;
-        const { Header, Content, Footer, Sider } = Layout;
-        let rules = [];
         return (
             <HashRouter>
                 {/*路由拦截*/}
                 <MyPrompt
                     user={this.props.user}
                 />
-                <Route exact path={'/'}>
-                    {this.renderLayout()}
-                </Route>
-                <Route exact path={'/login'}>
-                    <LoginPage getUser={this.props.getUser} />
-                </Route>
+                {this.renderLayout2()}
             </HashRouter>
         )
     }

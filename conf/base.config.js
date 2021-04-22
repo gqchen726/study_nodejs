@@ -8,6 +8,7 @@ let baseConfig = {
     output: {
         path: path.join(__dirname,'./../dist'),
         filename: '[name].bundle.js',
+        //publicPath: path.join(__dirname,'./../dist')
     },
     plugins: [
         /**
@@ -31,29 +32,29 @@ let baseConfig = {
         /**
          * 缓存加速二次构建速度
          */
-        // new HardSourceWebpackPlugin({
-        //     cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
-        //     configHash: function (webpackConfig) {
-        //         // node-object-hash on npm can be used to build this.
-        //         return require('node-object-hash')({ sort: false }).hash(webpackConfig);
-        //     },
-        //     environmentHash: {
-        //         root: process.cwd(),
-        //         directories: [],
-        //         files: ['package-lock.json', 'yarn.lock'],
-        //     },
-        //     info: {
-        //         // 'none' or 'test'.
-        //         mode: 'none',
-        //         // 'debug', 'log', 'info', 'warn', or 'error'.
-        //         level: 'debug',
-        //     },
-        //     cachePrune: {
-        //         maxAge: 2 * 24 * 60 * 60 * 1000,
-        //         sizeThreshold: 50 * 1024 * 1024
-        //     },
-        //     // test: /mini-css-extract-plugin[\\/]dist[\\/]loader/
-        // }),
+        new HardSourceWebpackPlugin({
+            cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
+            configHash: function (webpackConfig) {
+                // node-object-hash on npm can be used to build this.
+                return require('node-object-hash')({ sort: false }).hash(webpackConfig);
+            },
+            environmentHash: {
+                root: process.cwd(),
+                directories: [],
+                files: ['package-lock.json', 'yarn.lock'],
+            },
+            info: {
+                // 'none' or 'test'.
+                mode: 'none',
+                // 'debug', 'log', 'info', 'warn', or 'error'.
+                level: 'debug',
+            },
+            cachePrune: {
+                maxAge: 2 * 24 * 60 * 60 * 1000,
+                sizeThreshold: 50 * 1024 * 1024
+            },
+            // test: /mini-css-extract-plugin[\\/]dist[\\/]loader/
+        }),
         // new HappyPack({
         //     id: 'jsx',
         //     loaders: ['babel-loader?cacheDirectory=true']
@@ -87,6 +88,9 @@ let baseConfig = {
                     // {loader: 'style-loader'},
                     {
                         loader:MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: path.join(__dirname,'./../dist')/*"./../"*/
+                        }
                     },
                     {loader: 'css-loader'},
                     {loader: 'less-loader'},
@@ -95,17 +99,16 @@ let baseConfig = {
                 ],
                 exclude: path.join(__dirname, './../node_modules')
             },
-            {
-                test: /\.(png|jpg|gif|svg|jpeg)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 1000 * 100
-                        }
+            { test: /\.(jpg|png|gif|bmp|jpeg)$/,//正则表达式匹配图片规则
+                use: [{
+                    loader:'url-loader',
+                    options: {
+                        limit: 1024,
+                        name: '[hash:10].[ext]',
+                        outputPath: path.join(__dirname,'./../dist/public'),
+                        publicPath: path.join(__dirname,'./../dist/public')
                     }
-                ],
-                exclude: path.join(__dirname, './../node_modules')
+                }]
             },
 
         ]

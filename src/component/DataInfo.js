@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import Image from "antd/es/image";
+import {selectOneProduct} from "../utils/SelectAnProductFromCode";
 
 
 const localContext = require('../cache/LocalContext');
@@ -23,10 +24,32 @@ export class DataInfo extends React.Component {
     }
 
     componentWillMount() {
-        let {datas} = this.props;
-        let {key} = this.props.match.params
-        let data = datas[key];
-        this.state.product = data;
+        // try {
+        //     let {datas} = this.props;
+        //     let {key} = this.props.match.params
+        //     let data = datas[key];
+        //     this.state.product = data;
+        // } catch (error) {
+        //     // let productCode = this.props.match.params.key
+        //     // axios.get(`${urlsUtil.product.searchFromCode}?id=${productCode}`).then(
+        //     //     (response) => {
+        //     //         let product = response.data.body;
+        //     //         this.setState({
+        //     //             product: product
+        //     //         })
+        //     //     }
+        //     // )
+        //
+        // }
+        let productCode = this.props.match.params.key
+        selectOneProduct(productCode).then(
+            (response) => {
+                let product = response.data.body;
+                this.setState({
+                    product: product
+                })
+            }
+        );
     }
 
     onClickHandler = () => {
@@ -151,15 +174,23 @@ export class DataInfo extends React.Component {
 
     render() {
 
-        let {datas} = this.props;
-        let {key} = this.props.match.params
-        let data = datas[key];
-        let {user} = this.props;
+        let {datas, user} = this.props;
+        let data;
+        // let {key} = this.props.match.params
+        // data = datas[key];
         let isAdminSpecific = true;
-        let {isEditMode} = this.state;
+        let {isEditMode, product} = this.state;
+
+        console.log(data)
+        console.log(product)
 
         if (!data) {
-            return null;
+            data = product;
+        }
+        if (!data) {
+            return <div>
+                data is null;
+            </div>
         }
         const lunboSetting = {
             dots: true,
@@ -171,7 +202,7 @@ export class DataInfo extends React.Component {
             <div className='dataInfo'>
                 {/*数据详情信息展示面板*/}
                 <Card
-                    title={data.name}
+                    title={data.name ? data.name:data.productName}
                     extra={
                         this.returnMode(user,isAdminSpecific,isEditMode)
                     }
@@ -212,7 +243,7 @@ export class DataInfo extends React.Component {
                         <span
                             style={{font:{size:'11px'}}}
                         >
-                            <Link to={`/orderGenerate/${key}`} >购买</Link>
+                            <Link to={`/orderGenerate/${data.productCode}`} >购买</Link>
                         </span>
                     </Button>
                 </Card>

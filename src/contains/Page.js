@@ -155,7 +155,7 @@ export class Page extends React.Component {
                         {/*<Header className="site-layout-background" style={{padding: 0}}>*/}
                         {/*    <StateBar user={this.state.user} getUser={this.getUser} />*/}
                         {/*</Header>*/}
-                        <UserStateBar user={this.state.user} getUser={this.getUser} />
+                        <UserStateBar user={this.state.user} getUser={this.getUser} mode={"Icon"}/>
                         <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
                             {
                                 this.renderRoutes() ? this.renderRoutes():null
