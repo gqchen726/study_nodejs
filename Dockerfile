@@ -7,5 +7,6 @@ COPY src ./src
 RUN npm run build:package
 
 FROM nginx:alpine
-COPY --from=dist /app/dist /usr/share/nginx/html
-CMD ["nginx"]
+COPY --from=build /app/dist /usr/share/nginx/html
+WORKDIR /usr/sbin
+CMD /bin/sh -c 'nginx -g "daemon off"'
