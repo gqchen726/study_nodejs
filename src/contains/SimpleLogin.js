@@ -549,7 +549,9 @@ export class SimLogin extends React.Component {
         }
 
         if (this.state.isRegisterCard === true) {
-            if ((!user.mobileNumber || !user.password || !user.rePassword || !user.checkCode || !user.name || !user.email)) {
+            if ((user.mobileNumber && user.password && user.rePassword && user.checkCode && user.name && user.email)) {
+                verificationOfPass = true;
+            } else {
                 verificationOfPass = false;
             }
         }
