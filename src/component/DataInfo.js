@@ -284,7 +284,12 @@ export class DataInfo extends React.Component {
                         <span
                             style={{font:{size:'11px'}}}
                         >
-                            <Link to={`/orderGenerate/${data.productCode}`} >购买</Link>
+                            {
+                                user.admin ?
+                                    null
+                                     :
+                                    <Link to={`/orderGenerate/${data.productCode}`} >购买</Link>
+                            }
                         </span>
                     </Button>
                 </Card>
