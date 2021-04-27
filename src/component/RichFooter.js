@@ -59,7 +59,7 @@ export class RichFooter extends React.Component{
 
     render() {
         let {favorite, open} = this.state;
-        let {product} = this.state;
+        let {product} = this.props;
         const Icon = open ? FormUp : FormDown;
         return (
             <Grommet theme={theme}>
@@ -68,7 +68,7 @@ export class RichFooter extends React.Component{
                         <CardBody height="small">
                             <Image
                                 fit="cover"
-                                src={product.resources.length>0 ? `${urlsUtil.image.get}?file=${product.resources[0]}`:null}
+                                src={product.resources ? `${urlsUtil.image.get}?file=${product.resources[0]}`:null}
                                 a11yTitle="bridge"
                             />
                         </CardBody>
@@ -91,7 +91,7 @@ export class RichFooter extends React.Component{
                                 />
                                 <Button icon={<ShareOption color="plain" />} hoverIndicator />
                                 <Anchor
-                                    href={`/dataInfo/${product.productCode}`}
+                                    href={`/#/dataInfo/${product.productCode}`}
                                     label="See More"
                                 />
                             </Box>
