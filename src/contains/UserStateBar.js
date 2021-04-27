@@ -8,6 +8,8 @@ import {ButtonList} from "../component/ButtonList";
 import {SimpleLogin} from "./SimpleLogin";
 const localContext = require('../cache/LocalContext');
 import PropTypes from "prop-types"
+import "./../public/css/UseStatusBar.css"
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 export class UserStateBar extends React.Component {
 
     constructor(props) {
@@ -73,7 +75,7 @@ export class UserStateBar extends React.Component {
     returnLoginConversationBox = () => {
         return (
             <Modal
-                title= "Modal"
+                title= "用户面板"
                 visible= {this.state.visible}
                 onOk= {this.hideModal}
                 onCancel= {this.hideModal}
@@ -138,7 +140,7 @@ export class UserStateBar extends React.Component {
             pageHeader = (
                 <div>
                     <PageHeader
-                        avatar={{ src: 'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
+                        avatar={{ src: user.avatar? `${urlsUtil.image.get}?file=${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
                         ghost={false}
                         // onBack={() => window.history.back()}
                         // title={!isLogin ? '请登录':user.name.value}

@@ -18,26 +18,23 @@ import {Link} from "react-router-dom";
 export class ButtonList extends React.Component {
     constructor(props) {
         super(props);
-        this.returnButtons = this.returnButtons.bind(this);
     }
 
-    returnButtons(buttons,isBr) {
+
+    returnButtons = (buttons,isBr) => {
         if(buttons && buttons.length > 0) {
-            return buttons.map((obj) => {
+            return buttons.map((obj,index) => {
                 return (
-                    <div>
-                        <Button
-                            key={obj.content}
-                            ghost={obj.ghost}
-                            type={obj.type}
-                            onClick={obj.handleClick?obj.handleClick:null}
-                        >
-                            {
-                                obj.linkPath ? <Link to={obj.linkPath}>{obj.content}</Link>:obj.content
-                            }
-                        </Button>
-                        {isBr ? <br /> : null}
-                    </div>
+                    <Button
+                        key={obj.content}
+                        ghost={obj.ghost}
+                        type={obj.type}
+                        onClick={obj.handleClick?obj.handleClick:null}
+                    >
+                        {
+                            obj.linkPath ? <Link to={obj.linkPath}>{obj.content}</Link>:obj.content
+                        }
+                    </Button>
                 );
             })
         }

@@ -8,6 +8,7 @@ import {Page} from "./Page";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {useHistory, withRouter} from "react-router";
 import {Link} from "react-router-dom";
+import {util} from "../common/Util";
 export class SimLogin extends React.Component {
 
     constructor(props) {
@@ -29,6 +30,9 @@ export class SimLogin extends React.Component {
             getUser: props.getUser,
             logonCredentials: null,
             loading: false,
+            loadingForCheckCode: false,
+            loadingForLogin: false,
+            loadingForRegister: false,
             loadingCount: null,
             getCheckCodeButtonContent: '获取验证码',
             rememberMe: false,
@@ -46,7 +50,7 @@ export class SimLogin extends React.Component {
         // 清除用户登录凭证
         localContext.remove('user');
         this.setState({
-            loading: true,
+            loadingForLogin: true,
         })
         let {user} = this.state;
 
@@ -56,9 +60,9 @@ export class SimLogin extends React.Component {
                  let data = response.data;
                  let result;
                  this.setState({
-                     loading: false,
+                     loadingForLogin: false,
                  })
-                 if (data.code == 0) {
+                 if (data.code == "0") {
                      console.log("success")
 
                      result = {
@@ -105,7 +109,7 @@ export class SimLogin extends React.Component {
             .catch(
                 (error) => {
                     this.setState({
-                        loading: false,
+                        loadingForLogin: false,
                     })
                     console.log(error)
                     notification.open({
@@ -189,7 +193,7 @@ export class SimLogin extends React.Component {
      */
     register = () => {
         this.setState({
-            loading: true,
+            loadingForRegister: true,
         })
         let {user} = this.state;
         let result = null;
@@ -198,20 +202,9 @@ export class SimLogin extends React.Component {
              (response) => {
                  let data = response.data;
                 this.setState({
-                    loading: false,
+                    loadingForRegister: false,
                 })
-                if(!data.code) {
-                    result = {
-                        stateMsg: 'registerFailed',
-                        result:(
-                            <div className="Home-Login">
-                                {/*<br />*/}
-                                {data.message}
-                            </div>
-                        )
-                    };
-
-                } else {
+                if(data.code == 0) {
                     result = {
                         stateMsg: 'registerSuccess',
                         result:(
@@ -223,13 +216,30 @@ export class SimLogin extends React.Component {
                     };
                     //PageN专属,PageH需注释掉
                     result = data.body;
+                    this.props.getUser(this,result);
+
+                } else {
+                    result = {
+                        stateMsg: 'registerFailed',
+                        result:(
+                            <div className="Home-Login">
+                                {/*<br />*/}
+                                {data.message}
+                            </div>
+                        )
+                    };
                 }
-                 notification.open({
-                     message: 'register tips',
-                     description: data.message
-                 });
-                 this.props.getUser(this,result);
+                 util.tipMessage('Register Tips',data.message)
+
             })
+            .catch(
+                (error) => {
+                    this.setState({
+                        loadingForRegister: false,
+                    })
+                    console.log(error)
+                    util.tipMessage('Register Tips','网络异常')
+                });
     }
 
     /**
@@ -241,6 +251,9 @@ export class SimLogin extends React.Component {
         this.setState({
             [type] : key,
             loading: false,
+            loadingForCheckCode: false,
+            loadingForLogin: false,
+            loadingForRegister: false,
             loadingCount: null,
             getCheckCodeButtonContent: '获取验证码',
             rememberMe: false,
@@ -256,8 +269,14 @@ export class SimLogin extends React.Component {
     getCheckCode = () => {
         let loadingCount = 60;
         let getCheckCodeButtonContent;
-        this.setState({loading:true})
 
+        let {user} = this.state;
+        if (!user.email) {
+            util.tipMessage("验证码提示","请输入邮箱地址后重试");
+            return;
+        }
+        util.sendCheckCode(user.email);
+        this.setState({loadingForCheckCode:true})
         let timerKey = setInterval(() => {
 
             if (loadingCount > 0) {
@@ -269,7 +288,7 @@ export class SimLogin extends React.Component {
         },1000);
         this.setState({timerKey:timerKey})
         setTimeout(() => {
-            this.setState({loading:false,getCheckCodeButtonContent:'重新获取验证码'});
+            this.setState({loadingForCheckCode:false,getCheckCodeButtonContent:'重新获取验证码'});
             clearInterval(this.state.timerKey)
         },60*1000)
     }
@@ -284,7 +303,7 @@ export class SimLogin extends React.Component {
         let {user} = this.state;
 
 
-        if(id === "name") {
+        /*if(id === "name") {
             user.name = value;
         } else if(id === "mobileNumber") {
             user.mobileNumber = value;
@@ -296,8 +315,48 @@ export class SimLogin extends React.Component {
             user.rePassword = value;
         } else if(id === "email") {
             user.email = value;
+        } else if(id === "registerCode") {
+            user.registerCode = value;
+        }*/
+
+        switch (id) {
+            case "name" : {
+                user.name = value;
+                this.verificationOfTextContentValidity(id,value);
+                return;
+            }
+            case "mobileNumber" : {
+                user.mobileNumber = value;
+                this.verificationOfTextContentValidity(id,value);
+                return;
+            }
+            case "checkCode" : {
+                user.checkCode = value;
+                this.verificationOfTextContentValidity(id,value);
+                return;
+            }
+            case "password" : {
+                user.password = value;
+                this.verificationOfTextContentValidity(id,value);
+                return;
+            }
+            case "rePassword" : {
+                user.rePassword = value;
+                this.verificationOfTextContentValidity(id,value);
+                return;
+            }
+            case "email" : {
+                user.email = value;
+                this.verificationOfTextContentValidity(id,value);
+                return;
+            }
+            case "registerCode" : {
+                user.registerCode = value;
+                return;
+            }
+
         }
-        this.verificationOfTextContentValidity(id,value);
+        // this.verificationOfTextContentValidity(id,value);
 
         // if (!!user.name) {
         //     this.verificationOfTextContentValidity("name",user.name);
@@ -529,6 +588,9 @@ export class SimLogin extends React.Component {
             },
             tipMessage: {},
             loading: false,
+            loadingForCheckCode: false,
+            loadingForLogin: false,
+            loadingForRegister: false,
             loadingCount: null,
             getCheckCodeButtonContent: '获取验证码',
             rememberMe: false,
@@ -555,7 +617,7 @@ export class SimLogin extends React.Component {
                 disabled={!verificationOfPass}
                 style={{width:'30%'}}
                 onClick={this.login}
-                loading={this.state.loading}
+                loading={this.state.loadingForLogin}
             >
                 登陆
                 {/*<Link to={`/`} onClick={this.login} >登陆</Link>*/}
@@ -641,18 +703,27 @@ export class SimLogin extends React.Component {
             <div style={{width:'100%'}}>
                 <Input.Group compact>
                    <div style={{width:'100%'}}>
-                       手机号码:&nbsp;&nbsp;
-                       <Tooltip placement={'top'} title={'请输入正确的的11位手机号码'}>
-                           <Input id='mobileNumber'
+                       邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:&nbsp;&nbsp;
+                       <Tooltip placement={'top'} title={'请输入您的邮箱地址'}>
+                           <Input id='email'
                                   style={{ width: '50%' }}
-                                  placeholder={'请输入您的手机号码'}
+                                  placeholder={'请输入您的邮箱地址'}
                                   allowClear={false}
-                                  maxLength={11}
+                                  maxLength={32}
                                   onChangeCapture={this.autoSave}
                            />
                        </Tooltip>
                        <Tooltip placement={'top'} title={'获取验证码'}>
-                           <Button style={{width:'30%'}} loading={this.state.loading} type={"primary"} onClick={this.getCheckCode}><span style={{font:{size:'11px'}}}>{this.state.getCheckCodeButtonContent}</span></Button>
+                           <Button
+                               style={{width:'30%'}}
+                               loading={this.state.loadingForCheckCode}
+                               type={"primary"}
+                               onClick={this.getCheckCode}
+                           >
+                               <span style={{font:{size:'11px'}}}>
+                                   {this.state.getCheckCodeButtonContent}
+                               </span>
+                           </Button>
                        </Tooltip>
                    </div>
 
@@ -694,7 +765,14 @@ export class SimLogin extends React.Component {
                 onTabChange={key => {
                     this.onTabChange(key, 'key');
                 }}
-                extra={<Button type={"primary"} onClick={this.cardStateSwitch} >{this.state.isRegisterCard ? "登陆":"注册"}</Button>}
+                extra={
+                    <Button
+                        type={"primary"}
+                        onClick={this.cardStateSwitch}
+                    >
+                        {this.state.isRegisterCard ? "登陆":"注册"}
+                    </Button>
+                }
             >
                 {cardContentList[key]}
             </Card>
@@ -754,7 +832,18 @@ export class SimLogin extends React.Component {
                                 />
 
                                 <Tooltip placement={'top'} title={'获取验证码'}>
-                                    <Button style={{width:'30%'}} type={"primary"} loading={this.state.loading} onClick={this.getCheckCode}><span style={{font:{size:'11px'}}}>{this.state.getCheckCodeButtonContent}</span></Button>
+                                    <Button
+                                        style={{width:'30%'}}
+                                        type={"primary"}
+                                        loading={this.state.loadingForCheckCode}
+                                        onClick={this.getCheckCode}
+                                    >
+                                        <span
+                                            style={{font:{size:'11px'}}}
+                                        >
+                                            {this.state.getCheckCodeButtonContent}
+                                        </span>
+                                    </Button>
                                 </Tooltip>
                             </span>
                         </div>
@@ -805,9 +894,30 @@ export class SimLogin extends React.Component {
                                 onChangeCapture={this.autoSave}
                             />
                         </div>
+                        <br />
+                        <br />
+                        <div style={{width:'100%'}}>
+                            &nbsp;注&nbsp;&nbsp;册&nbsp;&nbsp;码:&nbsp;&nbsp;
+                            <Input.Password
+                                id='registerCode'
+                                style={{ width: '80%' }}
+                                placeholder={'请输入注册码(选填)'}
+                                allowClear={false}
+                                maxLength={8}
+                                onChangeCapture={this.autoSave}
+                            />
+                        </div>
                     </Input.Group>
                     <br />
-                    <Button type={"primary"} disabled={!verificationOfPass} style={{width:'30%'}} loading={this.state.loading} onClick={this.register}>注册</Button>
+                    <Button
+                        type={"primary"}
+                        disabled={!verificationOfPass}
+                        style={{width:'30%'}}
+                        loading={this.state.loadingForRegister}
+                        onClick={this.register}
+                    >
+                        注册
+                    </Button>
                 </div>
             </Card>
 
@@ -828,7 +938,7 @@ export class SimLogin extends React.Component {
             currentCard = customerRegisterCard;
         }
         return (
-            <div className="Home-Login"  style={{ width: '100%' }}>
+            <div className="Home-Login" style={{ width: '100%' }}>
                 {currentCard}
             </div>
         );

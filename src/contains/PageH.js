@@ -100,7 +100,7 @@ export class PageH extends React.Component {
             let data = response.data;
             let menuItems = null;
             console.log(data.body)
-            if (data.code) {
+            if (data.code == 0) {
                 menuItems = data.body.map((value,index) => {
                     return (
                         <Menu.Item
@@ -129,7 +129,7 @@ export class PageH extends React.Component {
             let data = response.data;
             let menuItems = null;
             console.log(data.body)
-            if (data.code) {
+            if (data.code == 0) {
                 menuItems = data.body.map((value,index) => {
                     return (
                         {
@@ -152,7 +152,7 @@ export class PageH extends React.Component {
             let data = response.data;
             let menuItems = null;
             console.log(data.body)
-            if (data.code) {
+            if (data.code == 0) {
                 menuItems = data.body.map((value,index) => {
                     return (
                         <Anchor

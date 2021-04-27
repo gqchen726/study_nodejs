@@ -11,9 +11,14 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = ({
-            user: localContext.get('user'),
+            user: localContext.has('user') ?localContext.get("user"):null,
         });
     }
+
+    componentWillMount() {
+        console.log(localContext.has('user'))
+    }
+
     //自动绑定this
     getUser = (here,user) => {
         this.setState({user:user})

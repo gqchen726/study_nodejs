@@ -54,7 +54,7 @@ export class PageN extends React.Component {
         //     let data = response.data;
         //     console.log(data)
         //     console.log(data.body)
-        //     if (!data.code) {
+        //     if (!data.code == "0") {
         //         this.setState({
         //             categorys : data.body
         //         })
@@ -72,7 +72,7 @@ export class PageN extends React.Component {
             let data = response.data;
             console.log(data)
             console.log(data.body)
-            if (!data.code) {
+            if (data.code == 0) {
                 return data.body;
             }
         })
@@ -120,7 +120,7 @@ export class PageN extends React.Component {
             let data = response.data;
             let menuItems = null;
             console.log(data.body)
-            if (data.code) {
+            if (data.code == 0) {
                 menuItems = data.body.map((value,index) => {
                     return <Menu.Item key={index}><Link to={`/searchResult/${value}`}>{value}</Link></Menu.Item>;
                 })
@@ -191,9 +191,9 @@ export class PageN extends React.Component {
                             <Link to={'/myOrders'}>我的订单</Link>
                         </Menu.Item>
 
-                        <Menu.Item key="myCollections" title="我的收藏" icon={<BarChartOutlined/>}>
+                        {/*<Menu.Item key="myCollections" title="我的收藏" icon={<BarChartOutlined/>}>
                             <Link to={'/myCollections'}>我的收藏</Link>
-                        </Menu.Item>
+                        </Menu.Item>*/}
 
                         <Menu.Item key="browsingHistory" title="浏览历史" icon={<CloudOutlined/>}>
                             <Link to={'/browsingHistory'}>浏览历史</Link>
@@ -218,12 +218,12 @@ export class PageN extends React.Component {
                     {/*    <StateBar user={this.props.user} getUser={this.getUser} />*/}
                     {/*</Header>*/}
                     <UserStateBar user={this.props.user} getUser={this.getUser}/>
-                    <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
+                    <Content style={{margin: '24px 16px 0', overflow: 'initial', height: '100%'}}>
                         {
                             this.renderRoutes() ? this.renderRoutes():null
                         }
                     </Content>
-                    <Footer style={{textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>
+                    {/*<Footer style={{textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>*/}
                 </Layout>
             </Layout>
         );
@@ -240,6 +240,7 @@ export class PageN extends React.Component {
                     user={this.props.user}
                 />
                 {this.props.user?this.renderLayout():<LoginPage getUser={this.props.getUser} />}
+                {/*{this.renderLayout()}*/}
             </HashRouter>
         )
     }

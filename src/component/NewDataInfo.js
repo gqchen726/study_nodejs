@@ -12,6 +12,7 @@ import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {UpLoadFile} from "./UpLoadFile";
 import Image from "antd/es/image";
+import {util} from "../common/Util";
 
 
 const localContext = require('../cache/LocalContext');
@@ -28,7 +29,8 @@ export class NewDataInfo extends React.Component {
                 price: "价格",
                 productCode: "产品代码",
                 productName: "产品名字",
-            }
+            },
+            isInitStatus: true
         }
     }
 
@@ -46,21 +48,19 @@ export class NewDataInfo extends React.Component {
             this.setState({
                 isLoading: true
             })
-            axios.post(urlsUtil.product.addUrl,newData).then((response) => {
+            axios.post(this.state.isInitStatus ?urlsUtil.product.addUrl:urlsUtil.product.updateUrl,newData).then((response) => {
                 let responseBody = response.data;
                 console.log(response)
 
                 this.changeEditMode();
-                if (!responseBody.code) {
+                if (responseBody.code == "0") {
                     this.setState({
                         newData : responseBody.body,
+                        isInitStatus: false
                     })
                     this.changeEditMode();
                 }
-                notification.open({
-                    message: 'save info tips',
-                    description: responseBody.message
-                });
+                util.tipMessage('save info tips',responseBody.message)
             }).catch((error) => {
                 console.log(error)
                 notification.open({
@@ -82,24 +82,24 @@ export class NewDataInfo extends React.Component {
         })
     }
     setFileResources = (fileList) => {
-            let resources;
-            if (Array.isArray(fileList)) {
-                fileList.forEach((value, index) => {
-                    let reSource = value.response.body;
-                    console.log(value)
-                    if (index === 0) {
-                        resources = reSource;
-                    } else {
-                        resources += `;${reSource}`
-                    }
-                })
-            }
-            let {newData} = this.state;
-            newData.resources = resources;
-            this.setState({
-                newData:newData
+        let resources;
+        if (Array.isArray(fileList)) {
+            fileList.forEach((value, index) => {
+                let reSource = value.response.body;
+                console.log(value)
+                if (index === 0) {
+                    resources = reSource;
+                } else {
+                    resources += `;${reSource}`
+                }
             })
         }
+        let {newData} = this.state;
+        newData.resources = resources;
+        this.setState({
+            newData:newData
+        })
+    }
 
     changeEditMode = () => {
         this.setState({
@@ -132,6 +132,7 @@ export class NewDataInfo extends React.Component {
     renderImages = (data) => {
         let {resources} = data;
         let resourceArr = resources.split(";");
+        if (resourceArr.length <= 1) return;
         let ImageArr = resourceArr.map((value,index) => {
             return <Image key={index} src={value} />;
         })
@@ -201,7 +202,7 @@ export class NewDataInfo extends React.Component {
                     }
                 >
                     {/*跑马灯*/}
-                    {this.renderCarouselMap(isEditMode,newData)}
+                    {newData.resources?this.renderCarouselMap(isEditMode,newData):null}
 
                     {/*跑马灯*/}
                     {/*<div className="home-lunbo">
@@ -218,6 +219,7 @@ export class NewDataInfo extends React.Component {
                         isAdminSpecific={true}
                         isEditMode={this.state.isEditMode}
                         saveNewDescriptered={this.saveNewDescriptered}
+                        getFileList={this.getFileList}
                     />
                     {
                         this.renderUpLoadFile(isEditMode)

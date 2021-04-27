@@ -22,6 +22,7 @@ import {OrderDetail, OrderDetailW} from "../component/OrderDetail";
 import MyCollections from "./MyCollections";
 import {UserPasswordOfUpdate} from "./UserPasswordOfUpdate";
 import {NewDataInfoW} from "../component/NewDataInfo";
+import {DataShowGrid} from "./DataShowGrid";
 // 学习不使用es6编写react组件
 // 编写函数组件而不是类组件
 // 学习Hook钩子函数的使用useHistory();
@@ -114,6 +115,9 @@ export const MyRouterWithHook = (props) => {
                 </Route>
                 <Route exact path='/orderInfo/:orderId' >
                     <OrderStepsW user={props.user}  />
+                </Route>
+                <Route exact path='/test' >
+                    <DataShowGrid />
                 </Route>
             </Switch>
 

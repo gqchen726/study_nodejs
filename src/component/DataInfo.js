@@ -56,6 +56,9 @@ export class DataInfo extends React.Component {
         let {isEditMode} = this.state;
         let {product} = this.state;
 
+        let {fileList} = this.state;
+        this.setFileResources(fileList);
+
         if (isEditMode) {
             if (!product) {
                 return ;
@@ -91,6 +94,32 @@ export class DataInfo extends React.Component {
         } else {
             this.changeEditMode();
         }
+    }
+
+    setFileResources = (fileList) => {
+        let resources;
+        if (Array.isArray(fileList)) {
+            fileList.forEach((value, index) => {
+                let reSource = value.response.body;
+                console.log(value)
+                if (index === 0) {
+                    resources = reSource;
+                } else {
+                    resources += `;${reSource}`
+                }
+            })
+        }
+        let {newData} = this.state;
+        newData.resources = resources;
+        this.setState({
+            newData:newData
+        })
+    }
+
+    getFileList = (fileList) => {
+        this.setState({
+            fileList:fileList
+        })
     }
 
     onRemove = () => {
@@ -137,13 +166,13 @@ export class DataInfo extends React.Component {
             return (!user)?
                 null:(<div>
                     <Button type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
-                    {/*<br />{isEditMode ? <Button type={"primary"} onClick={this.onRemove} >删除</Button> : null}*/}
+                    <br />{isEditMode ? <Button type={"primary"} onClick={this.onRemove} >删除</Button> : null}
                 </div>)
         } else if (isAdminSpecific) {
             return (!!user && user.admin)?
                 (<div>
                     <Button type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
-                    {/*<br />{isEditMode ? <Button type={"primary"} onClick={this.onRemove} >删除</Button> : null}*/}
+                    <br />{isEditMode ? <Button type={"primary"} onClick={this.onRemove} >删除</Button> : null}
                 </div>):null
         }
     }
@@ -169,6 +198,16 @@ export class DataInfo extends React.Component {
 
         })
         return ImageArr;
+    }
+
+    renderCarouselMap = (isEditMode,newData) => {
+        if (isEditMode) {
+            return null;
+        } else {
+            return (
+                <CarouselMap data={newData} />
+            );
+        }
     }
 
 
@@ -208,6 +247,7 @@ export class DataInfo extends React.Component {
                     }
                 >
                     {/*跑马灯*/}
+                    {data.resources?this.renderCarouselMap(isEditMode,data):null}
                     <div className="home-lunbo">
                         <Carousel {...lunboSetting} >
                             {this.renderImages(data)}
@@ -222,6 +262,7 @@ export class DataInfo extends React.Component {
                         isAdminSpecific={true}
                         isEditMode={this.state.isEditMode}
                         saveNewDescriptered={this.saveNewDescriptered}
+                        getFileList={this.getFileList}
                     />
                 </Card>
                 {/*用户操作面板*/}

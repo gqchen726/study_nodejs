@@ -1,32 +1,33 @@
 import React from 'react'
-// import '../public/css/DataShowGrid.css'
-import {Input} from "antd";
 import Card from "antd/es/card";
-import Meta from "antd/es/card/Meta";
-import Descriptions from "antd/es/descriptions";
-import Badge from "antd/es/badge";
 import {MyDescriptions} from "../component/MyDescriptions";
 import {Button, notification} from "antd/es";
-import {CarouselMap} from "./CarouselMap";
 import {withRouter} from "react-router";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {util} from "../common/Util";
 
-class PersonalCenter extends React.Component {
+export class PersonalCenter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isEditMode: false,
             isLoading: false,
-            user: props.user
+            user: props.user,
+            fileList: []
         }
     }
 
 
+
+    getFileList = (fileList) => {
+        this.setState({
+            fileList:fileList
+        })
+    }
+
     onClickHandler = () => {
-        let {isEditMode} = this.state;
-        let {newDescriptered} = this.state;
+        let {isEditMode, newDescriptered, fileList} = this.state;
 
         if (isEditMode) {
             if (!newDescriptered) {
@@ -35,6 +36,9 @@ class PersonalCenter extends React.Component {
             this.setState({
                 isLoading: true
             })
+            if (fileList.length > 0) {
+                newDescriptered.avatar = fileList[0].response.body;
+            }
             axios.post(urlsUtil.user.updatePersonInfo,newDescriptered).then((response) => {
                 let responseBody = response.data;
                 console.log(response)
@@ -78,6 +82,8 @@ class PersonalCenter extends React.Component {
             return null;
         }
 
+        console.log(user)
+
 
         return (
             <div className='personalCenter'>
@@ -97,6 +103,7 @@ class PersonalCenter extends React.Component {
                         descriptered={user}
                         isEditMode={this.state.isEditMode}
                         saveNewDescriptered={this.saveNewDescriptered}
+                        getFileList={this.getFileList}
                     />
                 </Card>
             </div>

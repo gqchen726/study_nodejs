@@ -14,7 +14,10 @@ module.exports = {
     },
     get: (key) => {
         if(localStorage.getItem(key)) {
-            let obj = JSON.parse(localStorage.getItem(key));
+            let value = localStorage.getItem(key);
+            console.log(value)
+            if (value == undefined) return null;
+            let obj = JSON.parse(value);
             if (obj.outOfDate && obj.outOfDate <= new Date()) {
                 return '缓存已过期'
             } else {
@@ -29,5 +32,11 @@ module.exports = {
     remove: (key) => {
         localStorage.removeItem(key);
     },
+    length: () => {
+        return localStorage.length;
+    },
+    has: (key) => {
+        return localStorage.hasOwnProperty(key);
+    }
 
 }

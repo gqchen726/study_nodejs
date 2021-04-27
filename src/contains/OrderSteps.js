@@ -51,7 +51,7 @@ export class OrderSteps extends React.Component {
             console.log(orderId)
             axios.get(`${urlsUtil.order.getOrderUrl}?orderId=${orderId}`).then((response) => {
                 let {data} = response;
-                if (data.code) {
+                if (data.code == 0) {
                     let order = data.body;
                     this.setState({
                         orderGenerate:order,
@@ -104,7 +104,7 @@ export class OrderSteps extends React.Component {
             orderGenerate.productNum = productNum;
             orderGenerate.mobileNumber = user.mobileNumber;
             axios.post(urlsUtil.order.genericOrderUrl,orderGenerate).then((response) => {
-                if (response.data.code) {
+                if (response.data.code == 0) {
                     let orderGenerate = response.data.body;
                     status.GenericOrderStatus = "finish";
                     status.PayStatus = "process";

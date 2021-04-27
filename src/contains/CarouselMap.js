@@ -7,6 +7,8 @@ import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {Card} from "antd";
 import {util} from "../common/Util";
 import {UpLoadFile} from "../component/UpLoadFile";
+import PropTypes from "prop-types";
+import {MyResult} from "../component/MyResult";
 
 const localContext = require('../cache/LocalContext');
 export class CarouselMap extends React.Component {
@@ -29,7 +31,8 @@ export class CarouselMap extends React.Component {
             return (
                 <Image
                     key={index}
-                    src={`${urlsUtil.image.get}?file=${source.src}`}
+                    src={`https://192.168.1.7:3039/${source.src}`}
+                    // src={`${urlsUtil.image.get}?file=${source.src}`}
                     width={60}
                     height={60}
                     alt={source.description}
@@ -82,4 +85,8 @@ export class CarouselMap extends React.Component {
             </div>
         );
     }
+}
+CarouselMap.propTypes = {
+    sources: PropTypes.array,
+    user: PropTypes.object
 }

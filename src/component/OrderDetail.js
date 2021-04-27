@@ -28,7 +28,7 @@ export class OrderDetail extends React.Component {
         let {orderId} = this.props.match.params;
         axios.get(`${urlsUtil.order.getOrderUrl}?orderId=${orderId}`).then((response) => {
             let {data} = response;
-            if (data.code) {
+            if (data.code == 0) {
                 let orderDetail = data.body;
                 console.log(orderDetail)
                 if (orderDetail.order.status === "generated") {
@@ -76,7 +76,7 @@ export class OrderDetail extends React.Component {
             axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${orderDetail.order.orderId}&status=paid`)
                 .then((response) => {
                     let data = response.data;
-                    if (data.code) {
+                    if (data.code == 0) {
                         let orderDetail = data.body;
                         status.PayStatus = "finish";
                         status.ViewDetail = "finish";

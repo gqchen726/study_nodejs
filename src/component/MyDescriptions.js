@@ -1,10 +1,11 @@
 import React from 'react'
 import Descriptions from "antd/es/descriptions";
 import PropTypes from 'prop-types'
-import Image, {Input} from "antd";
+import {Input} from "antd";
 import {MyDatePicker} from "./MyDatePicker";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {UpLoadFile} from "./UpLoadFile";
+import Image from "antd/es/image";
 
 export class MyDescriptions extends React.Component {
     constructor(props) {
@@ -120,11 +121,7 @@ export class MyDescriptions extends React.Component {
         return infos;
     }
 
-    getFileList = (fileList) => {
-        this.setState({
-            fileList:fileList
-        })
-    }
+
 
     renderSpecificDescItemList = (descriptered) => {
         if (!descriptered) {
@@ -173,12 +170,12 @@ export class MyDescriptions extends React.Component {
                             maxLength={1}
                             isEditMode={true}
                             action={`${urlsUtil.image.upload}`}
-                            getFileList={this.getFileList}
+                            getFileList={this.props.getFileList}
                         />
                     </Descriptions.Item>
                 );
             } else if (col == "description") {
-                //待改善，此处的描述应为文本域
+                //文本域
                 infos.push(
                     <Descriptions.Item key={key} label={col}>
                         <Input.TextArea
@@ -232,7 +229,6 @@ export class MyDescriptions extends React.Component {
                         this.renderDescItemList(descriptered):
                         this.renderSpecificDescItemList(descriptered)
                 }
-                <Descriptions.Item key={"test"} label={"test"}>test</Descriptions.Item>
             </Descriptions>
         )
     }
@@ -244,11 +240,12 @@ MyDescriptions.propTypes = {
     descriptered: PropTypes.object,
     //horizontal | vertical
     layout: PropTypes.string,
-    saveNewDescriptered: PropTypes.func
+    saveNewDescriptered: PropTypes.func,
+    getFileList: PropTypes.func
 }
 MyDescriptions.defaultProps = {
     title: "template",
     bordered: false,
     isAdminSpecific: true,
-    isEditMode: false
+    isEditMode: false,
 }

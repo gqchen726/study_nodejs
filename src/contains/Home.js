@@ -63,6 +63,16 @@ export class Home extends React.Component {
         // let {path,url} = useRouteMatch();
 
         let {searchIng, optionValue, options} = this.state;
+        let sources = [
+            {
+                src: "https://www.google.com.hk/imgres?imgurl=https%3A%2F%2Fwww.humanesociety.org%2Fsites%2Fdefault%2Ffiles%2Fstyles%2F1240x698%2Fpublic%2F2020-07%2Fkitten-510651.jpg%3Fh%3Df54c7448%26itok%3DZhplzyJ9&imgrefurl=https%3A%2F%2Fwww.humanesociety.org%2Fresources%2Funderstanding-feline-language&tbnid=92QxTb8XPrhGhM&vet=12ahUKEwjwu4fRppHwAhUWyZQKHZTCA4gQMygHegUIARCeAQ..i&docid=-yl2qNcSQg8ZnM&w=1240&h=698&q=cat&safe=strict&ved=2ahUKEwjwu4fRppHwAhUWyZQKHZTCA4gQMygHegUIARCeAQ",
+                description: "cat"
+            },
+            {
+                src: "https://www.google.com.hk/imgres?imgurl=https%3A%2F%2Ficatcare.org%2Fapp%2Fuploads%2F2018%2F07%2FThinking-of-getting-a-cat.png&imgrefurl=https%3A%2F%2Ficatcare.org%2Fadvice%2Fthinking-of-getting-a-cat%2F&tbnid=0V922RrJgQc9SM&vet=12ahUKEwjwu4fRppHwAhUWyZQKHZTCA4gQMygAegUIARCQAQ..i&docid=5qEHfJOysK_DwM&w=1200&h=600&q=cat&safe=strict&ved=2ahUKEwjwu4fRppHwAhUWyZQKHZTCA4gQMygAegUIARCQAQ",
+                description: "cat"
+            },
+        ];
         return (
             <div id='root' className="App">
                 {/*<header className="App-header">*/}
@@ -109,7 +119,7 @@ export class Home extends React.Component {
                         </Button>
                     </div>
                     <br /><br />
-                    <CarouselMap autoPlay={true} />
+                    <CarouselMap autoPlay={true} user={this.props.user} sources={sources} />
                     <br /><br />
 
                     {/*<Link to={'/login'}>*/}

@@ -15,35 +15,65 @@ export default class MyOrderList extends React.Component {
         }
     }
 
+    renderActions = (status,orderId) => {
+        let actions = [];
+        //订单状态为 generated 时，可以取消订单、订单支付|取消和提交
+        switch (status) {
+            case "generated": {
+                actions.push(<Button icon={<Close/>} onClick={() => {
+                    axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=deleted`).then(() => {this.getOrderList()})
+                }} primary={true}/>)
+                actions.push(<Button icon={<Send/>} onClick={() => {
+                    axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=paid`).then(() => {this.getOrderList()})
+                }}/>)
+                break;
+            }
+            case "paid": {
+                actions.push(<Button icon={<Close/>} onClick={() => {
+                    axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=deleted`).then(() => {this.getOrderList()})
+                }} primary={true}/>)
+                break;
+            }
+        }
+
+        return actions;
+    }
+
     componentWillMount() {
         // 获取订单列表
+        this.getOrderList();
+    }
+
+    getOrderList = () => {
         axios.get(`${urlsUtil.order.searchOrderUrl}?mobileNumber=${this.props.user.mobileNumber}`).then((response) => {
             let body = response.data.body;
             let orders;
             if (Array.isArray(body)) {
-                orders = body.map((order) => {
-                    let {orderId} = order.order;
+                orders = body.map((sumOrder) => {
+                    let {order} = sumOrder;
+                    let {orderId} = order;
                     let orderIdLink = <Anchor label={<span style={{fontSize:"18px",fontWeight:600}}>{orderId}</span>} href={`/#/orderDetail/${orderId}`} />;
                     // let orderIdLink = <Anchor label={<span style={{fontSize:"18px",fontWeight:600}}>{orderId}</span>} href={`/#/orderInfo/${orderId}`} />;
-                    order.order.orderId = orderIdLink;
+                    order.orderId = orderIdLink;
                     // order.actions = <Link to={`/orderDetail/TL000000${i}`}>view</Link>;
-                    order.order.actions = (
-                        <Box direction="row">
-
-                            {MyTip("移除该订单",<Button icon={<Close />} onClick={() => {axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${order.order.orderId}&status=delete`)}} primary />)}
-
-                            <Button icon={<Send />} onClick={() => {axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${order.order.orderId}&status=submission`)}} />
-                            <Button icon={<User />} onClick={() => {}} />
+                    order.actions = (
+                        <Box direction="row" key={orderId}>
+                            {/*{MyTip("移除该订单",<Button icon={<Close />} onClick={() => {axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=deleted`)}} primary={true} />)}*/}
+                            {this.renderActions(order.status,orderId)}
                         </Box>
                     );
-                    return order.order
+                    return order
 
                 })
             }
-            console.log(orders)
-            this.setState({
-                orders:orders
+            let filterOrders = orders.filter((order) => {
+                return order.status != "deleted"
             })
+            setTimeout(() => {
+                this.setState({
+                    orders:filterOrders
+                })
+            },0)
         }).catch((error) => {
             // 获取订单失败
 
@@ -59,11 +89,6 @@ export default class MyOrderList extends React.Component {
             return ;
         }
         // console.log(data)
-        data.id? columns.push({
-            title: '订单号',
-            dataIndex: 'id',
-            key: 'id',
-        }):null;
         data.orderId? columns.push({
             title: '订单号',
             dataIndex: 'orderId',

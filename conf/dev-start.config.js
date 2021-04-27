@@ -18,7 +18,6 @@ let devStartConfig = {
         hot: true,
         hotOnly: true,
         historyApiFallback: true,
-        publicPath: './'
     },
     plugins: plugins,
     optimization:{

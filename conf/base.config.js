@@ -29,9 +29,9 @@ let baseConfig = {
                 removeComments: true, // 删除注释
             }
         }),
-        /**
+        /*/!**
          * 缓存加速二次构建速度
-         */
+         *!/
         new HardSourceWebpackPlugin({
             cacheDirectory: 'node_modules/.cache/hard-source/[confighash]',
             configHash: function (webpackConfig) {
@@ -54,7 +54,7 @@ let baseConfig = {
                 sizeThreshold: 50 * 1024 * 1024
             },
             // test: /mini-css-extract-plugin[\\/]dist[\\/]loader/
-        }),
+        }),*/
         // new HappyPack({
         //     id: 'jsx',
         //     loaders: ['babel-loader?cacheDirectory=true']

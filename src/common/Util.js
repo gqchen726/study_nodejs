@@ -1,5 +1,7 @@
 import {Button, notification} from "antd/es";
 import React from "react";
+import axios from "axios";
+import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 
 export const util = {
     autoSaveOfUser: (obj,id) => {
@@ -38,6 +40,30 @@ export const util = {
         let result;
         if (property == "name") {
             result = "昵称";
+        } else if (property == "address") {
+            result = "地址";
+        } else if (property == "admin") {
+            result = "权限";
+        } else if (property == "age") {
+            result = "年龄";
+        } else if (property == "approval") {
+            result = "审核权限";
+        } else if (property == "avatar") {
+            result = "头像";
+        } else if (property == "birth") {
+            result = "出生日期";
+        } else if (property == "email") {
+            result = "邮箱地址";
+        } else if (property == "mobileNumber") {
+            result = "手机号码";
+        } else if (property == "name") {
+            result = "用户名";
+        } else if (property == "password") {
+            result = "密码";
+        } else if (property == "registerCode") {
+            result = "注册码";
+        } else if (property == "sex") {
+            result = "性别";
         }
 
         //     address: null
@@ -53,5 +79,16 @@ export const util = {
         // password: "@WSX3edc4r"
         // registerCode: "PBfzCj"
         // sex: null
+
+        return result;
+    },
+    sendCheckCode: (mobileNumber) => {
+        axios.get(
+            `${urlsUtil.user.getCheckCode}?mobileNumber=${mobileNumber}`
+        ).then(
+            response => {
+                this.tipMessage("验证码提示",response.data.message)
+            }
+        );
     }
 }

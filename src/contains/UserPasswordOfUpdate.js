@@ -9,6 +9,7 @@ import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {useHistory, withRouter} from "react-router";
 import {Link} from "react-router-dom";
 import "./../public/css/User.css"
+import {util} from "../common/Util";
 export class UserPasswordOfUpdate extends React.Component {
 
     constructor(props) {
@@ -90,7 +91,7 @@ export class UserPasswordOfUpdate extends React.Component {
         let loadingCount = 60;
         let getCheckCodeButtonContent;
         this.setState({loading:true})
-        axios.get(`${urlsUtil.user.getCheckCode}?mobileNumber=${this.props.user.mobileNumber}`,{withCredentials: true});
+        util.sendCheckCode(this.props.mobileNumber);
 
 
 
@@ -303,6 +304,7 @@ export class UserPasswordOfUpdate extends React.Component {
                         />
                     </div>
                     <br />
+                    <br />
                     <div style={{width:'100%'}}>
                         新&nbsp;&nbsp;密&nbsp;&nbsp;码:&nbsp;&nbsp;
                         <Input.Password
@@ -315,8 +317,8 @@ export class UserPasswordOfUpdate extends React.Component {
                         />
                     </div>
                     <br />
-                    {this.state.tipMessage.newPasswordTip}
                     <br />
+                    {this.state.tipMessage.newPasswordTip}
                     <div style={{width:'100%'}}>
                         新&nbsp;&nbsp;密&nbsp;&nbsp;码:&nbsp;&nbsp;
                         <Input.Password
@@ -367,6 +369,7 @@ export class UserPasswordOfUpdate extends React.Component {
                         </Tooltip>
                     </div>
                     <br />
+                    <br />
                     <div style={{width:'100%'}}>
                         新&nbsp;&nbsp;密&nbsp;&nbsp;码:&nbsp;&nbsp;
                         <Input.Password
@@ -379,8 +382,8 @@ export class UserPasswordOfUpdate extends React.Component {
                         />
                     </div>
                     <br />
-                    {this.state.tipMessage.newPasswordTip}
                     <br />
+                    {this.state.tipMessage.newPasswordTip}
                     <div style={{width:'100%'}}>
                         新&nbsp;&nbsp;密&nbsp;&nbsp;码:&nbsp;&nbsp;
                         <Input.Password
