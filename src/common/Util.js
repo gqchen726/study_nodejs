@@ -17,6 +17,7 @@ const base = {
         common.push("orders");
         common.push("souseNames");
         common.push("resources");
+        common.push("ex");
         return common;
     },
 }
@@ -91,6 +92,8 @@ export const util = {
             result = "产品分类";
         } else if (property == "owner") {
             result = "产品拥有者";
+        } else if (property == "ex") {
+            result = "扩展";
         }
 
         return result;
@@ -106,6 +109,6 @@ export const util = {
     },
     hasDescriptionIgnoreList: (col) => {
         let ignoreList = base.descriptionIgnoreList();
-        return ignoreList.concat(col);
+        return ignoreList.includes(col);
     }
 }

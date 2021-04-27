@@ -90,33 +90,32 @@ export class MyDescriptions extends React.Component {
 
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
-        if (col == "orders" || col == "souseNames" || col == "resources") {
-        }/* else if (util.hasDescriptionIgnoreList(col)) {
-        }*/ else if (col == "avatar") {
-            infos.push(
-                <Descriptions.Item
-                    key={key}
-                    label={util.codeTable(col)}
-                >
-                    <Image
+            if (util.hasDescriptionIgnoreList(col)) {
+            } else if (col == "avatar") {
+                infos.push(
+                    <Descriptions.Item
                         key={key}
-                        src={`${urlsUtil.image.get}?file=${descriptered[col]}`}
-                        width={60}
-                        height={60}
-                        alt={descriptered[col]}
-                    />
-                </Descriptions.Item>
-            );
-        } else {
-            infos.push(
-                <Descriptions.Item
-                    key={key}
-                    label={col}
-                >
-                    {descriptered[col]}
-                </Descriptions.Item>
-            );
-        }
+                        label={util.codeTable(col)}
+                    >
+                        <Image
+                            key={key}
+                            src={`${urlsUtil.image.get}?file=${descriptered[col]}`}
+                            width={60}
+                            height={60}
+                            alt={descriptered[col]}
+                        />
+                    </Descriptions.Item>
+                );
+            } else {
+                infos.push(
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                    >
+                        {descriptered[col]}
+                    </Descriptions.Item>
+                );
+            }
 
         })
         return infos;
@@ -133,9 +132,13 @@ export class MyDescriptions extends React.Component {
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
             // console.log(col)
-            if (col == "password" || col == "mobileNumber" || col == "admin" || col == "registerCode" || col == "admin") {
+            if (util.hasDescriptionIgnoreList(col)) {
+            } else if (col == "password" || col == "mobileNumber" || col == "admin" || col == "registerCode") {
                 infos.push(
-                    <Descriptions.Item key={key} label={util.codeTable(col)}>
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                    >
                         <Input
                             id={col}
                             value={descriptered[col]}
@@ -147,10 +150,12 @@ export class MyDescriptions extends React.Component {
                         />
                     </Descriptions.Item>
                 );
-            }/* else if (util.hasDescriptionIgnoreList(col)) {
-            }*/ else if (col == "birth") {
+            } else if (col == "birth") {
                 infos.push(
-                    <Descriptions.Item key={key} label={col}>
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                    >
                         <MyDatePicker title={""} onClickHandler={this.saveBirth} fromToday={false} />
                     </Descriptions.Item>
                 );
@@ -158,7 +163,7 @@ export class MyDescriptions extends React.Component {
                 infos.push(
                     <Descriptions.Item
                         key={key}
-                        label={col}
+                        label={util.codeTable(col)}
                     >
                         {/*<Image
                             key={key}
@@ -178,7 +183,10 @@ export class MyDescriptions extends React.Component {
             } else if (col == "description") {
                 //文本域
                 infos.push(
-                    <Descriptions.Item key={key} label={col}>
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                    >
                         <Input.TextArea
                             id={col}
                             value={descriptered[col]}
@@ -193,7 +201,10 @@ export class MyDescriptions extends React.Component {
                 );
             } else {
                 infos.push(
-                    <Descriptions.Item key={key} label={col}>
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                    >
                         <Input
                             id={col}
                             value={descriptered[col]}
