@@ -3,8 +3,26 @@ import React from "react";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 
+const base = {
+    tipMessage: (tipLabel,message) => {
+        notification.open({
+            message: tipLabel,
+            description: message
+        });
+    },
+    descriptionIgnoreList: () => {
+        let common = [];
+        common.push("admin");
+        common.push("password");
+        common.push("orders");
+        common.push("souseNames");
+        common.push("resources");
+        return common;
+    },
+}
+
 export const util = {
-    autoSaveOfUser: (obj,id) => {
+    autoSave: (obj,id) => {
 
 
         if(id === "name") {
@@ -31,10 +49,7 @@ export const util = {
         }
     },
     tipMessage: (tipLabel,message) => {
-        notification.open({
-            message: tipLabel,
-            description: message
-        });
+       base.tipMessage(tipLabel,message)
     },
     codeTable: (property) => {
         let result;
@@ -64,21 +79,19 @@ export const util = {
             result = "注册码";
         } else if (property == "sex") {
             result = "性别";
+        } else if (property == "productName") {
+            result = "产品名称";
+        } else if (property == "productCode") {
+            result = "产品代码";
+        } else if (property == "description") {
+            result = "产品描述";
+        } else if (property == "price") {
+            result = "产品价格";
+        } else if (property == "category") {
+            result = "产品分类";
+        } else if (property == "owner") {
+            result = "产品拥有者";
         }
-
-        //     address: null
-        // admin: "true"
-        // age: null
-        // approval: null
-        // avatar: null
-        // birth: null
-        // email: "cgq786153492@gmail.com"
-        // mobileNumber: "15383642823"
-        // name: "yong"
-        // orders: []
-        // password: "@WSX3edc4r"
-        // registerCode: "PBfzCj"
-        // sex: null
 
         return result;
     },
@@ -87,8 +100,12 @@ export const util = {
             `${urlsUtil.user.getCheckCode}?mobileNumber=${mobileNumber}`
         ).then(
             response => {
-                this.tipMessage("验证码提示",response.data.message)
+                base.tipMessage("验证码提示",response.data.message)
             }
         );
+    },
+    hasDescriptionIgnoreList: (col) => {
+        let ignoreList = base.descriptionIgnoreList();
+        return ignoreList.concat(col);
     }
 }

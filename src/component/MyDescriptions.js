@@ -6,6 +6,7 @@ import {MyDatePicker} from "./MyDatePicker";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {UpLoadFile} from "./UpLoadFile";
 import Image from "antd/es/image";
+import {util} from "../common/Util";
 
 export class MyDescriptions extends React.Component {
     constructor(props) {
@@ -90,12 +91,12 @@ export class MyDescriptions extends React.Component {
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
         if (col == "orders" || col == "souseNames" || col == "resources") {
-        } else if (col == "admin" || col == "password") {
+        } else if (util.hasDescriptionIgnoreList(col)) {
         } else if (col == "avatar") {
             infos.push(
                 <Descriptions.Item
                     key={key}
-                    label={col}
+                    label={util.codeTable(col)}
                 >
                     <Image
                         key={key}
@@ -134,7 +135,7 @@ export class MyDescriptions extends React.Component {
             // console.log(col)
             if (col == "password" || col == "mobileNumber" || col == "admin" || col == "registerCode" || col == "admin") {
                 infos.push(
-                    <Descriptions.Item key={key} label={col}>
+                    <Descriptions.Item key={key} label={util.codeTable(col)}>
                         <Input
                             id={col}
                             value={descriptered[col]}
@@ -146,7 +147,7 @@ export class MyDescriptions extends React.Component {
                         />
                     </Descriptions.Item>
                 );
-            } else if (col == "orders" || col == "souseNames" || col == "resources" || col == "password") {
+            } else if (util.hasDescriptionIgnoreList(col)) {
             } else if (col == "birth") {
                 infos.push(
                     <Descriptions.Item key={key} label={col}>
