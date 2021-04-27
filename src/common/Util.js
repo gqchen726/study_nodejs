@@ -94,6 +94,22 @@ export const util = {
             result = "产品拥有者";
         } else if (property == "ex") {
             result = "扩展";
+        } else if (property == "detailDate") {
+            result = "预约时段";
+        } else if (property == "enddate") {
+            result = "订单有效期止期";
+        } else if (property == "generationDate") {
+            result = "订单生成时间";
+        } else if (property == "orderId") {
+            result = "订单编号";
+        } else if (property == "productNum") {
+            result = "订购数量";
+        } else if (property == "startDate") {
+            result = "订单有效期起期";
+        } else if (property == "status") {
+            result = "订单状态";
+        } else if (property == "totalPrice") {
+            result = "订单总价";
         }
 
         return result;
