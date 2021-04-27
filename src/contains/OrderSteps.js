@@ -296,7 +296,7 @@ export class OrderSteps extends React.Component {
                                 style={{width:'10%'}}
                                 key={"goOrderList"}
                             >
-                                <Link to={`/#/orderDetail/${orderGenerate.order.orderId}`} >
+                                <Link to={`/orderDetail/${orderGenerate.order.orderId}`} >
                                     查看订单详情
                                 </Link>
                             </Button>
