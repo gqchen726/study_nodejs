@@ -91,8 +91,8 @@ export class MyDescriptions extends React.Component {
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
         if (col == "orders" || col == "souseNames" || col == "resources") {
-        } else if (util.hasDescriptionIgnoreList(col)) {
-        } else if (col == "avatar") {
+        }/* else if (util.hasDescriptionIgnoreList(col)) {
+        }*/ else if (col == "avatar") {
             infos.push(
                 <Descriptions.Item
                     key={key}
@@ -147,8 +147,8 @@ export class MyDescriptions extends React.Component {
                         />
                     </Descriptions.Item>
                 );
-            } else if (util.hasDescriptionIgnoreList(col)) {
-            } else if (col == "birth") {
+            }/* else if (util.hasDescriptionIgnoreList(col)) {
+            }*/ else if (col == "birth") {
                 infos.push(
                     <Descriptions.Item key={key} label={col}>
                         <MyDatePicker title={""} onClickHandler={this.saveBirth} fromToday={false} />
