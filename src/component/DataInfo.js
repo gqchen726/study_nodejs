@@ -57,9 +57,9 @@ export class DataInfo extends React.Component {
         let {product} = this.state;
 
         let {fileList} = this.state;
-        this.setFileResources(fileList);
 
         if (isEditMode) {
+            this.setFileResources(fileList);
             if (!product) {
                 return ;
             }
