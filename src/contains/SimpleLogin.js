@@ -900,7 +900,7 @@ export class SimLogin extends React.Component {
                         <br />
                         <div style={{width:'100%'}}>
                             &nbsp;注&nbsp;&nbsp;册&nbsp;&nbsp;码:&nbsp;&nbsp;
-                            <Input.Password
+                            <Input
                                 id='registerCode'
                                 style={{ width: '80%' }}
                                 placeholder={'请输入注册码(选填)'}
