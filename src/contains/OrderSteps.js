@@ -19,6 +19,7 @@ import moment from 'moment';
 import {MyDatePicker} from "../component/MyDatePicker";
 import {selectOneProduct} from "../utils/SelectAnProductFromCode";
 import {notification} from "antd/es";
+import {util} from "../common/Util";
 
 export class OrderSteps extends React.Component {
     constructor(props) {
@@ -103,6 +104,10 @@ export class OrderSteps extends React.Component {
             orderGenerate.productCode = data.productCode;
             orderGenerate.productNum = productNum;
             orderGenerate.mobileNumber = user.mobileNumber;
+            if (!orderGenerate.data) {
+                util.tipMessage("日期必填提示","请确认预约时间")
+                return ;
+            }
             axios.post(urlsUtil.order.genericOrderUrl,orderGenerate).then((response) => {
                 if (response.data.code == 0) {
                     let orderGenerate = response.data.body;
