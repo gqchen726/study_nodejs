@@ -1,19 +1,19 @@
 
-const localStorage = window.localStorage;
-const localContext = {
+const sessionStorage = window.localStorage;
+const sessionContext = {
     put: (key,value) => {
-        if(!localStorage.getItem(key)) {
-            localStorage.setItem(key,JSON.stringify(value));
+        if(!sessionStorage.getItem(key)) {
+            sessionStorage.setItem(key,JSON.stringify(value));
         }
     },
     set: (key,value,outOfDate) => {
         value.outOfDate = outOfDate;
-        if(!localStorage.getItem(key)) {
-            localStorage.setItem(key,JSON.stringify(value));
+        if(!sessionStorage.getItem(key)) {
+            sessionStorage.setItem(key,JSON.stringify(value));
         }
     },
     get: (key) => {
-        if(localStorage.getItem(key)) {
+        if(sessionStorage.getItem(key)) {
             let value = localStorage.getItem(key);
             console.log(value)
             if (value == undefined) return null;
@@ -27,17 +27,17 @@ const localContext = {
         return null;
     },
     clear: () => {
-        localStorage.clear();
+        sessionStorage.clear();
     },
     remove: (key) => {
-        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
     },
     length: () => {
-        return localStorage.length;
+        return sessionStorage.length;
     },
     has: (key) => {
         return localStorage.hasOwnProperty(key);
     }
 
 }
-export default localContext;
+export default sessionContext;

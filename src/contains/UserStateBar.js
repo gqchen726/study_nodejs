@@ -6,10 +6,10 @@ import {
 } from "antd/es";
 import {ButtonList} from "../component/ButtonList";
 import {SimpleLogin} from "./SimpleLogin";
-const localContext = require('../cache/LocalContext');
 import PropTypes from "prop-types"
 import "./../public/css/UseStatusBar.css"
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import localContext from "../cache/LocalContext";
 export class UserStateBar extends React.Component {
 
     constructor(props) {
