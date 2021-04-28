@@ -3,12 +3,13 @@ import {Button, Card, Input, Select, Tooltip, Switch, Alert, notification, messa
 import React from "react";
 import "../public/css/Login.css";
 import axios from "axios";
-const localContext = require('../cache/LocalContext');
 import {Page} from "./Page";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {useHistory, withRouter} from "react-router";
 import {Link} from "react-router-dom";
 import {util} from "../common/Util";
+import sessionContext from "../cache/sessionContext";
+import localContext from "../cache/LocalContext";
 export class SimLogin extends React.Component {
 
     constructor(props) {
@@ -80,9 +81,10 @@ export class SimLogin extends React.Component {
                      result = data.body;
                      // 本地缓存Cookie
                      if (this.state.rememberMe) {
-                         localContext.put('user',result.user);
+                         localContext.put('user',result);
+                     } else {
+                         sessionContext.put('user',result);
                      }
-                     window.localStorage.setItem("user",result)
                      this.props.getUser(this,result);
 
                  }
@@ -217,6 +219,7 @@ export class SimLogin extends React.Component {
                     };
                     //PageN专属,PageH需注释掉
                     result = data.body;
+                    sessionContext.put("user",result)
                     this.props.getUser(this,result);
 
                 } else {
