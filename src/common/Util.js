@@ -20,38 +20,6 @@ const base = {
         common.push("ex");
         return common;
     },
-}
-
-export const util = {
-    autoSave: (obj,id) => {
-
-
-        if(id === "name") {
-            obj.name = value;
-        } else if(id === "mobileNumber") {
-            obj.mobileNumber = value;
-        } else if(id === "checkCode") {
-            obj.checkCode = value;
-        } else if(id === "password") {
-            obj.password = value;
-        } else if(id === "rePassword") {
-            obj.rePassword = value;
-        }
-
-        return obj;
-    },
-    returnMode: (user,isAdminSpecific,isEditMode,onClickHandler) => {
-        if (!isAdminSpecific) {
-            return (!user)?
-                null:<Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
-        } else if (isAdminSpecific) {
-            return (!user || !user.admin === "admin")?
-                null:<Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
-        }
-    },
-    tipMessage: (tipLabel,message) => {
-       base.tipMessage(tipLabel,message)
-    },
     codeTable: (property) => {
         let result;
         if (property == "name") {
@@ -110,9 +78,54 @@ export const util = {
             result = "订单状态";
         } else if (property == "totalPrice") {
             result = "订单总价";
+        } else if (property == "actions") {
+            result = "操作";
         }
 
         return result;
+    },
+    normalUserTableColumns: [
+        'orderId',
+        'productName',
+        'price',
+        'status',
+        'actions'
+    ]
+
+}
+
+export const util = {
+    autoSave: (obj,id) => {
+
+
+        if(id === "name") {
+            obj.name = value;
+        } else if(id === "mobileNumber") {
+            obj.mobileNumber = value;
+        } else if(id === "checkCode") {
+            obj.checkCode = value;
+        } else if(id === "password") {
+            obj.password = value;
+        } else if(id === "rePassword") {
+            obj.rePassword = value;
+        }
+
+        return obj;
+    },
+    returnMode: (user,isAdminSpecific,isEditMode,onClickHandler) => {
+        if (!isAdminSpecific) {
+            return (!user)?
+                null:<Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+        } else if (isAdminSpecific) {
+            return (!user || !user.admin === "admin")?
+                null:<Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+        }
+    },
+    tipMessage: (tipLabel,message) => {
+       base.tipMessage(tipLabel,message)
+    },
+    codeTable: (property) => {
+        return base.codeTable(property);
     },
     sendCheckCode: (mobileNumber) => {
         axios.get(
@@ -126,5 +139,17 @@ export const util = {
     hasDescriptionIgnoreList: (col) => {
         let ignoreList = base.descriptionIgnoreList();
         return ignoreList.includes(col);
+    },
+    getTableColumns: () => {
+        let requestColumns;
+        requestColumns = base.normalUserTableColumns;
+        let resultColumns = requestColumns.map((value) => {
+            return {
+                title: base.codeTable(value),
+                dataIndex: value,
+                key: value,
+            }
+        })
+        return resultColumns;
     }
 }

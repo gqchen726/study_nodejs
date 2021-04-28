@@ -99,14 +99,9 @@ export class SimLogin extends React.Component {
                      //         </div>
                      //     )
                      // };
-                     notification.open({
-                         message: 'login tips',
-                         description: data.message
-                     });
+                     util.tipMessage('login tips',data.message)
                      // message.error(data.body.message);
                  }
-
-
 
             })
             .catch(
@@ -114,11 +109,7 @@ export class SimLogin extends React.Component {
                     this.setState({
                         loadingForLogin: false,
                     })
-                    console.log(error)
-                    notification.open({
-                        message: 'login tips',
-                        description: '网络异常'
-                    })
+                    util.tipMessage('login tips','网络异常')
                 });
 
         // // 模拟数据

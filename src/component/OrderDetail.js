@@ -11,6 +11,7 @@ import "./../public/css/OrderStep.css"
 
 const { Step } = Steps;
 import {notification} from "antd/es";
+import {util} from "../common/Util";
 
 export class OrderDetail extends React.Component {
     constructor(props) {
@@ -53,10 +54,7 @@ export class OrderDetail extends React.Component {
                     },0)
                 }
             } else {
-                notification.open({
-                    message: 'orderDetail tips',
-                    description: data.message
-                });
+                util.tipMessage('orderDetail tips',data.message)
             }
         })
 
@@ -85,10 +83,7 @@ export class OrderDetail extends React.Component {
                             orderDetail: orderDetail
                         })
                     } else {
-                        notification.open({
-                            message: 'register tips',
-                            description: data.message
-                        });
+                        util.tipMessage("订单状态更新提示",data.message)
                     }
                 })
             this.setState({

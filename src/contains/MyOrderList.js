@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {Anchor, Box, Tip} from "grommet";
 import {Close, Send, User} from "grommet-icons";
 import {MyTip} from "../component/MyTip";
+import {util} from "../common/Util";
 export default class MyOrderList extends React.Component {
 
     constructor(props) {
@@ -80,63 +81,8 @@ export default class MyOrderList extends React.Component {
         })
     }
 
-    getColumns = (datas) => {
-        let columns = [];
-        let data;
-        if (Array.isArray(datas) && datas.length > 0) {
-            data = datas[0];
-        } else {
-            return ;
-        }
-        // console.log(data)
-        data.orderId? columns.push({
-            title: '订单号',
-            dataIndex: 'orderId',
-            key: 'orderId',
-        }):null;
-        data.name? columns.push({
-            title: '名字',
-            dataIndex: 'name',
-            key: 'name',
-        }):null;
-        data.age? columns.push({
-            title: '年龄',
-            dataIndex: 'age',
-            key: 'age',
-        }):null;
-        data.price? columns.push({
-            title: '价格',
-            dataIndex: 'price',
-            key: 'price',
-        }):null;
-        data.totalPrice? columns.push({
-            title: '总价',
-            dataIndex: 'totalPrice',
-            key: 'totalPrice',
-        }):null;
-        data.address? columns.push({
-            title: '住址',
-            dataIndex: 'address',
-            key: 'address',
-        }):null;
-        data.status? columns.push({
-            title: '订单状态',
-            dataIndex: 'status',
-            key: 'status',
-        }):null;
-        data.generationDate? columns.push({
-            title: '订单生成日期',
-            dataIndex: 'generationDate',
-            key: 'generationDate',
-        }):null;
-        data.actions? columns.push({
-            title: '操作',
-            dataIndex: 'actions',
-            key: 'actions',
-        }):null;
-
-        console.log(columns)
-        return columns;
+    getColumns = () => {
+        return util.getTableColumns();
     }
 
     render() {
@@ -164,7 +110,7 @@ export default class MyOrderList extends React.Component {
             //     // scroll={{ y: 240 }}
             // />
             <Table
-                columns={this.getColumns(orders)}
+                columns={this.getColumns()}
                 dataSource={orders}
                 pagination={{ pageSize: 25 }}
                 // scroll={{ y: 240 }}

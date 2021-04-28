@@ -54,21 +54,14 @@ export class UserPasswordOfUpdate extends React.Component {
                 this.setState({
                     isLoading: false,
                 })
-                notification.open({
-                    message: 'update password tips',
-                    description: data.message
-                });
+                util.tipMessage('update password tips',data.message)
             })
             .catch(
                 (error) => {
                     this.setState({
                         isLoading: false,
                     })
-                    console.log(error)
-                    notification.open({
-                        message: 'login tips',
-                        description: '网络异常'
-                    })
+                    util.tipMessage('login tips','网络异常')
                 });
 
     }

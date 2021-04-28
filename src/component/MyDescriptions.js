@@ -8,6 +8,7 @@ import {UpLoadFile} from "./UpLoadFile";
 import Image from "antd/es/image";
 import {util} from "../common/Util";
 import {MyCascader} from "./MyCascader";
+import Radio from "antd/es/radio";
 
 const { Option } = Select;
 
@@ -26,6 +27,7 @@ export class MyDescriptions extends React.Component {
     autoSave = (event) => {
         let value = event.target.value;
         let id = event.target.id;
+        let name = event.target.name;
         let {descriptered} = this.state;
 
         if(id === "name") {
@@ -40,7 +42,7 @@ export class MyDescriptions extends React.Component {
             descriptered.birth = value;
         } else if(id === "email") {
             descriptered.email = value;
-        } else if(id === "sex") {
+        } else if(name === "sex") {
             descriptered.sex = value;
         } else if(id === "address") {
             descriptered.address = value;
@@ -178,6 +180,18 @@ export class MyDescriptions extends React.Component {
                         />
                     </Descriptions.Item>
                 );
+            } else if (col == "sex") {
+                infos.push(
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                    >
+                        <Radio.Group name="gender" defaultValue={1} onChange={this.autoSave}>
+                            <Radio value='male'>男</Radio>
+                            <Radio value='female'>女</Radio>
+                        </Radio.Group>
+                    </Descriptions.Item>
+                );
             } else if (col == "birth") {
                 infos.push(
                     <Descriptions.Item
@@ -218,7 +232,6 @@ export class MyDescriptions extends React.Component {
                     </Descriptions.Item>
                 );
             } else if (col == "description") {
-                //文本域
                 infos.push(
                     <Descriptions.Item
                         key={key}
@@ -236,19 +249,7 @@ export class MyDescriptions extends React.Component {
                         />
                     </Descriptions.Item>
                 );
-            }/* else if (col == "category") {
-                infos.push(
-                    <Descriptions.Item
-                        key={key}
-                        label={util.codeTable(col)}
-                    >
-                        <Select defaultValue="科目二" style={{ width: 120 }} onChange={this.saveOptions}>
-                            <Option value="科目二">科目二</Option>
-                            <Option value="科目三">科目三</Option>
-                        </Select>
-                    </Descriptions.Item>
-                );
-            }*/ else {
+            } else {
                 infos.push(
                     <Descriptions.Item
                         key={key}
@@ -302,7 +303,8 @@ MyDescriptions.propTypes = {
     //horizontal | vertical
     layout: PropTypes.string,
     saveNewDescriptered: PropTypes.func,
-    getFileList: PropTypes.func
+    getFileList: PropTypes.func,
+    isEditMode: PropTypes.bool
 }
 MyDescriptions.defaultProps = {
     title: "template",

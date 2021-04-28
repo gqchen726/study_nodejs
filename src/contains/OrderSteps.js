@@ -63,10 +63,7 @@ export class OrderSteps extends React.Component {
                         },
                     })
                 } else {
-                    notification.open({
-                        message: 'orderDetail tips',
-                        description: data.message
-                    });
+                    util.tipMessage('orderDetail tips',data.message)
                 }
             })
         }
@@ -120,10 +117,7 @@ export class OrderSteps extends React.Component {
                         })
                     },0)
                 } else {
-                    notification.open({
-                        message: 'order tips',
-                        description: data.message
-                    });
+                    util.tipMessage('order tips',data.message)
                 }
             });
 
@@ -166,10 +160,7 @@ export class OrderSteps extends React.Component {
                             orderGenerate: orderGenerate
                         })
                     } else {
-                        notification.open({
-                            message: 'paid tips',
-                            description: data.message
-                        });
+                        util.tipMessage('paid tips',data.message)
                     }
                 })
 

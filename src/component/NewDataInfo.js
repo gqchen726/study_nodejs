@@ -62,11 +62,7 @@ export class NewDataInfo extends React.Component {
                 }
                 util.tipMessage('save info tips',responseBody.message)
             }).catch((error) => {
-                console.log(error)
-                notification.open({
-                    message: 'save info tips',
-                    description: error.toString()
-                });
+                util.tipMessage("save info tips",error.toString())
             })
             this.setState({
                 isLoading: false

@@ -12,6 +12,7 @@ import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import Image from "antd/es/image";
 import {selectOneProduct} from "../utils/SelectAnProductFromCode";
+import {util} from "../common/Util";
 
 
 const localContext = require('../cache/LocalContext');
@@ -76,17 +77,10 @@ export class DataInfo extends React.Component {
                         product : responseBody.body,
                     })
                 } else {
-                    notification.open({
-                        message: 'save info tips',
-                        description: responseBody.message
-                    });
+                    util.tipMessage('save info tips',responseBody.message)
                 }
             }).catch((error) => {
-                console.log(error)
-                notification.open({
-                    message: 'save info tips',
-                    description: error.toString()
-                });
+                util.tipMessage('save info tips',error.toString())
             })
             this.setState({
                 isLoading: false
@@ -130,16 +124,9 @@ export class DataInfo extends React.Component {
             console.log(response)
 
             this.changeEditMode();
-            notification.open({
-                message: 'remove info tips',
-                description: responseBody.message
-            });
+            util.tipMessage('remove info tips',responseBody.message)
         }).catch((error) => {
-            console.log(error)
-            notification.open({
-                message: 'remove info tips',
-                description: error.toString()
-            });
+            util.tipMessage('remove info tips',error.toString())
         })
     }
 

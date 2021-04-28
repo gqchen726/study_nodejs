@@ -36,7 +36,7 @@ export class MyCascader extends React.Component{
 
     areaFormat = (fillArea) => {
         let area = fillArea.split(":");
-        if (area.length() < 2) return ;
+        if (area.length < 2) return ;
         let {currentArea} = this.state;
         currentArea.firstArea = area[0].split("-");
         currentArea.lastArea = area[1];
