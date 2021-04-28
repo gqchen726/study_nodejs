@@ -21,7 +21,7 @@ const base = {
         return common;
     },
     codeTable: (property) => {
-        let result;
+        let result = property;
         if (property == "name") {
             result = "昵称";
         } else if (property == "address") {
@@ -80,6 +80,10 @@ const base = {
             result = "订单总价";
         } else if (property == "actions") {
             result = "操作";
+        } else if (property == "male") {
+            result = "男";
+        } else if (property == "female") {
+            result = "女";
         }
 
         return result;
@@ -117,8 +121,8 @@ export const util = {
             return (!user)?
                 null:<Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
         } else if (isAdminSpecific) {
-            return (!user || !user.admin === "admin")?
-                null:<Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+            return (user && user.admin)?
+                <Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>:null
         }
     },
     tipMessage: (tipLabel,message) => {

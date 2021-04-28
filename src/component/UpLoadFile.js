@@ -19,9 +19,7 @@ export class UpLoadFile extends React.Component {
             previewVisible: false,
             previewImage: '',
             previewTitle: '',
-            fileList: [
-
-            ],
+            fileList: props.fileList?props.fileList:[],
         };
     }
 
@@ -46,7 +44,7 @@ export class UpLoadFile extends React.Component {
     }
 
     handleChange = ({ fileList }) => {
-
+        console.log(fileList)
 
 
         this.setState({fileList});

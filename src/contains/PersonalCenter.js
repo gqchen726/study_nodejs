@@ -27,19 +27,19 @@ export class PersonalCenter extends React.Component {
     }
 
     onClickHandler = () => {
-        let {isEditMode, newDescriptered, fileList} = this.state;
+        let {isEditMode, user, fileList} = this.state;
 
         if (isEditMode) {
-            if (!newDescriptered) {
+            if (!user) {
                 return ;
             }
             this.setState({
                 isLoading: true
             })
             if (fileList.length > 0) {
-                newDescriptered.avatar = fileList[0].response.body;
+                user.avatar = fileList[0].response.body;
             }
-            axios.post(urlsUtil.user.updatePersonInfo,newDescriptered).then((response) => {
+            axios.post(urlsUtil.user.updatePersonInfo,user).then((response) => {
                 let responseBody = response.data;
                 console.log(response)
 

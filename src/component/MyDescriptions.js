@@ -141,7 +141,7 @@ export class MyDescriptions extends React.Component {
                         key={key}
                         label={util.codeTable(col)}
                     >
-                        {descriptered[col]}
+                        {util.codeTable(descriptered[col])}
                     </Descriptions.Item>
                 );
             }
@@ -186,7 +186,7 @@ export class MyDescriptions extends React.Component {
                         key={key}
                         label={util.codeTable(col)}
                     >
-                        <Radio.Group name="gender" defaultValue={1} onChange={this.autoSave}>
+                        <Radio.Group name="sex" defaultValue={"male"} value={descriptered[col]} onChange={this.autoSave}>
                             <Radio value='male'>男</Radio>
                             <Radio value='female'>女</Radio>
                         </Radio.Group>

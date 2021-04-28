@@ -1,5 +1,5 @@
 import React from 'react'
-import {CarouselMap} from "../contains/CarouselMap";
+import {CarouselMap} from "../component/CarouselMap";
 import {Card} from "antd";
 import {Button, Carousel, notification} from "antd/es";
 import PropTypes from 'prop-types'
@@ -91,22 +91,22 @@ export class DataInfo extends React.Component {
     }
 
     setFileResources = (fileList) => {
-        let resources = null;
+        let {resources} = this.state.product;
         if (Array.isArray(fileList)) {
             fileList.forEach((value, index) => {
                 let reSource = value.response.body;
                 console.log(value)
-                if (index === 0) {
+                if (resources == null && index === 0) {
                     resources = reSource;
                 } else {
                     resources += `;${reSource}`
                 }
             })
         }
-        let {newData} = this.state;
-        newData.resources = resources;
+        let {product} = this.state;
+        product.resources = resources;
         this.setState({
-            newData:newData
+            product:product
         })
     }
 
@@ -187,37 +187,29 @@ export class DataInfo extends React.Component {
         return ImageArr;
     }
 
-    renderCarouselMap = (isEditMode,newData) => {
-        if (isEditMode) {
-            return null;
-        } else {
-            return (
-                <CarouselMap data={newData} />
-            );
-        }
+    renderCarouselMap = (isEditMode,sources) => {
+        return (
+            <CarouselMap getFileList={this.getFileList} isEditMode={isEditMode} sources={sources} user={this.props.user} />
+        );
     }
+
 
 
     render() {
 
-        let {datas, user} = this.props;
-        let data;
-        // let {key} = this.props.match.params
-        // data = datas[key];
+        let {user} = this.props;
         let isAdminSpecific = true;
         let {isEditMode, product} = this.state;
 
-        console.log(data)
-        console.log(product)
 
-        if (!data) {
-            data = product;
-        }
-        if (!data) {
+
+
+        if (!product) {
             return <div>
                 data is null;
             </div>
         }
+        console.log(product)
         const lunboSetting = {
             dots: true,
             lazyLoad: true,
@@ -228,24 +220,24 @@ export class DataInfo extends React.Component {
             <div className='dataInfo'>
                 {/*数据详情信息展示面板*/}
                 <Card
-                    title={data.name ? data.name:data.productName}
+                    title={product.name ? product.name:product.productName}
                     extra={
                         this.returnMode(user,isAdminSpecific,isEditMode)
                     }
                 >
                     {/*跑马灯*/}
-                    {data.resources?this.renderCarouselMap(isEditMode,data):null}
-                    <div className="home-lunbo">
+                    {product.resources?this.renderCarouselMap(isEditMode,product.resources):null}
+                    {/*<div className="home-lunbo">
                         <Carousel {...lunboSetting} >
                             {this.renderImages(data)}
                         </Carousel>
-                    </div>
+                    </div>*/}
 
                     <MyDescriptions
                         title={"产品信息"}
                         layout={"horizontal"}
                         bordered={true}
-                        descriptered={data}
+                        descriptered={product}
                         isAdminSpecific={true}
                         isEditMode={this.state.isEditMode}
                         saveNewDescriptered={this.saveNewDescriptered}
@@ -276,7 +268,7 @@ export class DataInfo extends React.Component {
                                     <span
                                         style={{font:{size:'11px'}}}
                                     >
-                                        <Link to={`/orderGenerate/${data.productCode}`} >预定</Link>
+                                        <Link to={`/orderGenerate/${product.productCode}`} >预定</Link>
                                     </span>
                                 )
 
