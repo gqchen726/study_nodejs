@@ -37,11 +37,11 @@ export class NewDataInfo extends React.Component {
 
     onClickHandler = () => {
         let {fileList} = this.state;
-        this.setFileResources(fileList);
         let {isEditMode} = this.state;
         let {newData} = this.state;
 
         if (isEditMode) {
+            this.setFileResources(fileList);
             if (!newData) {
                 return ;
             }

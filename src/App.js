@@ -1,5 +1,6 @@
 import React from "react";
 import localContext from "./cache/LocalContext";
+import sessionContext from "./cache/sessionContext";
 import {Page} from "./contains/Page";
 import ErrorBoundary from "antd/es/alert/ErrorBoundary";
 import {PageH} from "./contains/PageH";
@@ -11,13 +12,12 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = ({
-            user: localContext.has('user') ?localContext.get("user"):null,
+            user: localContext.has('user') ?
+                localContext.get("user"):(sessionContext.has('user')?
+                    sessionContext.get('user'):null),
         });
     }
 
-    componentWillMount() {
-        console.log(localContext.has('user'))
-    }
 
     //自动绑定this
     getUser = (here,user) => {

@@ -91,7 +91,7 @@ export class UserPasswordOfUpdate extends React.Component {
         let loadingCount = 60;
         let getCheckCodeButtonContent;
         this.setState({loading:true})
-        util.sendCheckCode(this.props.mobileNumber);
+        util.sendCheckCode(this.props.user.mobileNumber);
 
 
 

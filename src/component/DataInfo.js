@@ -57,9 +57,9 @@ export class DataInfo extends React.Component {
         let {product} = this.state;
 
         let {fileList} = this.state;
-        this.setFileResources(fileList);
 
         if (isEditMode) {
+            this.setFileResources(fileList);
             if (!product) {
                 return ;
             }
@@ -97,7 +97,7 @@ export class DataInfo extends React.Component {
     }
 
     setFileResources = (fileList) => {
-        let resources;
+        let resources = null;
         if (Array.isArray(fileList)) {
             fileList.forEach((value, index) => {
                 let reSource = value.response.body;
@@ -281,11 +281,19 @@ export class DataInfo extends React.Component {
                         style={{width:'10%'}}
                         onClick={this.search}
                     >
-                        <span
-                            style={{font:{size:'11px'}}}
-                        >
-                            <Link to={`/orderGenerate/${data.productCode}`} >购买</Link>
-                        </span>
+                        {
+                            user.admin ?
+                                null
+                                :
+                                (
+                                    <span
+                                        style={{font:{size:'11px'}}}
+                                    >
+                                        <Link to={`/orderGenerate/${data.productCode}`} >预定</Link>
+                                    </span>
+                                )
+
+                        }
                     </Button>
                 </Card>
             </div>

@@ -29,6 +29,7 @@ import {SimpleLogin} from "./SimpleLogin";
 import {LoginPage} from "./LoginPage";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import localContext from "../cache/localContext";
 
 
 //创建context,定义一个全局变量
@@ -60,11 +61,16 @@ export class PageN extends React.Component {
         //         })
         //     }
         // }
-        this.renderMenuItems();
+        if (!this.state.menuItems) {
+            this.renderMenuItems();
+        }
+
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
-        this.renderMenuItems();
+        if (!this.state.menuItems) {
+            this.renderMenuItems();
+        }
     }
 
     renderCategorys = () => {
@@ -116,6 +122,7 @@ export class PageN extends React.Component {
         );
     }
     renderMenuItems = () => {
+        console.log("renderMenuItems")
         axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
             let data = response.data;
             let menuItems = null;
@@ -124,15 +131,12 @@ export class PageN extends React.Component {
                 menuItems = data.body.map((value,index) => {
                     return <Menu.Item key={index}><Link to={`/searchResult/${value}`}>{value}</Link></Menu.Item>;
                 })
-                console.log(menuItems)
             }
-            let oldMenuItems = this.state.menuItems;
-            if (oldMenuItems != menuItems) {
-                // this.setState({
-                //     menuItems: menuItems
-                // })
-                this.state.menuItems = menuItems;
-            }
+            setTimeout(() => {
+                this.setState({
+                    menuItems: menuItems
+                })
+            },0)
         })
         // if (!datas) return null;
         // return data.map((value,index) => {
@@ -178,7 +182,7 @@ export class PageN extends React.Component {
                         <Menu.Item key="home" title="首页" icon={<HomeOutlined />}>
                             <Link to={'/home'}>首页</Link>
                         </Menu.Item>
-                        <SubMenu key="productCategory" title="景区查看" icon={<BarsOutlined />}>
+                        <SubMenu key="productCategory" title="科目分类" icon={<BarsOutlined />}>
                             {menuItems}
                         </SubMenu>
 
@@ -187,8 +191,8 @@ export class PageN extends React.Component {
                             <Link to={'/personalCenter'}>个人中心</Link>
                         </Menu.Item>
 
-                        <Menu.Item key="myOrders" title="我的订单" icon={<UploadOutlined/>}>
-                            <Link to={'/myOrders'}>我的订单</Link>
+                        <Menu.Item key="myOrders" title="我的预约" icon={<UploadOutlined/>}>
+                            <Link to={'/myOrders'}>我的预约</Link>
                         </Menu.Item>
 
                         {/*<Menu.Item key="myCollections" title="我的收藏" icon={<BarChartOutlined/>}>
@@ -204,8 +208,8 @@ export class PageN extends React.Component {
 
                         {
                             !!user && user.admin ?
-                                <Menu.Item key="sub7" title="新增产品" icon={<CloudOutlined/>}>
-                                    <Link to={'/addProduct'}>新增产品</Link>
+                                <Menu.Item key="sub7" title="新增车辆" icon={<CloudOutlined/>}>
+                                    <Link to={'/addProduct'}>新增车辆</Link>
                                 </Menu.Item> : null
                         }
 
@@ -245,4 +249,3 @@ export class PageN extends React.Component {
         )
     }
 }
-
