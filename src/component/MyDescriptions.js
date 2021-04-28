@@ -1,12 +1,15 @@
 import React from 'react'
 import Descriptions from "antd/es/descriptions";
 import PropTypes from 'prop-types'
-import {Input} from "antd";
+import {Input, Select} from "antd";
 import {MyDatePicker} from "./MyDatePicker";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {UpLoadFile} from "./UpLoadFile";
 import Image from "antd/es/image";
 import {util} from "../common/Util";
+import {MyCascader} from "./MyCascader";
+
+const { Option } = Select;
 
 export class MyDescriptions extends React.Component {
     constructor(props) {
@@ -60,6 +63,7 @@ export class MyDescriptions extends React.Component {
         }
 
 
+
         setTimeout(() => {
             this.setState({
                 descriptered: descriptered,
@@ -70,9 +74,32 @@ export class MyDescriptions extends React.Component {
 
     }
 
+    saveAddress = (value) => {
+        let {descriptered} = this.state;
+        descriptered.address = value;
+        setTimeout(() => {
+            this.setState({
+                descriptered: descriptered,
+            })
+        },0)
+        this.props.saveNewDescriptered(this.state.descriptered);
+    }
+
     saveBirth = (data,dataString) => {
         let {descriptered} = this.state;
         descriptered.birth = dataString;
+        setTimeout(() => {
+            this.setState({
+                descriptered: descriptered,
+            })
+        },0)
+
+        this.props.saveNewDescriptered(this.state.descriptered);
+    }
+
+    saveOptions = (value) => {
+        let {descriptered} = this.state;
+        descriptered.category = value;
         setTimeout(() => {
             this.setState({
                 descriptered: descriptered,
@@ -124,8 +151,9 @@ export class MyDescriptions extends React.Component {
 
 
     renderSpecificDescItemList = (descriptered) => {
+        console.log(descriptered)
         if (!descriptered) {
-            return null;
+            return <div>data is null</div>;
         }
 
 
@@ -133,7 +161,7 @@ export class MyDescriptions extends React.Component {
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
             // console.log(col)
             if (util.hasDescriptionIgnoreList(col)) {
-            } else if (col == "password" || col == "mobileNumber" || col == "admin" || col == "registerCode") {
+            } else if (col == "mobileNumber") {
                 infos.push(
                     <Descriptions.Item
                         key={key}
@@ -157,6 +185,15 @@ export class MyDescriptions extends React.Component {
                         label={util.codeTable(col)}
                     >
                         <MyDatePicker title={""} onClickHandler={this.saveBirth} fromToday={false} />
+                    </Descriptions.Item>
+                );
+            } else if (col == "address") {
+                infos.push(
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                    >
+                        <MyCascader saveAddress={this.saveAddress} area={descriptered[col]} />
                     </Descriptions.Item>
                 );
             } else if (col == "avatar") {
@@ -197,6 +234,18 @@ export class MyDescriptions extends React.Component {
                             showCount={true}
                             onChangeCapture={this.autoSave}
                         />
+                    </Descriptions.Item>
+                );
+            } else if (col == "category") {
+                infos.push(
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                    >
+                        <Select defaultValue="科目二" style={{ width: 120 }} onChange={this.saveOptions}>
+                            <Option value="科目二">科目二</Option>
+                            <Option value="科目三">科目三</Option>
+                        </Select>
                     </Descriptions.Item>
                 );
             } else {
