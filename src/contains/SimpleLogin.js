@@ -82,6 +82,7 @@ export class SimLogin extends React.Component {
                      if (this.state.rememberMe) {
                          localContext.put('user',result.user);
                      }
+                     window.localStorage.setItem("user",result)
                      this.props.getUser(this,result);
 
                  }

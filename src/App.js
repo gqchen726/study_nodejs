@@ -11,12 +11,15 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = ({
-            user: localContext.has('user') ?localContext.get("user"):null,
+            // user: localContext.has('user') ?localContext.get("user"):null,
+            user: window.localStorage.getItem("user") ?window.localStorage.getItem("user"):null,
         });
     }
 
     componentWillMount() {
-        console.log(localContext.has('user'))
+        console.log(window.localStorage.getItem("user"))
+        window.localStorage.setItem('myCat', 'Tom');
+        console.log(window.localStorage.getItem('myCat'))
     }
 
     //自动绑定this
