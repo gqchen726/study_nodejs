@@ -236,7 +236,7 @@ export class MyDescriptions extends React.Component {
                         />
                     </Descriptions.Item>
                 );
-            } else if (col == "category") {
+            }/* else if (col == "category") {
                 infos.push(
                     <Descriptions.Item
                         key={key}
@@ -248,7 +248,7 @@ export class MyDescriptions extends React.Component {
                         </Select>
                     </Descriptions.Item>
                 );
-            } else {
+            }*/ else {
                 infos.push(
                     <Descriptions.Item
                         key={key}
