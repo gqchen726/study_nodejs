@@ -53,12 +53,14 @@ export class NewDataInfo extends React.Component {
                 console.log(response)
 
                 this.changeEditMode();
-                if (responseBody.code == "0") {
+                console.log(responseBody.code)
+                if (responseBody.code == 0) {
                     this.setState({
                         newData : responseBody.body,
-                        isInitStatus: false
+                        isInitStatus: false,
+                        isEditMode: false
                     })
-                    this.changeEditMode();
+                    // this.changeEditMode();
                 }
                 util.tipMessage('save info tips',responseBody.message)
             }).catch((error) => {
@@ -143,7 +145,7 @@ export class NewDataInfo extends React.Component {
                 // <CarouselMap autoPlay={true}>
                 //     {this.renderImages(newData)}
                 // </CarouselMap>
-                <CarouselMap data={newData} />
+                <CarouselMap sources={newData} />
             );
         }
     }
@@ -198,7 +200,7 @@ export class NewDataInfo extends React.Component {
                     }
                 >
                     {/*跑马灯*/}
-                    {newData.resources?this.renderCarouselMap(isEditMode,newData):null}
+                    {newData.resources?this.renderCarouselMap(isEditMode,newData.resources):null}
 
                     {/*跑马灯*/}
                     {/*<div className="home-lunbo">

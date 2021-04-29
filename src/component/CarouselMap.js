@@ -28,12 +28,12 @@ export class CarouselMap extends React.Component {
         let resourceArr = sources.split(";");
         if (resourceArr.length < 1) return (
             <Image
-                key={resourceArr}
+                key={sources}
                 // src={`https://192.168.1.7:3039/${resourceArr}`}
-                src={`${urlsUtil.image.get}?file=${source}`}
+                src={`${urlsUtil.image.get}?file=${sources}`}
                 width={480}
                 height={240}
-                alt={resourceArr}
+                alt={sources}
                 //style={contentStyle}
             />
         );
