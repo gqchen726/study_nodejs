@@ -191,9 +191,13 @@ export class PageN extends React.Component {
                             <Link to={'/personalCenter'}>个人中心</Link>
                         </Menu.Item>
 
-                        <Menu.Item key="myOrders" title="我的预约" icon={<UploadOutlined/>}>
-                            <Link to={'/myOrders'}>我的预约</Link>
-                        </Menu.Item>
+                        {
+                            this.props.user.admin ?
+                                null:
+                                <Menu.Item key="sub3" title="我的订单" icon={<UploadOutlined/>}>
+                                    <Link to={'/myOrder'}>我的订单</Link>
+                                </Menu.Item>
+                        }
 
                         {/*<Menu.Item key="myCollections" title="我的收藏" icon={<BarChartOutlined/>}>
                             <Link to={'/myCollections'}>我的收藏</Link>
