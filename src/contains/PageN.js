@@ -182,7 +182,7 @@ export class PageN extends React.Component {
                         <Menu.Item key="home" title="首页" icon={<HomeOutlined />}>
                             <Link to={'/home'}>首页</Link>
                         </Menu.Item>
-                        <SubMenu key="productCategory" title="科目分类" icon={<BarsOutlined />}>
+                        <SubMenu key="productCategory" title="景区分类" icon={<BarsOutlined />}>
                             {menuItems}
                         </SubMenu>
 

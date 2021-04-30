@@ -9,6 +9,9 @@ import Image from "antd/es/image";
 import {util} from "../common/Util";
 import {MyCascader} from "./MyCascader";
 import Radio from "antd/es/radio";
+import Text from "antd/es/typography/Text";
+import ellipsis from "polished";
+import Paragraph from "antd/es/typography/Paragraph";
 
 const { Option } = Select;
 
@@ -125,6 +128,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
                     >
                         <Image
                             key={key}
@@ -140,8 +144,16 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
                     >
-                        {util.codeTable(descriptered[col])}
+                        <Paragraph>
+                            <Text
+                                style={ellipsis ? { width: 100 } : undefined}
+                                ellipsis={ellipsis ? { tooltip: 'I am ellipsis now!' } : false}
+                            >
+                                {util.codeTable(descriptered[col])}
+                            </Text>
+                        </Paragraph>
                     </Descriptions.Item>
                 );
             }
@@ -168,6 +180,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
                     >
                         <Input
                             id={col}
@@ -185,6 +198,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
                     >
                         <Radio.Group name="sex" defaultValue={"male"} value={descriptered[col]} onChange={this.autoSave}>
                             <Radio value='male'>男</Radio>
@@ -197,6 +211,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
                     >
                         <MyDatePicker title={""} onClickHandler={this.saveBirth} fromToday={false} />
                     </Descriptions.Item>
@@ -206,6 +221,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
                     >
                         <MyCascader saveAddress={this.saveAddress} area={descriptered[col]} />
                     </Descriptions.Item>
@@ -215,6 +231,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
                     >
                         {/*<Image
                             key={key}
@@ -236,6 +253,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
                     >
                         <Input.TextArea
                             id={col}
@@ -254,6 +272,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
                     >
                         <Input
                             id={col}
