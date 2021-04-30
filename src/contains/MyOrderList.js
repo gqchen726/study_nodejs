@@ -47,7 +47,7 @@ export default class MyOrderList extends React.Component {
                 actions.push(<MyTooltip title={"删除该订单"} component={<Button icon={<Close/>} onClick={() => {
                     axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=cancel`).then((res) => {this.getOrderList();util.tipMessage("订单状态提示",res.data.message)})
                 }} primary={true}/>} />)
-                actions.push(<MyTooltip title={"提交审核"} component={<Button icon={<Send/>} onClick={() => {
+                actions.push(<MyTooltip title={"支付"} component={<Button icon={<Send/>} onClick={() => {
                     axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=submission`).then((res) => {this.getOrderList();util.tipMessage("订单状态提示",res.data.message)})
                 }}/>} />)
                 break;
