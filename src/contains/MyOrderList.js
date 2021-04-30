@@ -8,6 +8,7 @@ import {Anchor, Box, Tip} from "grommet";
 import {Close, Send, User} from "grommet-icons";
 import {MyTip} from "../component/MyTip";
 import {util} from "../common/Util";
+import {MyTooltip} from "../component/MyTooltip";
 export default class MyOrderList extends React.Component {
 
     constructor(props) {
@@ -35,6 +36,29 @@ export default class MyOrderList extends React.Component {
                 }} primary={true}/>)
                 break;
             }
+        }
+
+        //订单状态为 generated 时，可以取消
+        //订单状态为 cancel 时，可以删除
+        //订单状态为 approval 时，仅可支付操作
+        //订单状态为 reject 时，仅可删除操作
+        switch (status) {
+            case "generated": {
+                actions.push(<MyTooltip title={"删除该订单"} component={<Button icon={<Close/>} onClick={() => {
+                    axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=cancel`).then((res) => {this.getOrderList();util.tipMessage("订单状态提示",res.data.message)})
+                }} primary={true}/>} />)
+                actions.push(<MyTooltip title={"提交审核"} component={<Button icon={<Send/>} onClick={() => {
+                    axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=submission`).then((res) => {this.getOrderList();util.tipMessage("订单状态提示",res.data.message)})
+                }}/>} />)
+                break;
+            }
+            case "cancel": {
+                actions.push(<MyTooltip title={"删除该订单"} component={<Button icon={<Close/>} onClick={() => {
+                    axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=deleted`).then((res) => {this.getOrderList();util.tipMessage("订单状态提示",res.data.message)})
+                }} primary={true}/>} />)
+                break;
+            }
+
         }
 
         return actions;
