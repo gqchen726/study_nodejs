@@ -212,8 +212,8 @@ export class PageN extends React.Component {
 
                         {
                             !!user && user.admin ?
-                                <Menu.Item key="sub7" title="新增车辆" icon={<CloudOutlined/>}>
-                                    <Link to={'/addProduct'}>新增车辆</Link>
+                                <Menu.Item key="sub7" title="新增旅游景点" icon={<CloudOutlined/>}>
+                                    <Link to={'/addProduct'}>新增旅游景点</Link>
                                 </Menu.Item> : null
                         }
 

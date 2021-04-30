@@ -268,7 +268,7 @@ export class DataInfo extends React.Component {
                                     <span
                                         style={{font:{size:'11px'}}}
                                     >
-                                        <Link to={`/orderGenerate/${product.productCode}`} >预定</Link>
+                                        <Link to={`/orderGenerate/${product.productCode}`} >门票预定</Link>
                                     </span>
                                 )
 
