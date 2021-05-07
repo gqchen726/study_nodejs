@@ -32,8 +32,8 @@ class App extends React.Component {
             <ErrorBoundary>
             {/*<MyRouter user={this.state.user} getUser={this.getUser} />*/}
             {/*    <Page user={this.state.user} getUser={this.getUser} />*/}
-            {/*    <PageH user={this.state.user} getUser={this.getUser} />*/}
-                <PageN user={this.state.user} getUser={this.getUser} />
+                <PageH user={this.state.user} getUser={this.getUser} />
+                {/*<PageN user={this.state.user} getUser={this.getUser} />*/}
             </ErrorBoundary>
         );
 

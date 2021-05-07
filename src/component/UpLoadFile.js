@@ -59,7 +59,7 @@ export class UpLoadFile extends React.Component {
         const uploadButton = (
             <div>
                 <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
+                <div style={{ marginTop: 16 }}>Upload</div>
             </div>
         );
         return (

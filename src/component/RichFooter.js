@@ -61,6 +61,9 @@ export class RichFooter extends React.Component{
         let {favorite, open} = this.state;
         let {product} = this.props;
         const Icon = open ? FormUp : FormDown;
+        const rows = 5;
+        const expandable = false;
+        const ellipsis = true;
         return (
             <Grommet theme={theme}>
                 <Box pad="medium" align="start">
@@ -68,41 +71,57 @@ export class RichFooter extends React.Component{
                         <CardBody height="small">
                             <Image
                                 fit="cover"
-                                src={product.resources ? `${urlsUtil.image.get}?file=${product.resources[0]}`:null}
-                                a11yTitle="bridge"
+                                src={product.resources ? `${urlsUtil.image.get}?file=${product.resources.split(";")[0]}`:null}
+                                a11yTitle={product.productName}
                             />
                         </CardBody>
                         <Box pad={{ horizontal: 'medium' }} responsive={false}>
-                            <Heading level="3" margin={{ vertical: 'medium' }}>
-                                Bridge
-                            </Heading>
-                            <Paragraph margin={{ top: 'none' }}>
+
+                            <Anchor
+                                href={`/#/dataInfo/${product.productCode}`}
+                                label={product.productName}
+                            >
+                                {/*<Heading level="3" margin={{ vertical: 'medium' }}>
+                                    {product.productName}
+                                </Heading>*/}
+                            </Anchor>
+                            {/*<Paragraph margin={{ top: 'none' }}>
                                 {product.productName}
-                            </Paragraph>
+                            </Paragraph>*/}
                         </Box>
                         <CardFooter>
                             <Box direction="row" align="center" gap="small">
                                 <Button
                                     icon={<Favorite color={favorite ? 'red' : undefined} />}
                                     hoverIndicator
-                                    onClick={() => {
-                                        this.setFavorite(!favorite);
-                                    }}
+                                    onClick={() => this.setFavorite(!favorite)}
                                 />
-                                <Button icon={<ShareOption color="plain" />} hoverIndicator />
-                                <Anchor
+                                {/*<Button icon={<ShareOption color="plain" />} hoverIndicator />*/}
+                                {/*<Anchor
                                     href={`/#/dataInfo/${product.productCode}`}
                                     label="See More"
-                                />
+                                />*/}
                             </Box>
-                            <Button
+                            {/*<Button
                                 hoverIndicator="light-4"
                                 icon={<Icon color="brand" />}
                                 onClick={() => this.setOpen(!open)}
-                            />
+                            />*/}
                         </CardFooter>
                         <Collapsible open={open}>
-                            <Paragraph margin="medium" color="dark-3">
+                            {/*<Paragraph margin="medium" color="dark-3">
+                                {product.description}
+                            </Paragraph>*/}
+                            {/*<Paragraph
+                                margin="medium"
+                                color="dark-3"
+                                ellipsis={{ rows, expandable }}
+                                copyable={true}
+                                editable={false}
+                            >
+                                {product.description}
+                            </Paragraph>*/}
+                            <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
                                 {product.description}
                             </Paragraph>
                         </Collapsible>

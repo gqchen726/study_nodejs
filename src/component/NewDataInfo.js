@@ -1,5 +1,4 @@
 import React from 'react'
-import {CarouselMap} from "../contains/CarouselMap";
 import {Card} from "antd";
 import {Button, Carousel, notification} from "antd/es";
 import PropTypes from 'prop-types'
@@ -13,6 +12,7 @@ import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {UpLoadFile} from "./UpLoadFile";
 import Image from "antd/es/image";
 import {util} from "../common/Util";
+import {CarouselMap} from "./CarouselMap";
 
 
 const localContext = require('../cache/LocalContext');
@@ -145,7 +145,14 @@ export class NewDataInfo extends React.Component {
                 // <CarouselMap autoPlay={true}>
                 //     {this.renderImages(newData)}
                 // </CarouselMap>
-                <CarouselMap sources={newData} />
+                // <CarouselMap sources={newData} />
+            <CarouselMap
+                getFileList={this.getFileList}
+                isEditMode={isEditMode}
+                sources={newData.resources}
+                user={this.props.user}
+                autoPlay={true}
+            />
             );
         }
     }

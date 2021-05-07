@@ -48,7 +48,7 @@ export class PageH extends React.Component {
                 },
 
             ],
-            fontStyle: {fontSize:"18px",fontWeight:600}
+            fontStyle: {fontSize:"18px",fontWeight:600,color:"#7d4acf"}
         };
 
     }
@@ -197,6 +197,7 @@ export class PageH extends React.Component {
                         <Menu
                             dropProps={{
                                 align: { top: 'bottom', left: 'left' },
+                                // color: "#7d4acf",
                                 elevation: 'xlarge',
                             }}
                             label={<span style={fontStyle}>景区分类</span>}
@@ -209,7 +210,7 @@ export class PageH extends React.Component {
                         <Anchor label={<span style={fontStyle}>浏览历史</span>} href="/#/browsingHistory" />
                         {
                             !!user && user.admin ?
-                                <Anchor label={<span style={fontStyle}>新增产品</span>} href="/addProduct" /> : null
+                                <Anchor label={<span style={fontStyle}>新增产品</span>} href="/#/addProduct" /> : null
                         }
                     </Nav>
                 </Header>

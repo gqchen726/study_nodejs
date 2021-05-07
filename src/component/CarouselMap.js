@@ -114,5 +114,6 @@ CarouselMap.propTypes = {
     sources: PropTypes.array,
     user: PropTypes.object,
     isEditMode: PropTypes.bool,
-    getFileList: PropTypes.func
+    getFileList: PropTypes.func,
+    autoPlay: PropTypes.bool
 }

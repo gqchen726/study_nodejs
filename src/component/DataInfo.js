@@ -188,8 +188,9 @@ export class DataInfo extends React.Component {
     }
 
     renderCarouselMap = (isEditMode,sources) => {
+        if (!sources) return null;
         return (
-            <CarouselMap getFileList={this.getFileList} isEditMode={isEditMode} sources={sources} user={this.props.user} />
+            <CarouselMap getFileList={this.getFileList} isEditMode={isEditMode} sources={sources} user={this.props.user} autoPlay={true} />
         );
     }
 
@@ -226,7 +227,10 @@ export class DataInfo extends React.Component {
                     }
                 >
                     {/*跑马灯*/}
-                    {product.resources?this.renderCarouselMap(isEditMode,product.resources):null}
+                    {/*{product.resources|isEditMode?this.renderCarouselMap(isEditMode,product.resources):null}*/}
+                    {
+                        this.renderCarouselMap(isEditMode,product.resources)
+                    }
                     {/*<div className="home-lunbo">
                         <Carousel {...lunboSetting} >
                             {this.renderImages(data)}

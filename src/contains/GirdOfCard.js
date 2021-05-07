@@ -9,6 +9,7 @@ import '../public/css/DataShowGrid.css'
 import {withRouter} from "react-router";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {arrayUtils} from "../common/ArrayUtils";
+import {RichFooter} from "../component/RichFooter";
 
 export class GirdOfCard extends React.Component {
     constructor(props) {
@@ -52,7 +53,7 @@ export class GirdOfCard extends React.Component {
             let {productCode} = data;
             console.log(imgs)
             return (
-                <Card.Grid key={index} className={"GirdOfCard"} >
+                /*<Card.Grid key={index} className={"GirdOfCard"} >
                     <Link to={{
                         pathname: `/dataInfo/${productCode}`,
                         // search: `/${index}`,
@@ -70,8 +71,12 @@ export class GirdOfCard extends React.Component {
                         >
                             <Meta title={data.productName} description={data.productCode} />
                         </Card>
+                        {/!*<RichFooter product={data} />*!/}
                     </Link>
-                </Card.Grid>
+                </Card.Grid>*/
+            <Card.Grid key={index} className={"GirdOfCard"} >
+                <RichFooter product={data} />
+            </Card.Grid>
             );
         })
 
