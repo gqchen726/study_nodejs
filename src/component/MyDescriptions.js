@@ -10,8 +10,8 @@ import {util} from "../common/Util";
 import {MyCascader} from "./MyCascader";
 import Radio from "antd/es/radio";
 import Text from "antd/es/typography/Text";
-import ellipsis from "polished";
 import Paragraph from "antd/es/typography/Paragraph";
+import ellipsis from "polished";
 
 const { Option } = Select;
 

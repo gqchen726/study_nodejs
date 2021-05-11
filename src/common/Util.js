@@ -49,17 +49,17 @@ const base = {
         } else if (property == "sex") {
             result = "性别";
         } else if (property == "productName") {
-            result = "产品名称";
+            result = "景点名称";
         } else if (property == "productCode") {
-            result = "产品代码";
+            result = "景点代码";
         } else if (property == "description") {
-            result = "产品描述";
+            result = "景点描述";
         } else if (property == "price") {
-            result = "产品价格";
+            result = "景点价格";
         } else if (property == "category") {
-            result = "产品分类";
+            result = "景点分类";
         } else if (property == "owner") {
-            result = "产品拥有者";
+            result = "景点拥有者";
         } else if (property == "ex") {
             result = "扩展";
         } else if (property == "detailDate") {
@@ -131,10 +131,11 @@ export const util = {
     codeTable: (property) => {
         return base.codeTable(property);
     },
-    sendCheckCode: (mobileNumber) => {
-        axios.get(
-            `${urlsUtil.user.getCheckCode}?mobileNumber=${mobileNumber}`
-        ).then(
+    sendCheckCode: (mobileNumber,email) => {
+        let url = !!email?
+            `${urlsUtil.user.getCheckCode}?mobileNumber=${mobileNumber}&email=${email}`:
+            `${urlsUtil.user.getCheckCode}?mobileNumber=${mobileNumber}`;
+        axios.get(url).then(
             response => {
                 base.tipMessage("验证码提示",response.data.message)
             }

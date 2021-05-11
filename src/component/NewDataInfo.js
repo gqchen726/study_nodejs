@@ -23,12 +23,12 @@ export class NewDataInfo extends React.Component {
             isEditMode: true,
             isLoading: false,
             newData: {
-                category: "产品分类",
+                category: "景点分类",
                 description: "这是一条描述信息",
                 ex: "额外描述",
                 price: "价格",
-                productCode: "产品代码",
-                productName: "产品名字",
+                productCode: "景点代码",
+                productName: "景点名字",
             },
             isInitStatus: true
         }
@@ -217,7 +217,7 @@ export class NewDataInfo extends React.Component {
                     </div>*/}
 
                     <MyDescriptions
-                        title={"产品信息"}
+                        title={"景点信息"}
                         layout={"horizontal"}
                         bordered={true}
                         descriptered={newData}
@@ -266,11 +266,11 @@ NewDataInfoW.propTypes = {
 }
 NewDataInfoW.defaultProps = {
     newData: {
-        category: "产品分类",
+        category: "景点分类",
         description: "这是一条描述信息",
         ex: "额外描述",
         price: "价格",
-        productCode: "产品代码",
-        productName: "产品名字",
+        productCode: "景点代码",
+        productName: "景点名字",
     }
 }

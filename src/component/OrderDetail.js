@@ -120,7 +120,7 @@ export class OrderDetail extends React.Component {
                         <br />
                         <MyDescriptions
                             descriptered={orderDetail.product}
-                            title={"产品信息"}
+                            title={"景点信息"}
                             bordered={true}
                             layout={"horizontal"}
                         />
@@ -150,7 +150,7 @@ export class OrderDetail extends React.Component {
                         <br />
                         <MyDescriptions
                             descriptered={orderDetail.product}
-                            title={"产品信息"}
+                            title={"景点信息"}
                             bordered={true}
                             layout={"horizontal"}
                         />

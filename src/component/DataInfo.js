@@ -188,7 +188,8 @@ export class DataInfo extends React.Component {
     }
 
     renderCarouselMap = (isEditMode,sources) => {
-        if (!sources) return null;
+
+        if (!sources && !isEditMode) return null
         return (
             <CarouselMap getFileList={this.getFileList} isEditMode={isEditMode} sources={sources} user={this.props.user} autoPlay={true} />
         );
@@ -238,7 +239,7 @@ export class DataInfo extends React.Component {
                     </div>*/}
 
                     <MyDescriptions
-                        title={"产品信息"}
+                        title={"景点信息"}
                         layout={"horizontal"}
                         bordered={true}
                         descriptered={product}
@@ -265,16 +266,14 @@ export class DataInfo extends React.Component {
                         onClick={this.search}
                     >
                         {
-                            user.admin ?
-                                null
-                                :
+                            user && !user.admin ?
                                 (
                                     <span
                                         style={{font:{size:'11px'}}}
                                     >
                                         <Link to={`/orderGenerate/${product.productCode}`} >门票预定</Link>
                                     </span>
-                                )
+                                ):null
 
                         }
                     </Button>

@@ -258,7 +258,7 @@ export class OrderSteps extends React.Component {
                         <br />
                         <MyDescriptions
                             descriptered={orderGenerate.product}
-                            title={"产品信息"}
+                            title={"景点信息"}
                             bordered={true}
                             layout={"horizontal"}
                         />

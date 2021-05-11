@@ -78,7 +78,7 @@ export class SimLogin extends React.Component {
                          )
                      };
                      //PageN专属,PageH需注释掉
-                     result = data.body;
+                     // result = data.body;
                      // 本地缓存Cookie
                      if (this.state.rememberMe) {
                          localContext.put('user',result);
@@ -209,7 +209,7 @@ export class SimLogin extends React.Component {
                         )
                     };
                     //PageN专属,PageH需注释掉
-                    result = data.body;
+                    // result = data.body;
                     sessionContext.put("user",result)
                     this.props.getUser(this,result);
 
@@ -270,7 +270,7 @@ export class SimLogin extends React.Component {
             util.tipMessage("验证码提示","请输入邮箱地址后重试");
             return;
         }
-        util.sendCheckCode(user.email);
+        util.sendCheckCode(user.mobileNumber,user.email);
         this.setState({loadingForCheckCode:true})
         let timerKey = setInterval(() => {
 

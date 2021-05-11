@@ -27,6 +27,8 @@ import {
     ResponsiveContext,
 } from 'grommet';
 import {Grommet as GrommetIcon, Menu as MenuIcon } from 'grommet-icons';
+import Avatar from "antd/es/avatar";
+import {UserStateBarOfH} from "./UserStateBarOfH";
 //创建context,定义一个全局变量
 const ThemeContext = React.createContext("light");
 export class PageH extends React.Component {
@@ -210,8 +212,11 @@ export class PageH extends React.Component {
                         <Anchor label={<span style={fontStyle}>浏览历史</span>} href="/#/browsingHistory" />
                         {
                             !!user && user.admin ?
-                                <Anchor label={<span style={fontStyle}>新增产品</span>} href="/#/addProduct" /> : null
+                                <Anchor label={<span style={fontStyle}>新增景点</span>} href="/#/addProduct" /> : null
                         }
+                        <UserStateBarOfH user={this.props.user} getUser={this.getUser} />
+
+
                     </Nav>
                 </Header>
                 {/*<Header background="dark-1" pad="medium">
