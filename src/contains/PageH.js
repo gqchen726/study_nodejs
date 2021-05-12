@@ -207,7 +207,10 @@ export class PageH extends React.Component {
                             items={menuItems}
                         />
                         <Anchor label={<span style={fontStyle}>个人中心</span>} href="/#/personalCenter" />
-                        <Anchor label={<span style={fontStyle}>我的订单</span>} href="/#/myOrders" />
+                        {
+                            user && user.admin ?null:
+                                <Anchor label={<span style={fontStyle}>我的订单</span>} href="/#/myOrders" />
+                        }
                         <Anchor label={<span style={fontStyle}>我的收藏</span>} href="/#/myCollections" />
                         <Anchor label={<span style={fontStyle}>浏览历史</span>} href="/#/browsingHistory" />
                         {
