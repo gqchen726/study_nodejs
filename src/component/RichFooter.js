@@ -77,17 +77,18 @@ export class RichFooter extends React.Component{
                         </CardBody>
                         <Box pad={{ horizontal: 'medium' }} responsive={false}>
 
-                            <Anchor
+                            {/*<Anchor
                                 href={`/#/dataInfo/${product.productCode}`}
                                 label={product.productName}
                             >
-                                {/*<Heading level="3" margin={{ vertical: 'medium' }}>
+                                <Heading level="3" margin={{ vertical: 'medium' }}>
                                     {product.productName}
-                                </Heading>*/}
-                            </Anchor>
-                            {/*<Paragraph margin={{ top: 'none' }}>
+                                </Heading>
+                            </Anchor>*/}
+                            <br />
+                            <Paragraph margin={{ top: 'none' }}>
                                 {product.productName}
-                            </Paragraph>*/}
+                            </Paragraph>
                         </Box>
                         <CardFooter>
                             <Box direction="row" align="center" gap="small">
@@ -97,10 +98,10 @@ export class RichFooter extends React.Component{
                                     onClick={() => this.setFavorite(!favorite)}
                                 />
                                 {/*<Button icon={<ShareOption color="plain" />} hoverIndicator />*/}
-                                {/*<Anchor
+                                <Anchor
                                     href={`/#/dataInfo/${product.productCode}`}
                                     label="See More"
-                                />*/}
+                                />
                             </Box>
                             {/*<Button
                                 hoverIndicator="light-4"
