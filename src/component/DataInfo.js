@@ -191,7 +191,13 @@ export class DataInfo extends React.Component {
 
         if (!sources && !isEditMode) return null
         return (
-            <CarouselMap getFileList={this.getFileList} isEditMode={isEditMode} sources={sources} user={this.props.user} autoPlay={true} />
+            <CarouselMap
+                getFileList={this.getFileList}
+                isEditMode={isEditMode}
+                sources={sources}
+                user={this.props.user}
+                autoPlay={true}
+            />
         );
     }
 

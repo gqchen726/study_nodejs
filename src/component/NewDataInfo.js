@@ -42,6 +42,7 @@ export class NewDataInfo extends React.Component {
 
         if (isEditMode) {
             this.setFileResources(fileList);
+            newData = this.state.newData;
             if (!newData) {
                 return ;
             }
@@ -55,11 +56,13 @@ export class NewDataInfo extends React.Component {
                 this.changeEditMode();
                 console.log(responseBody.code)
                 if (responseBody.code == 0) {
-                    this.setState({
-                        newData : responseBody.body,
-                        isInitStatus: false,
-                        isEditMode: false
-                    })
+                    setTimeout(() => {
+                        this.setState({
+                            newData : responseBody.body,
+                            isInitStatus: false,
+                            isEditMode: false
+                        })
+                    },0)
                     // this.changeEditMode();
                 }
                 util.tipMessage('save info tips',responseBody.message)
@@ -137,7 +140,7 @@ export class NewDataInfo extends React.Component {
         return ImageArr;
     }
 
-    renderCarouselMap = (isEditMode,newData) => {
+    renderCarouselMap = (isEditMode,sources) => {
         if (isEditMode) {
             return null;
         } else {
@@ -149,7 +152,7 @@ export class NewDataInfo extends React.Component {
             <CarouselMap
                 getFileList={this.getFileList}
                 isEditMode={isEditMode}
-                sources={newData.resources}
+                sources={sources}
                 user={this.props.user}
                 autoPlay={true}
             />
