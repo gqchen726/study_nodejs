@@ -29,6 +29,7 @@ import {
 import {Grommet as GrommetIcon, Menu as MenuIcon } from 'grommet-icons';
 import Avatar from "antd/es/avatar";
 import {UserStateBarOfH} from "./UserStateBarOfH";
+import {BladesVertical, Home, OrderedList} from "grommet-icons/es6";
 //创建context,定义一个全局变量
 const ThemeContext = React.createContext("light");
 export class PageH extends React.Component {
@@ -183,7 +184,7 @@ export class PageH extends React.Component {
                 <Header background="light-4" pad="small">
                     {/*<Avatar src={gravatarLink} />*/}
                     <Nav direction="row">
-                        <Anchor label={<span style={fontStyle}>首页</span>} href="/#/home" />
+                        <Anchor label={<span style={fontStyle}>首页</span>} href="/#/home" icon={<Home />} />
 
                         {/*<ResponsiveContext.Consumer>*/}
                         {/*    <Box justify="end" direction="row" gap="medium">*/}
@@ -202,14 +203,15 @@ export class PageH extends React.Component {
                                 // color: "#7d4acf",
                                 elevation: 'xlarge',
                             }}
+                            icon={<BladesVertical />}
                             label={<span style={fontStyle}>景区分类</span>}
                             // icon={<MenuIcon color="brand" />}
                             items={menuItems}
                         />
-                        <Anchor label={<span style={fontStyle}>个人中心</span>} href="/#/personalCenter" />
+                        <Anchor icon={<User />} label={<span style={fontStyle}>个人中心</span>} href="/#/personalCenter" />
                         {
                             user && user.admin ?null:
-                                <Anchor label={<span style={fontStyle}>我的订单</span>} href="/#/myOrders" />
+                                <Anchor icon={<OrderedList />} label={<span style={fontStyle}>我的订单</span>} href="/#/myOrders" />
                         }
                         <Anchor label={<span style={fontStyle}>我的收藏</span>} href="/#/myCollections" />
                         <Anchor label={<span style={fontStyle}>浏览历史</span>} href="/#/browsingHistory" />
