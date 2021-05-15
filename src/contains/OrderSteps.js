@@ -101,7 +101,7 @@ export class OrderSteps extends React.Component {
             orderGenerate.productCode = data.productCode;
             orderGenerate.productNum = productNum;
             orderGenerate.mobileNumber = user.mobileNumber;
-            if (!orderGenerate.data) {
+            if (!orderGenerate.date) {
                 util.tipMessage("日期必填提示","请确认预约时间")
                 return ;
             }

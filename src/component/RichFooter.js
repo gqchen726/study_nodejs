@@ -10,12 +10,12 @@ import {
     Collapsible,
     Heading,
     Grommet,
-    Image,
     Paragraph,
 } from 'grommet';
 
 import { FormDown, FormUp, Favorite, ShareOption } from 'grommet-icons';
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import Image from "antd/es/image";
 
 const theme = {
     global: {
@@ -69,10 +69,18 @@ export class RichFooter extends React.Component{
                 <Box pad="medium" align="start">
                     <Card elevation="large" width="medium">
                         <CardBody height="small">
-                            <Image
+                            {/*<Image
                                 fit="cover"
                                 src={product.resources ? `${urlsUtil.image.get}?file=${product.resources.split(";")[0]}`:null}
                                 a11yTitle={product.productName}
+                            />*/}
+                            <Image
+                                key={product.resources}
+                                src={product.resources ? `${urlsUtil.image.get}?file=${product.resources.split(";")[0]}`:null}
+                                width={249}
+                                height={165}
+                                alt={product.resources}
+                                //style={contentStyle}
                             />
                         </CardBody>
                         <Box pad={{ horizontal: 'medium' }} responsive={false}>
