@@ -640,10 +640,10 @@ export class SimLogin extends React.Component {
                 key: 'loginForPassword',
                 tab: '密码登陆'
             },
-            {
+            /*{
                 key: 'loginForCheckCode',
                 tab: '验证码登陆'
-            }
+            }*/
         ];
         /*
          * 密码登陆卡片
@@ -749,7 +749,7 @@ export class SimLogin extends React.Component {
 
         let cardContentList = {
             loginForPassword: loginForPassword,
-            loginForCheckCode: loginForCheckCode,
+            // loginForCheckCode: loginForCheckCode,
         };
         let {key} = this.state;
 
