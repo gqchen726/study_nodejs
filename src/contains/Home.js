@@ -1,12 +1,12 @@
 import React from 'react'
 // import '../public/css/App.css'
-import {CarouselMap} from "./CarouselMap";
 import {SearchBar} from "./SearchBar";
 import {Link} from "react-router-dom";
 import {AutoComplete} from "antd";
 import Button from "antd/es/button";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import {CarouselMap} from "../component/CarouselMap";
 // import Route from "react-router/modules/Route";
 // import {useRouteMatch} from "react-router";
 
@@ -63,7 +63,7 @@ export class Home extends React.Component {
         // let {path,url} = useRouteMatch();
 
         let {searchIng, optionValue, options} = this.state;
-        let sources = '1.jpg;2.jpg';
+        let sources = 'licensed-image (2)1621080176069.jpg;licensed-image (6)1620378109693.jpg';
         return (
             <div id='root' className="App">
                 {/*<header className="App-header">*/}
@@ -110,7 +110,14 @@ export class Home extends React.Component {
                         </Button>
                     </div>
                     <br /><br />
-                    <CarouselMap autoPlay={true} user={this.props.user} sources={sources} />
+                    {/*<CarouselMap autoPlay={true} user={this.props.user} sources={sources} />*/}
+                    <CarouselMap
+                        getFileList={this.getFileList}
+                        isEditMode={false}
+                        sources={sources}
+                        user={this.props.user}
+                        autoPlay={true}
+                    />
                     <br /><br />
 
                     {/*<Link to={'/login'}>*/}
