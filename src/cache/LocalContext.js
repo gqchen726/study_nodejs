@@ -6,22 +6,26 @@ const localContext = {
             localStorage.setItem(key,JSON.stringify(value));
         }
     },
-    set: (key,value,outOfDate) => {
-        value.outOfDate = outOfDate;
-        if(!localStorage.getItem(key)) {
-            localStorage.setItem(key,JSON.stringify(value));
+    set: (key,value,outOfDate = 0) => {
+        const data = {
+            value,
+            outOfDate
+        }
+        console.log(data)
+        if(!localContext.getItem(key)) {
+            localContext.setItem(key,JSON.stringify(data));
         }
     },
     get: (key) => {
-        if(localStorage.getItem(key)) {
-            let value = localStorage.getItem(key);
-            console.log(value)
+        if(this.has(key)) {
+            let value = localContext.getItem(key);
             if (value == undefined) return null;
             let obj = JSON.parse(value);
-            if (obj.outOfDate && obj.outOfDate <= new Date()) {
-                return '缓存已过期'
+            if (!!obj.outOfDate && (obj.outOfDate <= new Date() || obj.outOfDate === 0)) {
+                this.remove(key)
+                return null;
             } else {
-                return obj;
+                return obj.value;
             }
         }
         return null;

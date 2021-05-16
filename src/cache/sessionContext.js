@@ -1,27 +1,31 @@
 
-const sessionStorage = window.localStorage;
+const sessionStorage = window.sessionStorage;
 const sessionContext = {
     put: (key,value) => {
         if(!sessionStorage.getItem(key)) {
             sessionStorage.setItem(key,JSON.stringify(value));
         }
     },
-    set: (key,value,outOfDate) => {
-        value.outOfDate = outOfDate;
+    set: (key,value,outOfDate = 0) => {
+        const data = {
+            value,
+            outOfDate
+        }
+        console.log(data)
         if(!sessionStorage.getItem(key)) {
-            sessionStorage.setItem(key,JSON.stringify(value));
+            sessionStorage.setItem(key,JSON.stringify(data));
         }
     },
     get: (key) => {
-        if(sessionStorage.getItem(key)) {
-            let value = localStorage.getItem(key);
-            console.log(value)
+        if(this.has(key)) {
+            let value = sessionStorage.getItem(key);
             if (value == undefined) return null;
             let obj = JSON.parse(value);
-            if (obj.outOfDate && obj.outOfDate <= new Date()) {
-                return '缓存已过期'
+            if (!!obj.outOfDate && (obj.outOfDate <= new Date() || obj.outOfDate === 0)) {
+                this.remove(key)
+                return null;
             } else {
-                return obj;
+                return obj.value;
             }
         }
         return null;

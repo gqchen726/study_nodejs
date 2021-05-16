@@ -10,6 +10,7 @@ import PropTypes from "prop-types"
 import "./../public/css/UseStatusBar.css"
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import localContext from "../cache/LocalContext";
+import sessionContext from "../cache/sessionContext";
 export class UserStateBar extends React.Component {
 
     constructor(props) {
@@ -110,6 +111,7 @@ export class UserStateBar extends React.Component {
                 content: '登出',
                 handleClick: () => {
                     localContext.remove('user');
+                    sessionContext.remove('user');
                     window.location.reload();
                 }
             },

@@ -13,6 +13,7 @@ import localContext from "../cache/LocalContext";
 import Avatar from "antd/es/avatar";
 import {Menu} from "grommet";
 import {Link} from "react-router-dom";
+import sessionContext from "../cache/sessionContext";
 export class UserStateBarOfH extends React.Component {
 
     constructor(props) {
@@ -140,6 +141,7 @@ export class UserStateBarOfH extends React.Component {
                 content: '登出',
                 handleClick: () => {
                     localContext.remove('user');
+                    sessionContext.remove('user');
                     window.location.reload();
                 }
             },

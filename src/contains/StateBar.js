@@ -6,6 +6,7 @@ import {
 } from "antd/es";
 import {ButtonList} from "../component/ButtonList";
 import {Login} from "./Login";
+import sessionContext from "../cache/sessionContext";
 const localContext = require('../cache/LocalContext');
 
 export class StateBar extends React.Component {
@@ -96,6 +97,7 @@ export class StateBar extends React.Component {
                 content: '登出',
                 handleClick: () => {
                     localContext.remove('user');
+                    sessionContext.remove('user');
                     window.location.reload();
                 }
             }
