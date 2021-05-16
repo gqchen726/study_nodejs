@@ -93,7 +93,11 @@ export class PageH extends React.Component {
 
     renderRoutes = () => {
         return (
-            <MyRouter user={this.state.user} getUser={this.getUser} />
+            <MyRouter
+                user={this.props.user}
+                getUser={this.getUser}
+                refreshMenuItems={this.renderMenuItems1}
+            />
             // <MyRouterWithHook user={this.state.user} getUser={this.getUser} />
         );
     }
@@ -144,9 +148,11 @@ export class PageH extends React.Component {
             }
             let oldMenuItems = this.state.menuItems;
             if (oldMenuItems != menuItems) {
-                this.setState({
-                    menuItems: menuItems
-                });
+                setTimeout(() => {
+                    this.setState({
+                        menuItems: menuItems
+                    });
+                },0)
             }
         })
     }

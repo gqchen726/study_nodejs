@@ -90,7 +90,7 @@ export const MyRouterWithHook = (props) => {
                 {/*    <SimpleLogin getUser={props.getUser} />*/}
                 {/*</Route>*/}
                 <Route exact path="/dataInfo/:key" >
-                    <DataInfoW datas={props.datas} user={props.user} />
+                    <DataInfoW datas={props.datas} user={props.user} refreshMenuItems={props.refreshMenuItems} />
                 </Route>
                 <Route exact path='/myCollections' >
                     {props.accessControl(<MyCollections user={props.user} />)}

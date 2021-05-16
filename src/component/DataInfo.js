@@ -123,6 +123,7 @@ export class DataInfo extends React.Component {
             let responseBody = response.data;
             console.log(response)
 
+            this.props.refreshMenuItems();
             this.changeEditMode();
             util.tipMessage('remove info tips',responseBody.message)
         }).catch((error) => {
