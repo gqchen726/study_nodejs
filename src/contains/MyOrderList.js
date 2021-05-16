@@ -20,7 +20,7 @@ export default class MyOrderList extends React.Component {
     renderActions = (status,orderId) => {
         let actions = [];
         //订单状态为 generated 时，可以取消订单、订单支付|取消和提交
-        switch (status) {
+        /*switch (status) {
             case "generated": {
                 actions.push(<Button icon={<Close/>} onClick={() => {
                     axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=deleted`).then(() => {this.getOrderList()})
@@ -36,7 +36,7 @@ export default class MyOrderList extends React.Component {
                 }} primary={true}/>)
                 break;
             }
-        }
+        }*/
 
         //订单状态为 generated 时，可以取消
         //订单状态为 cancel 时，可以删除
@@ -44,12 +44,12 @@ export default class MyOrderList extends React.Component {
         //订单状态为 reject 时，仅可删除操作
         switch (status) {
             case "generated": {
-                actions.push(<MyTooltip title={"删除该订单"} component={<Button icon={<Close/>} onClick={() => {
+                actions.push(<MyTooltip title={"取消预约"} component={<Button icon={<Close/>} onClick={() => {
                     axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=cancel`).then((res) => {this.getOrderList();util.tipMessage("订单状态提示",res.data.message)})
                 }} primary={true}/>} />)
-                actions.push(<MyTooltip title={"支付"} component={<Button icon={<Send/>} onClick={() => {
+                /*actions.push(<MyTooltip title={"支付"} component={<Button icon={<Send/>} onClick={() => {
                     axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=submission`).then((res) => {this.getOrderList();util.tipMessage("订单状态提示",res.data.message)})
-                }}/>} />)
+                }}/>} />)*/
                 break;
             }
             case "cancel": {
@@ -81,6 +81,9 @@ export default class MyOrderList extends React.Component {
                     // let orderIdLink = <Anchor label={<span style={{fontSize:"18px",fontWeight:600}}>{orderId}</span>} href={`/#/orderInfo/${orderId}`} />;
                     order.orderId = orderIdLink;
                     // order.actions = <Link to={`/orderDetail/TL000000${i}`}>view</Link>;
+                    let productNameLink = <Anchor label={<span style={{fontSize:"18px",fontWeight:600}}>{sumOrder.product.productName}</span>} href={`/#/searchResult/${sumOrder.product.productCode}`} />;
+                    order.productName = productNameLink;
+                    order.price = sumOrder.product.price;
                     order.actions = (
                         <Box direction="row" key={orderId}>
                             {/*{MyTip("移除该订单",<Button icon={<Close />} onClick={() => {axios.get(`${urlsUtil.order.updateOrderStatus}?orderId=${orderId}&status=deleted`)}} primary={true} />)}*/}

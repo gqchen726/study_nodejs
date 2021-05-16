@@ -81,9 +81,9 @@ export class SimLogin extends React.Component {
                      // result = data.body;
                      // 本地缓存Cookie
                      if (this.state.rememberMe) {
-                         localContext.put('user',result);
+                         localContext.put('user',result.user);
                      } else {
-                         sessionContext.put('user',result);
+                         sessionContext.put('user',result.user);
                      }
                      this.props.getUser(this,result);
 

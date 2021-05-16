@@ -27,7 +27,7 @@ export class OrderSteps extends React.Component {
         this.state = {
             status: {
                 GenericOrderStatus: "process",
-                PayStatus: "wait",
+                ConfirmStatus: "wait",
                 Done: "wait"
             },
             productNum: 1,
@@ -58,7 +58,7 @@ export class OrderSteps extends React.Component {
                         orderGenerate:order,
                         status: {
                             GenericOrderStatus: "done",
-                            PayStatus: "done",
+                            ConfirmStatus: "done",
                             Done: "finish"
                         },
                     })
@@ -80,9 +80,9 @@ export class OrderSteps extends React.Component {
         if ("process" == status.Done) {
             return ;
         }
-        if ("process" == status.PayStatus) {
+        if ("process" == status.ConfirmStatus) {
             status.GenericOrderStatus = "process";
-            status.PayStatus = "wait";
+            status.ConfirmStatus = "wait";
             this.setState({
                 status: status
             })
@@ -109,7 +109,7 @@ export class OrderSteps extends React.Component {
                 if (response.data.code == 0) {
                     let orderGenerate = response.data.body;
                     status.GenericOrderStatus = "finish";
-                    status.PayStatus = "process";
+                    status.ConfirmStatus = "process";
                     setTimeout(() => {
                         this.setState({
                             orderGenerate: orderGenerate,
@@ -137,7 +137,7 @@ export class OrderSteps extends React.Component {
             // }
 
            /* status.GenericOrderStatus = "finish";
-            status.PayStatus = "process";
+            status.ConfirmStatus = "process";
             this.setState({
                 status: status,
                 // orderGenerate: order,
@@ -147,9 +147,9 @@ export class OrderSteps extends React.Component {
         if ("process" == status.Done) {
             return ;
         }
-        if ("process" == status.PayStatus) {
+        if ("process" == status.ConfirmStatus) {
 
-            status.PayStatus = "finish";
+            status.ConfirmStatus = "finish";
             status.Done = "finish";
             axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${orderGenerate.order.orderId}&status=paid`)
                 .then((response) => {
@@ -235,7 +235,7 @@ export class OrderSteps extends React.Component {
                 </Space>
             );
         }
-        if (status.PayStatus == "process") {
+        if (status.ConfirmStatus == "process") {
 
             if (!orderGenerate) return <div>data is null</div>
 
@@ -303,15 +303,15 @@ export class OrderSteps extends React.Component {
             <Card>
                 <Steps>
                     <Step status={status.GenericOrderStatus}
-                          title="GenericOrder"
+                          title="预约参数"
                           icon={status.GenericOrderStatus == "process" ? <LoadingOutlined /> :<SolutionOutlined />}
                     />
-                    <Step status={status.PayStatus}
-                          title="Pay"
-                          icon={status.PayStatus == "process" ? <LoadingOutlined /> :<UserOutlined />}
+                    <Step status={status.ConfirmStatus}
+                          title="订单确认"
+                          icon={status.ConfirmStatus == "process" ? <LoadingOutlined /> :<UserOutlined />}
                     />
                     <Step status={status.Done}
-                          title="Done"
+                          title="预约完成"
                           icon={<SmileOutlined />}
                     />
                 </Steps>
@@ -351,7 +351,7 @@ export const OrderStepsW = withRouter(OrderSteps)
 OrderSteps.defaultProps = {
     status: {
         GenericOrderStatus: "process",
-        PayStatus: "wait",
+        ConfirmStatus: "wait",
         Done: "wait"
     }
 }

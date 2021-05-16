@@ -92,6 +92,8 @@ const base = {
         'orderId',
         'productName',
         'price',
+        'productNum',
+        'totalPrice',
         'status',
         'actions'
     ]
