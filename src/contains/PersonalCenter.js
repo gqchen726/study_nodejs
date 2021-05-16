@@ -6,6 +6,8 @@ import {withRouter} from "react-router";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {util} from "../common/Util";
+import sessionContext from "../cache/sessionContext";
+import localContext from "../cache/LocalContext";
 
 export class PersonalCenter extends React.Component {
     constructor(props) {
@@ -42,15 +44,14 @@ export class PersonalCenter extends React.Component {
             axios.post(urlsUtil.user.updatePersonInfo,user).then((response) => {
                 let responseBody = response.data;
                 console.log(response)
-                if (user.avatar != responseBody.body.avatar) {
-                    // location.reload();
-                    window.opener.location.href=window.opener.location.href;
-                }
                 this.changeEditMode();
                 if (!responseBody.code) {
                     this.setState({
                         user : responseBody.body,
                     })
+                    this.props.getUser(this,responseBody.body);
+                    sessionContext.put('user',responseBody.body);
+                    if (localContext.has("user")) localContext.put('user',responseBody.body);
                 } else {
                     util.tipMessage('save info tips',responseBody.message)
                 }

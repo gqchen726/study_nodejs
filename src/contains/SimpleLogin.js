@@ -80,10 +80,11 @@ export class SimLogin extends React.Component {
                      //PageN专属,PageH需注释掉
                      // result = data.body;
                      // 本地缓存Cookie
+                     sessionContext.put('user',result.user);
                      if (this.state.rememberMe) {
                          localContext.put('user',result.user);
                      } else {
-                         sessionContext.put('user',result.user);
+
                      }
                      this.props.getUser(this,result);
 
