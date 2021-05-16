@@ -111,7 +111,7 @@ export const MyRouterWithHook = (props) => {
                     {props.accessControl(<UserPasswordOfUpdate user={props.user} />)}
                 </Route>
                 <Route exact path='/addProduct' >
-                    <NewDataInfoW user={props.user} isAdminSpecific={true} />
+                    <NewDataInfoW user={props.user} isAdminSpecific={true} refreshMenuItems={props.refreshMenuItems} />
                 </Route>
                 <Route exact path='/orderInfo/:orderId' >
                     <OrderStepsW user={props.user}  />

@@ -107,6 +107,7 @@ export class MyRouter extends React.Component {
                     keywords={this.state.keywords}
                     user={this.props.user}
                     datas={this.state.datas}
+                    refreshMenuItems={this.props.refreshMenuItems}
                 />
     }
 

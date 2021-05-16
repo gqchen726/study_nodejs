@@ -197,6 +197,7 @@ export class DataInfo extends React.Component {
                 sources={sources}
                 user={this.props.user}
                 autoPlay={true}
+                imageSize={{width:480,height:240}}
             />
         );
     }

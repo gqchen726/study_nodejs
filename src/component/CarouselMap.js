@@ -24,15 +24,15 @@ export class CarouselMap extends React.Component {
         }
     }
 
-    renderSources = (sources,contentStyle) => {
+    renderSources = (sources,imageSize) => {
         let resourceArr = sources.split(";");
         if (resourceArr.length < 1) return (
             <Image
                 key={sources}
                 // src={`https://192.168.1.7:3039/${resourceArr}`}
                 src={`${urlsUtil.image.get}?file=${sources}`}
-                width={480}
-                height={240}
+                width={imageSize.width}
+                height={imageSize.height}
                 alt={sources}
                 //style={contentStyle}
             />
@@ -43,8 +43,8 @@ export class CarouselMap extends React.Component {
                     key={index}
                     // src={`https://192.168.1.7:3039/${source}`}
                     src={`${urlsUtil.image.get}?file=${source}`}
-                    width={480}
-                    height={240}
+                    width={imageSize.width}
+                    height={imageSize.height}
                     alt={source}
                     //style={contentStyle}
                 />
@@ -87,7 +87,7 @@ export class CarouselMap extends React.Component {
 
     render() {
         const {contentStyle} = this.state;
-        const {sources, user, isEditMode} = this.props;
+        const {sources, imageSize, isEditMode} = this.props;
         return (
             <div className='carouselMap' style={{width:'60%',height:'40%'}}>
                 {
@@ -102,7 +102,7 @@ export class CarouselMap extends React.Component {
                         ) :
                         (
                             <Carousel autoplay={this.props.autoPlay}>
-                                {this.renderSources(sources,contentStyle)}
+                                {this.renderSources(sources,imageSize)}
                             </Carousel>
                         )
                 }
@@ -115,5 +115,6 @@ CarouselMap.propTypes = {
     user: PropTypes.object,
     isEditMode: PropTypes.bool,
     getFileList: PropTypes.func,
-    autoPlay: PropTypes.bool
+    autoPlay: PropTypes.bool,
+    imageSize: PropTypes.object
 }

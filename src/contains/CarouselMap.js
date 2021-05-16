@@ -3,12 +3,14 @@ import React from 'react'
 import '../public/css/Home.css'
 import {Image} from "grommet";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import '../public/css/Home.css'
 import {Card} from "antd";
 import {util} from "../common/Util";
 import {UpLoadFile} from "../component/UpLoadFile";
 import PropTypes from "prop-types";
 import {MyResult} from "../component/MyResult";
-import {Box, Carousel} from "grommet/es6";
+import {Box} from "grommet/es6";
+import Carousel from "antd/es/carousel";
 
 const localContext = require('../cache/LocalContext');
 export class CarouselMap extends React.Component {
@@ -25,30 +27,28 @@ export class CarouselMap extends React.Component {
         }
     }
 
-    renderSources = (sources,contentStyle) => {
+    renderSources = (sources,imageSize) => {
         let resourceArr = sources.split(";");
         if (resourceArr.length < 1) return (
-            <Image
-                key={sources}
-                // src={`https://192.168.1.7:3039/${resourceArr}`}
-                src={`${urlsUtil.image.get}?file=${sources}`}
-                width={60}
-                height={120}
-                alt={sources}
-                //style={contentStyle}
-            />
+            <Box height={imageSize.height} width={imageSize.width}>
+                <Image
+                    key={sources}
+                    // src={`https://192.168.1.7:3039/${source}`}
+                    src={`${urlsUtil.image.get}?file=${sources}`}
+                    alt={sources}
+                />
+            </Box>
         );
         return resourceArr.map( (source,index,sources) => {
             return (
-                <Image
-                    key={index}
-                    // src={`https://192.168.1.7:3039/${source}`}
-                    src={`${urlsUtil.image.get}?file=${source}`}
-                    width={60}
-                    height={60}
-                    alt={source}
-                    //style={contentStyle}
-                />
+                <Box height={imageSize.height} width={imageSize.width}>
+                    <Image
+                        key={index}
+                        // src={`https://192.168.1.7:3039/${source}`}
+                        src={`${urlsUtil.image.get}?file=${source}`}
+                        alt={source}
+                    />
+                </Box>
             );
         });
     }
@@ -88,14 +88,9 @@ export class CarouselMap extends React.Component {
 
     render() {
         const {contentStyle} = this.state;
-        const {sources, user, isEditMode} = this.props;
+        const {sources, imageSize, isEditMode} = this.props;
         return (
-            <Box height="small" width="medium" overflow="hidden">
-                <Carousel fill>
-                    <Image fit="cover" src="//v2.grommet.io/assets/Wilderpeople_Ricky.jpg" />
-                    <Image fit="cover" src="//v2.grommet.io/assets/IMG_4245.jpg" />
-                    <Image fit="cover" src="//v2.grommet.io/assets/IMG_4210.jpg" />
-                </Carousel>
+            <div className='carouselMap' style={{alignItems: "center"}}>
                 {
                     isEditMode ?
                         (
@@ -107,12 +102,12 @@ export class CarouselMap extends React.Component {
                             />
                         ) :
                         (
-                            <Carousel fill>
-                                {this.renderSources(sources,contentStyle)}
+                            <Carousel autoplay={this.props.autoPlay}>
+                                {this.renderSources(sources,imageSize)}
                             </Carousel>
                         )
                 }
-            </Box>
+            </div>
         );
     }
 }
@@ -120,5 +115,6 @@ CarouselMap.propTypes = {
     sources: PropTypes.array,
     user: PropTypes.object,
     isEditMode: PropTypes.bool,
-    getFileList: PropTypes.func
+    getFileList: PropTypes.func,
+    imageSize: PropTypes.object
 }

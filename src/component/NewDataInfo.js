@@ -65,6 +65,7 @@ export class NewDataInfo extends React.Component {
                     },0)
                     // this.changeEditMode();
                 }
+                this.props.refreshMenuItems();
                 util.tipMessage('save info tips',responseBody.message)
             }).catch((error) => {
                 util.tipMessage("save info tips",error.toString())
@@ -149,13 +150,14 @@ export class NewDataInfo extends React.Component {
                 //     {this.renderImages(newData)}
                 // </CarouselMap>
                 // <CarouselMap sources={newData} />
-            <CarouselMap
-                getFileList={this.getFileList}
-                isEditMode={isEditMode}
-                sources={sources}
-                user={this.props.user}
-                autoPlay={true}
-            />
+                <CarouselMap
+                    getFileList={this.getFileList}
+                    isEditMode={isEditMode}
+                    sources={sources}
+                    user={this.props.user}
+                    autoPlay={true}
+                    imageSize={{width:480,height:240}}
+                />
             );
         }
     }

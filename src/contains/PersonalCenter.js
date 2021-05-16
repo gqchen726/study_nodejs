@@ -42,7 +42,10 @@ export class PersonalCenter extends React.Component {
             axios.post(urlsUtil.user.updatePersonInfo,user).then((response) => {
                 let responseBody = response.data;
                 console.log(response)
-
+                if (user.avatar != responseBody.body.avatar) {
+                    // location.reload();
+                    window.opener.location.href=window.opener.location.href;
+                }
                 this.changeEditMode();
                 if (!responseBody.code) {
                     this.setState({

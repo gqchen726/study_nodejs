@@ -117,7 +117,7 @@ export class PageN extends React.Component {
 
     renderRoutes = () => {
         return (
-            <MyRouter user={this.props.user} getUser={this.getUser} />
+            <MyRouter user={this.props.user} getUser={this.getUser} refreshMenuItems={this.renderMenuItems} />
             // <MyRouterWithHook user={this.props.user} getUser={this.getUser} />
         );
     }

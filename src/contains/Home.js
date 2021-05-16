@@ -7,6 +7,7 @@ import Button from "antd/es/button";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {CarouselMap} from "../component/CarouselMap";
+// import {CarouselMap} from "./CarouselMap";
 // import Route from "react-router/modules/Route";
 // import {useRouteMatch} from "react-router";
 
@@ -117,6 +118,7 @@ export class Home extends React.Component {
                         sources={sources}
                         user={this.props.user}
                         autoPlay={true}
+                        imageSize={{width:"960px",height:"480px"}}
                     />
                     <br /><br />
 
