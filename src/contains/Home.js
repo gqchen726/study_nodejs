@@ -7,10 +7,16 @@ import Button from "antd/es/button";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {CarouselMap} from "../component/CarouselMap";
+import {FormSearch, Trash} from "grommet-icons/es6";
+import {util} from "../common/Util";
+import {MyTooltip} from "../component/MyTooltip";
 // import {CarouselMap} from "./CarouselMap";
 // import Route from "react-router/modules/Route";
 // import {useRouteMatch} from "react-router";
-
+import {
+    SearchOutlined
+} from '@ant-design/icons';
+import Tooltip from "antd/es/tooltip";
 
 const localContext = require('../cache/LocalContext');
 export class Home extends React.Component {
@@ -71,6 +77,8 @@ export class Home extends React.Component {
                 {/*    <StateBar user={this.state.user} getUser={this.getUser}/>*/}
                 {/*</header>*/}
 
+                <div><h1>欢迎访问山西旅游景点门票预定系统</h1></div>
+
                 <div style={{width:'100%'}} >
                     {/*<SearchBar keywords={this.props.keywords} saveAny={this.props.saveAny} />*/}
                     {/*<Link to={'/searchResult'} >数据检索</Link>*/}
@@ -90,25 +98,13 @@ export class Home extends React.Component {
                             onChange={this.autoSave}
                             placeholder="control mode"
                         />
-                        <Button
-                            style={{width:'10%'}}
-                            type={"primary"}
-                            onClick={this.search}
-                            loading={searchIng}
-                        >
-                            <span
-                                style={{font:{size:'11px'}}}
-                            >
-                                <Link to={`/searchResult/${optionValue}`} >
-                                    <span
-                                        className='SearchBar'
-                                    >
-                                        搜索
-                                    </span>
-                                </Link>
-                                {/*<Link to={`${url}/searchResultShow`} >搜索</Link>*/}
-                            </span>
-                        </Button>
+
+                        <Link to={`/searchResult/${optionValue}`} >
+                            <Button type="primary" icon={<SearchOutlined />}>
+                                Search
+                            </Button>
+                        </Link>
+                        {/*<MyTooltip title={"搜索"} component={<Button icon={<FormSearch />} primary={true}/>} />*/}
                     </div>
                     <br /><br />
                     {/*<CarouselMap autoPlay={true} user={this.props.user} sources={sources} />*/}

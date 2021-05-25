@@ -88,7 +88,7 @@ export class SearchResultShow extends React.Component {
         let datasSplitPage = this.getDatasSplitPage(datas);
         console.log(datas)
         console.log(datasSplitPage[currentPage-1])
-        return <GirdOfCard datas={datasSplitPage[currentPage-1]} />;
+        return <GirdOfCard datas={datasSplitPage[currentPage-1]} user={this.props.user} />;
     }
     renderOldGirdOfCard = (datas,currentPage) => {
         let datasSplitPage = this.getDatasSplitPage(datas);

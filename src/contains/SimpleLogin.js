@@ -1,5 +1,4 @@
 import {Button, Card, Input, Select, Tooltip, Switch, Alert, notification, message, Image} from "antd/es";
-// import {CheckOutlined} from '@ant-design/icons';
 import React from "react";
 import "../public/css/Login.css";
 import axios from "axios";
@@ -10,6 +9,7 @@ import {Link} from "react-router-dom";
 import {util} from "../common/Util";
 import sessionContext from "../cache/sessionContext";
 import localContext from "../cache/LocalContext";
+import {MyResult} from "../component/MyResult";
 export class SimLogin extends React.Component {
 
     constructor(props) {
@@ -38,7 +38,7 @@ export class SimLogin extends React.Component {
             getCheckCodeButtonContent: '获取验证码',
             rememberMe: false,
             tipMessage: {},
-            verificationOfPass: false
+            verificationOfPass: false,
         };
 
     }
@@ -71,9 +71,12 @@ export class SimLogin extends React.Component {
                          user:data.body,
                          result:(
                              <div className="Home-Login">
-                                 {/*<br />*/}
-                                 登录成功
-                                 {data.message}
+                                 <MyResult
+                                     status="success"
+                                     title={data.message}
+                                     subTitle={`当前登录时间:${Date.now()},此对话框2秒后自动关闭`}
+                                 />
+
                              </div>
                          )
                      };
@@ -108,7 +111,7 @@ export class SimLogin extends React.Component {
                     this.setState({
                         loadingForLogin: false,
                     })
-                    util.tipMessage('login tips','网络异常')
+                    util.tipMessage('login tips',error.toString())
                 });
 
         // // 模拟数据
@@ -202,8 +205,8 @@ export class SimLogin extends React.Component {
                         stateMsg: 'registerSuccess',
                         result:(
                             <div className="Home-Login">
-                                {/*<br />*/}
-                                {data.message},1s后自动跳转
+                                <MyResult status="success" title={data.message} subTitle={`1s后自动跳转至登录界面`} />
+                                {/*{data.message},1s后自动跳转*/}
                             </div>
                         )
                     };
@@ -232,7 +235,7 @@ export class SimLogin extends React.Component {
                         loadingForRegister: false,
                     })
                     console.log(error)
-                    util.tipMessage('Register Tips','网络异常')
+                    util.tipMessage('Register Tips',error.toString())
                 });
     }
 
@@ -427,11 +430,9 @@ export class SimLogin extends React.Component {
      * @param mobileNumber
      */
     verificationOfTextContentValidity = (targetType,targetValue) => {
-        // /^[1-9][0-9]{11}$/
         let phoneRegExp =   /^[0-9]{11}$/
         let checkCodeRegExp =   /^[0-9]{6}$/
         let emailRegExp =   /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
-        // let phoneRegExp =   /^.*(?=.{11})[1-9].*$/;
         let passwordRegExp = /^.*(?=.{6,})(?=.*\d)((?=.*[A-Z])|(?=.*[a-z]))(?=.*[!@#$%^&*?.]).*$/;
 
         let {tipMessage} = this.state;
@@ -439,27 +440,6 @@ export class SimLogin extends React.Component {
         let verificationOfPass;
 
         if (targetType === "mobileNumber") {
-            // if (targetValue.length == 11 && !phoneRegExp.test(targetValue)) {
-            //     tipMessage.phoneNumberTip = <Alert type='error' message='非法的手机号码' />;
-            //     verificationOfPass = false;
-            // } else if (targetValue.length === 11 && this.state.isRegisterCard === true) {
-            //     tipMessage.phoneNumberTip = null;
-            //     let url = `${urlsUtil.user.checkMobileNumber}?mobileNumber=${targetValue}`;
-            //
-            //     axios.get(url).then(
-            //         (response) => {
-            //             let code = response.data.body.code;
-            //             if (!code) {
-            //                 tipMessage.phoneNumberTip = <Alert type='error' message={response.data.message} />;
-            //                 verificationOfPass = false;
-            //             } else {
-            //                 verificationOfPass = true;
-            //             }
-            //         }
-            //     );
-            //     // let res = '该手机号码已被注册';
-            //     // tipMessage.phoneNumberTip = <Alert type='error' message={res} />;
-            // }
             if (targetValue === "") {
                 tipMessage.phoneNumberTip = null;
                 verificationOfPass = false;
@@ -493,12 +473,10 @@ export class SimLogin extends React.Component {
                             }
                             this.setState({
                                 tipMessage: tipMessage,
-                                verificationOfPass: verificationOfPass
+                                // verificationOfPass: verificationOfPass
                             })
                         }
                     );
-                    // let res = '该手机号码已被注册';
-                    // tipMessage.phoneNumberTip = <Alert type='error' message={res} />;
                 }
             } else {
                 tipMessage.phoneNumberTip = null;
@@ -524,7 +502,7 @@ export class SimLogin extends React.Component {
                     }
                 }
             }
-        } else if (targetType === "checkCode") {
+        } /*else if (targetType === "checkCode") {
             if (targetValue && !checkCodeRegExp.test(targetValue)) {
                 tipMessage.checkCodeTip = <Alert type='error' message='请输入六位验证码' />;
                 verificationOfPass = false;
@@ -532,7 +510,7 @@ export class SimLogin extends React.Component {
                 verificationOfPass = true;
                 tipMessage.checkCodeTip = null;
             }
-        } else if (targetType === "email") {
+        }*/ else if (targetType === "email") {
             if (targetValue && !emailRegExp.test(targetValue)) {
                 tipMessage.emailTip = <Alert type='error' message='邮箱格式不正确' />;
                 verificationOfPass = false;
@@ -542,22 +520,19 @@ export class SimLogin extends React.Component {
             }
         }
 
+
+
+        if (!!tipMessage.phoneNumberTip || !!tipMessage.passwordTip /*|| !!tipMessage.checkCodeTip */) {
+            verificationOfPass = false;
+        }
+
         if (this.state.isRegisterCard === true) {
-            if ((user.mobileNumber && user.password && user.rePassword && user.checkCode && user.name && user.email)) {
+            if (user.mobileNumber && user.password && user.rePassword && user.checkCode && user.name && user.email) {
                 verificationOfPass = true;
             } else {
                 verificationOfPass = false;
             }
         }
-
-        if (!!tipMessage.phoneNumberTip || !!tipMessage.passwordTip || !!tipMessage.checkCodeTip ) {
-            verificationOfPass = false;
-        }
-        // else {
-        //     verificationOfPass = false;
-        // }
-
-
         //利用setTimeout方法可以解决state的异步问题，
         // 因为setState只在合成事件和钩子函数中是“异步”的，在原生事件和setTimeout 中都是同步的
         setTimeout(() => {
@@ -738,7 +713,7 @@ export class SimLogin extends React.Component {
                         />
                     </div>
                     <br />
-                    {this.state.tipMessage.checkCodeTip}
+                    {/*{this.state.tipMessage.checkCodeTip}*/}
                 </Input.Group>
                 <br />
                 {this.returnLoginButton(verificationOfPass)}
@@ -766,7 +741,7 @@ export class SimLogin extends React.Component {
                         type={"primary"}
                         onClick={this.cardStateSwitch}
                     >
-                        {this.state.isRegisterCard ? "登陆":"注册"}
+                        {this.state.isRegisterCard ? "切换到登陆面板":"切换到注册面板"}
                     </Button>
                 }
             >
@@ -786,7 +761,7 @@ export class SimLogin extends React.Component {
             <Card
                 // style={{width:'160%'}}
                 title="注册"
-                extra={<Button type={"primary"} onClick={this.cardStateSwitch} >{this.state.isRegisterCard ? "登陆":"注册"}</Button>}
+                extra={<Button type={"primary"} onClick={this.cardStateSwitch} >{this.state.isRegisterCard ? "切换到登陆面板":"切换到注册面板"}</Button>}
             >
                 <div>
                     <Input.Group compact>
@@ -859,7 +834,7 @@ export class SimLogin extends React.Component {
                                    onChangeCapture={this.autoSave}
                             />
                         </div>
-                        {this.state.tipMessage.checkCodeTip}
+                        {/*{this.state.tipMessage.checkCodeTip}*/}
                         <br /><br />
                         {/*密码输入框*/}
                         <div style={{width:'100%'}}>

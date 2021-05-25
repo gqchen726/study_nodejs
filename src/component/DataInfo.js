@@ -1,5 +1,5 @@
 import React from 'react'
-import {CarouselMap} from "../component/CarouselMap";
+import {CarouselMap} from "./CarouselMap";
 import {Card} from "antd";
 import {Button, Carousel, notification} from "antd/es";
 import PropTypes from 'prop-types'
@@ -13,7 +13,9 @@ import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import Image from "antd/es/image";
 import {selectOneProduct} from "../utils/SelectAnProductFromCode";
 import {util} from "../common/Util";
-
+import Space from "antd/es/space";
+import {DeleteTwoTone, EditOutlined, SaveOutlined} from "@ant-design/icons"
+import {Resources} from "grommet-icons";
 
 const localContext = require('../cache/LocalContext');
 export class DataInfo extends React.Component {
@@ -47,7 +49,8 @@ export class DataInfo extends React.Component {
             (response) => {
                 let product = response.data.body;
                 this.setState({
-                    product: product
+                    product: product,
+                    oldResources: product.resources
                 })
             }
         );
@@ -69,10 +72,8 @@ export class DataInfo extends React.Component {
             })
             axios.post(urlsUtil.product.updateUrl,product).then((response) => {
                 let responseBody = response.data;
-                console.log(response)
-
-                this.changeEditMode();
-                if (!responseBody.code) {
+                if (responseBody.code === 0) {
+                    this.changeEditMode();
                     this.setState({
                         product : responseBody.body,
                     })
@@ -153,14 +154,14 @@ export class DataInfo extends React.Component {
         if (!isAdminSpecific) {
             return (!user)?
                 null:(<div>
-                    <Button type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
-                    <br />{isEditMode ? <Button type={"primary"} onClick={this.onRemove} >删除</Button> : null}
+                    <Button icon={isEditMode? <SaveOutlined />:<EditOutlined />} type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+                    <br />{isEditMode ? <Button icon={<DeleteTwoTone />} type={"primary"} onClick={this.onRemove} >删除</Button> : null}
                 </div>)
         } else if (isAdminSpecific) {
             return (!!user && user.admin)?
                 (<div>
-                    <Button type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
-                    <br />{isEditMode ? <Button type={"primary"} onClick={this.onRemove} >删除</Button> : null}
+                    <Button icon={isEditMode? <SaveOutlined />:<EditOutlined />} type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+                    <br />{isEditMode ? <Button icon={<DeleteTwoTone />} type={"primary"} onClick={this.onRemove} >删除</Button> : null}
                 </div>):null
         }
     }
@@ -188,19 +189,82 @@ export class DataInfo extends React.Component {
         return ImageArr;
     }
 
+    deleteImage = (val) => {
+        console.log(val)
+        let sources = this.state.product.resources;
+        console.log(sources)
+        if (!sources) {
+            return ;
+        }
+        let newSources = sources.split(";");
+        let {product} = this.state;
+        let newResources;
+        for (let i = 0;i< newSources.length;i++) {
+            let reSource = newSources[i];
+            if (reSource === val) {
+                continue;
+            }
+            if (i === 0) {
+                newResources = reSource;
+            } else {
+                newResources += `;${reSource}`
+            }
+        }
+        product.resources = newResources;
+        setTimeout(() => {
+            this.setState({
+                product:product
+            })
+        },0)
+    }
+
+    renderDeleteImageAble = (sources) => {
+        let deleteButtons = sources.split(";").map((val,i) => {
+            return (
+                <span>
+                    <Button key={i} type="link" block icon={<DeleteTwoTone />} onClick={this.deleteImage}>
+                        {val}
+                    </Button>
+                    {(i+1)%3 === 0 ? <br />:null}
+                </span>
+            );
+        });
+        return (
+            <Space style={{ marginBottom: 8 }}>
+                {deleteButtons}
+            </Space>
+        );
+    }
+
     renderCarouselMap = (isEditMode,sources) => {
 
         if (!sources && !isEditMode) return null
         return (
-            <CarouselMap
-                getFileList={this.getFileList}
-                isEditMode={isEditMode}
-                sources={sources}
-                user={this.props.user}
-                autoPlay={true}
-                imageSize={{width:480,height:240}}
-            />
+            <div>
+                <span>
+                    {
+                        isEditMode ?
+                            this.renderDeleteImageAble(sources):null
+                    }
+                </span>
+                <CarouselMap
+                    getFileList={this.getFileList}
+                    isEditMode={isEditMode}
+                    sources={sources}
+                    user={this.props.user}
+                    autoPlay={true}
+                    imageSize={{width:480,height:240}}
+                />
+            </div>
         );
+    }
+
+    addCollection = () => {
+        axios.post(urlsUtil.collection.addCollection,{productCode:this.state.product.productCode,mobileNumber:this.props.user.mobileNumber}).then(res => {
+            util.tipMessage("收藏提示",res.data.message)
+        }).catch( err => {
+            util.tipMessage("收藏提示",err)
+        })
     }
 
 
@@ -259,16 +323,12 @@ export class DataInfo extends React.Component {
                 </Card>
                 {/*用户操作面板*/}
                 <Card>
-                    <Button
+                    {/*<Button
                         style={{width:'10%'}}
-                        onClick={this.search}
+                        onClick={this.addCollection}
                     >
-                        <span
-                            style={{font:{size:'11px'}}}
-                        >
-                            <Link to={`/result${404}`} >收藏</Link>
-                        </span>
-                    </Button>
+                        收藏
+                    </Button>*/}
                     <Button
                         style={{width:'10%'}}
                         onClick={this.search}

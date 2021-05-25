@@ -80,7 +80,12 @@ export const MyRouterWithHook = (props) => {
                     <LeftNavigationMenu />
                 </Route>
                 <Route exact path='/searchResult/:keywords'>
-                    <SearchResultShowW keywords={props.keywords} saveAny={props.saveAny} datas={props.datas} />
+                    <SearchResultShowW
+                        keywords={props.keywords}
+                        saveAny={props.saveAny}
+                        datas={props.datas}
+                        user={props.user}
+                    />
                 </Route>
                 <Route exact path='/personalCenter' >
                     {/*{accessControl(<PersonalCenterW user={props.user} isAdminSpecific={false} />)}*/}

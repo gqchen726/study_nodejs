@@ -61,7 +61,7 @@ export class UserPasswordOfUpdate extends React.Component {
                     this.setState({
                         isLoading: false,
                     })
-                    util.tipMessage('login tips','网络异常')
+                    util.tipMessage('login tips',error.toString())
                 });
 
     }

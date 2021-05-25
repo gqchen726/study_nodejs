@@ -7,6 +7,7 @@ const baseUrls = {
     productBaseUrl: `${baseUrl}/product`,
     orderBaseUrl: `${baseUrl}/order`,
     image: `${baseUrl}/image`,
+    collection: `${baseUrl}/collection`
 };
 export const urlsUtil = {
     user: {
@@ -26,15 +27,22 @@ export const urlsUtil = {
         searchProductCategoryList: `${baseUrls.productBaseUrl}/getAllCategory`,
         removeUrl: `${baseUrls.productBaseUrl}/delete`,
         updateUrl: `${baseUrls.productBaseUrl}/update`,
+        checkProductCode: `${baseUrls.productBaseUrl}/checkProduct`,
     },
     order: {
         genericOrderUrl: `${baseUrls.orderBaseUrl}/create`,
-        searchOrderUrl: `${baseUrls.orderBaseUrl}/listAllOrder`,
+        getMyOrders: `${baseUrls.orderBaseUrl}/listAllOrder`,
         getOrderUrl: `${baseUrls.orderBaseUrl}/getOrderById`,
+        allOrderList: `${baseUrls.orderBaseUrl}/allOrderList`,
         updateOrderStatus: `${baseUrls.orderBaseUrl}/update`,
     },
     image: {
         upload: `${baseUrls.image}/upload`,
         get: `${baseUrls.image}/get`,
+    },
+    collection: {
+        addCollection: `${baseUrls.collection}/addCollection`,
+        deleteCollection: `${baseUrls.collection}/deleteCollection`,
+        getAllCollection: `${baseUrls.collection}/listOfCollection`,
     }
 }

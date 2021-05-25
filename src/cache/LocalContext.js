@@ -12,13 +12,13 @@ const localContext = {
             outOfDate
         }
         console.log(data)
-        if(!localContext.getItem(key)) {
-            localContext.setItem(key,JSON.stringify(data));
+        if(!localStorage.getItem(key)) {
+            localStorage.setItem(key,JSON.stringify(data));
         }
     },
     get: (key) => {
-        if(this.has(key)) {
-            let value = localContext.getItem(key);
+        if(localStorage.getItem(key)) {
+            let value = localStorage.getItem(key);
             if (value == undefined) return null;
             let obj = JSON.parse(value);
             if (!!obj.outOfDate && (obj.outOfDate <= new Date() || obj.outOfDate === 0)) {

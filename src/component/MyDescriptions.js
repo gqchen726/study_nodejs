@@ -12,6 +12,7 @@ import Radio from "antd/es/radio";
 import Text from "antd/es/typography/Text";
 import Paragraph from "antd/es/typography/Paragraph";
 import ellipsis from "polished";
+import axios from "axios";
 
 const { Option } = Select;
 
@@ -63,6 +64,11 @@ export class MyDescriptions extends React.Component {
             descriptered.ex = value;
         } else if(id === "productCode") {
             descriptered.productCode = value;
+            axios.get(`${urlsUtil.product.checkProductCode}?productCode=${value}`).then(res => {
+                if (res.data.code == 1) {
+                    util.tipMessage("景点代码重复性校验",res.data.message)
+                }
+            })
         } else if(id === "productName") {
             descriptered.productName = value;
         }
@@ -76,6 +82,7 @@ export class MyDescriptions extends React.Component {
         },0)
 
         this.props.saveNewDescriptered(this.state.descriptered);
+
 
     }
 
@@ -165,7 +172,6 @@ export class MyDescriptions extends React.Component {
 
 
     renderSpecificDescItemList = (descriptered) => {
-        console.log(descriptered)
         if (!descriptered) {
             return <div>data is null</div>;
         }
@@ -173,9 +179,26 @@ export class MyDescriptions extends React.Component {
 
         let infos = [];
         Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
-            // console.log(col)
             if (util.hasDescriptionIgnoreList(col)) {
             } else if (col == "mobileNumber") {
+                infos.push(
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                        labelStyle={{width:"40%"}}
+                    >
+                        <Input
+                            id={col}
+                            value={descriptered[col]}
+                            disabled={true}
+                            bordered={false}
+                            allowClear={true}
+                            maxLength={30}
+                            onChangeCapture={this.autoSave}
+                        />
+                    </Descriptions.Item>
+                );
+            }else if (col == "email") {
                 infos.push(
                     <Descriptions.Item
                         key={key}

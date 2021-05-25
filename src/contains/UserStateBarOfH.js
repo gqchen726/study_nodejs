@@ -42,13 +42,14 @@ export class UserStateBarOfH extends React.Component {
 
     getUser = (here,result) => {
         if (here && result) {
-            if(result.stateMsg === 'loginSuccess') {
-                this.props.getUser(here,result.user)
-            }
             let modalContent = result.result;
             this.setState({
                 modalContent:modalContent
             })
+            if(result.stateMsg === 'loginSuccess') {
+                setTimeout(() => this.props.getUser(here,result.user),2000)
+            }
+
             setTimeout(() => {
                 if (result.stateMsg === 'registerSuccess') {
                     this.getLoginCard();

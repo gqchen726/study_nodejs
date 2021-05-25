@@ -4,7 +4,7 @@ import {
     UserOutlined,
     UploadOutlined,
     HomeOutlined,
-    BarsOutlined,
+    BarsOutlined, HddOutlined, PlusSquareOutlined,
 } from '@ant-design/icons';
 import SubMenu from "antd/es/menu/SubMenu";
 import {UserStateBar} from "./UserStateBar";
@@ -203,27 +203,38 @@ export class PageH extends React.Component {
                             icon={<MenuIcon color="brand" />}
                             items={menuItems}
                         />*/}
-                        <Menu
-                            dropProps={{
-                                align: { top: 'bottom', left: 'left' },
-                                // color: "#7d4acf",
-                                elevation: 'xlarge',
-                            }}
-                            icon={<BladesVertical />}
-                            label={<span style={fontStyle}>景区分类</span>}
-                            // icon={<MenuIcon color="brand" />}
-                            items={menuItems}
-                        />
-                        <Anchor icon={<User />} label={<span style={fontStyle}>个人中心</span>} href="/#/personalCenter" />
+                        <span style={fontStyle}>
+                            <BarsOutlined />
+                            <Menu
+                                dropProps={{
+                                    align: { top: 'bottom', left: 'left' },
+                                    // color: "#7d4acf",
+                                    elevation: 'xlarge',
+                                }}
+                                // icon={<BarsOutlined />}
+                                label={<span style={fontStyle}>景点分类</span>}
+                                // icon={<MenuIcon color="brand" />}
+                                items={menuItems}
+                            />
+                        </span>
                         {
-                            user && user.admin ?null:
-                                <Anchor icon={<OrderedList />} label={<span style={fontStyle}>我的订单</span>} href="/#/myOrders" />
+                            !!user ?
+                                <Anchor icon={<User />} label={<span style={fontStyle}>个人中心</span>} href="/#/personalCenter" />:null
                         }
-                        <Anchor label={<span style={fontStyle}>我的收藏</span>} href="/#/myCollections" />
-                        <Anchor label={<span style={fontStyle}>浏览历史</span>} href="/#/browsingHistory" />
+
+                        {
+                            !!user ?
+                                <Anchor icon={<OrderedList />} label={<span style={fontStyle}>{user.admin?"所有订单":"我的订单"}</span>} href="/#/myOrders" />:null
+                        }
+                        {
+                            !!user ?
+                                <Anchor icon={<HddOutlined />} label={<span style={fontStyle}>我的收藏</span>} href="/#/myCollections" /> : null
+                        }
+
+                        {/*<Anchor label={<span style={fontStyle}>浏览历史</span>} href="/#/browsingHistory" />*/}
                         {
                             !!user && user.admin ?
-                                <Anchor label={<span style={fontStyle}>新增景点</span>} href="/#/addProduct" /> : null
+                                <Anchor icon={<PlusSquareOutlined />} label={<span style={fontStyle}>新增景点</span>} href="/#/addProduct" /> : null
                         }
                         <UserStateBarOfH user={this.props.user} getUser={this.getUser} />
 

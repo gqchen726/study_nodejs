@@ -12,13 +12,14 @@ import "./../public/css/OrderStep.css"
 const { Step } = Steps;
 import {notification} from "antd/es";
 import {util} from "../common/Util";
+import {Link} from "react-router-dom";
 
 export class OrderDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             status: {
-                PayStatus: "process",
+                ConfirmStatus: "process",
                 ViewDetail: "wait"
             },
             orderDetail: {},
@@ -37,17 +38,17 @@ export class OrderDetail extends React.Component {
                         this.setState({
                             orderDetail: orderDetail,
                             status: {
-                                PayStatus: "process",
+                                ConfirmStatus: "process",
                                 ViewDetail: "wait"
                             },
                         })
                     },0)
-                } else if(orderDetail.order.status === "paid") {
+                } else if(orderDetail.order.status === "confirmed") {
                     setTimeout(() => {
                         this.setState({
                             orderDetail: orderDetail,
                             status: {
-                                PayStatus: "finish",
+                                ConfirmStatus: "finish",
                                 ViewDetail: "process"
                             },
                         })
@@ -68,7 +69,7 @@ export class OrderDetail extends React.Component {
         if ("process" == status.ViewDetail) {
             return ;
         }
-        if ("process" == status.PayStatus) {
+        if ("process" == status.ConfirmStatus) {
 
 
             axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${orderDetail.order.orderId}&status=paid`)
@@ -76,7 +77,7 @@ export class OrderDetail extends React.Component {
                     let data = response.data;
                     if (data.code == 0) {
                         let orderDetail = data.body;
-                        status.PayStatus = "finish";
+                        status.ConfirmStatus = "finish";
                         status.ViewDetail = "finish";
                         this.setState({
                             status: status,
@@ -97,7 +98,7 @@ export class OrderDetail extends React.Component {
         if (!orderDetail.order) {
             return ;
         }
-        if (status.PayStatus == "process") {
+        if (status.ConfirmStatus == "process") {
 
             if (!orderDetail) return <div>data is null</div>
 
@@ -164,9 +165,9 @@ export class OrderDetail extends React.Component {
         return (
             <Card>
                 <Steps>
-                    <Step status={status.PayStatus}
-                          title="Pay"
-                          icon={status.PayStatus == "process" ? <LoadingOutlined /> :<UserOutlined />}
+                    <Step status={status.ConfirmStatus}
+                          title="Confirm"
+                          icon={status.ConfirmStatus == "process" ? <LoadingOutlined /> :<UserOutlined />}
                     />
                     <Step status={status.ViewDetail}
                           title="ViewDetail"
@@ -180,7 +181,17 @@ export class OrderDetail extends React.Component {
                     this.returnOrderCard(status, orderDetail)
                 }
                 {
-                    status.ViewDetail === "process" ? null: (
+                    status.ViewDetail === "process" ? (
+                        <Button
+                            type={"primary"}
+                            style={{width:'10%'}}
+                            key={"goHome"}
+                        >
+                            <Link to={'/home'} >
+                                返回首页
+                            </Link>
+                        </Button>
+                    ): (
                         <div>
                             <Button
                                 type={"primary"}

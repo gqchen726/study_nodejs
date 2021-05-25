@@ -8,6 +8,7 @@
 .GirdOfCard {
     width: 25%;
     text-align: left;
+    height: 464px;
 }
 .dataShowGrid {
     padding-left: 5%;

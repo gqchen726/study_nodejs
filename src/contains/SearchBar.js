@@ -44,16 +44,9 @@ export class SearchBar extends React.Component {
 
 
     autoSave = (event) => {
-        // let keywords = event.target.value;
-        // this.setState({
-        //     keywords: keywords
-        // })
-
-
         this.setState({
             optionValue: event
         })
-
     }
 
 
@@ -136,7 +129,6 @@ export class SearchBar extends React.Component {
      * @param key
      */
     onSearch = (optionValue) => {
-        // let {optionValue} = this.state;
         if (!optionValue) return ;
         axios.get(`${urlsUtil.product.searchProductNameList}?keywords=${optionValue}`).then(
             (response) => {
@@ -144,25 +136,12 @@ export class SearchBar extends React.Component {
                 let newDatas;
                 if (!!datas) {
                     console.log(datas)
-                    // datas = datas.forEach((value,index,arr) => {
-                    //     arr[index] = {"value":value.productName}
-                    // })
-                    // console.log(datas)
                     this.setState({
                         options: datas,
                     })
                 }
             }
         )
-        //模拟数据
-        // let datas = [
-        //     { value: 'Burns Bay Road' },
-        //     { value: 'Downing Street' },
-        //     { value: 'Wall Street' },
-        // ];
-        // this.setState({
-        //     options: datas,
-        // })
     }
     /**
      * 输入框内容改变时调用
@@ -176,41 +155,10 @@ export class SearchBar extends React.Component {
 
 
     render() {
-        // let {url} = useRouteMatch()
         let {searchIng, optionValue, options} = this.state;
 
         return (
             <div className='searchBar' style={{ width: '90%' }}>
-                {/*<Input*/}
-                {/*    id='search'*/}
-                {/*    style={{ width: '80%' }}*/}
-                {/*    placeholder={'请输入关键词'}*/}
-                {/*    maxLength={128}*/}
-                {/*    onChangeCapture={this.autoSave}*/}
-                {/*    value={this.state.keywords?this.state.keywords:null}*/}
-                {/*    onPressEnter={this.props.search}*/}
-                {/*/>*/}
-
-                {/*<Button*/}
-                {/*    style={{width:'10%'}}*/}
-                {/*    type={"primary"}*/}
-                {/*    onClick={this.search}*/}
-                {/*    loading={searchIng}*/}
-                {/*>*/}
-                {/*    <span*/}
-                {/*        style={{font:{size:'11px'}}}*/}
-                {/*    >*/}
-                {/*        <Link to={`/searchResult`} >*/}
-                {/*            <span*/}
-                {/*                className='SearchBar'*/}
-                {/*            >*/}
-                {/*                搜索*/}
-                {/*            </span>*/}
-                {/*        </Link>*/}
-                {/*        /!*<Link to={`${url}/searchResultShow`} >搜索</Link>*!/*/}
-                {/*    </span>*/}
-                {/*</Button>*/}
-                {/*<br />*/}
                 <AutoComplete
                     value={optionValue}
                     options={options}
@@ -238,7 +186,6 @@ export class SearchBar extends React.Component {
                                 搜索
                             </span>
                         </Link>
-                        {/*<Link to={`${url}/searchResultShow`} >搜索</Link>*/}
                     </span>
                 </Button>
             </div>

@@ -102,7 +102,7 @@ export class OrderSteps extends React.Component {
             orderGenerate.productNum = productNum;
             orderGenerate.mobileNumber = user.mobileNumber;
             if (!orderGenerate.date) {
-                util.tipMessage("日期必填提示","请确认预约时间")
+                util.tipMessage("日期必填提示","请确认预订时间")
                 return ;
             }
             axios.post(urlsUtil.order.genericOrderUrl,orderGenerate).then((response) => {
@@ -151,7 +151,7 @@ export class OrderSteps extends React.Component {
 
             status.ConfirmStatus = "finish";
             status.Done = "finish";
-            axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${orderGenerate.order.orderId}&status=paid`)
+            axios.get(`${urlsUtil.order.updateOrderStatus}?mobileNumber=${this.props.user.mobileNumber}&orderId=${orderGenerate.order.orderId}&status=confirmed`)
                 .then((response) => {
                     let {code} = response.data;
                     if (code === "0") {
@@ -207,14 +207,14 @@ export class OrderSteps extends React.Component {
                         isEditMode={this.state.isEditMode}
                     />
                     <br />
-                    {/*<span>预约日期:</span>*/}
+                    {/*<span>预订日期:</span>*/}
                     {/*<DatePicker*/}
                     {/*    format="YYYY-MM-DD HH:mm:ss"*/}
                     {/*    disabledDate={disabledDate}*/}
                     {/*    disabledTime={disabledDateTime}*/}
                     {/*    showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}*/}
                     {/*/>*/}
-                    <MyDatePicker title={"预约日期:"} onClickHandler={this.saveReservationDate} fromToday={true} />
+                    <MyDatePicker title={"预订日期:"} onClickHandler={this.saveReservationDate} fromToday={true} />
                     <br />
                     <Space direction={"horizontal"} size={"small"} align={"center"}>
                         购买数量:
@@ -270,7 +270,7 @@ export class OrderSteps extends React.Component {
             return (
                 <MyResult
                     status="success"
-                    title="订单已完成"
+                    title="预订成功"
                     extra={
                         [
                             <Button
@@ -303,7 +303,7 @@ export class OrderSteps extends React.Component {
             <Card>
                 <Steps>
                     <Step status={status.GenericOrderStatus}
-                          title="预约参数"
+                          title="预订参数"
                           icon={status.GenericOrderStatus == "process" ? <LoadingOutlined /> :<SolutionOutlined />}
                     />
                     <Step status={status.ConfirmStatus}
@@ -311,7 +311,7 @@ export class OrderSteps extends React.Component {
                           icon={status.ConfirmStatus == "process" ? <LoadingOutlined /> :<UserOutlined />}
                     />
                     <Step status={status.Done}
-                          title="预约完成"
+                          title="预订完成"
                           icon={<SmileOutlined />}
                     />
                 </Steps>
@@ -324,21 +324,23 @@ export class OrderSteps extends React.Component {
                 {
                     status.Done === "finish" ? null: (
                         <div>
-                            <br />
+                            {
+                                status.ConfirmStatus == "process"?
+                                    (
+                                        <Button
+                                            type={"primary"}
+                                            onClick={this.previous}
+                                        >
+                                            修改预订信息
+                                        </Button>
+                                    ): null
+                            }
+                            &nbsp;
                             <Button
                                 type={"primary"}
-                                style={{width:'10%'}}
-                                onClick={this.previous}
-                            >
-                                上一步
-                            </Button>
-                            &nbsp;&nbsp;
-                            <Button
-                                type={"primary"}
-                                style={{width:'10%'}}
                                 onClick={this.next}
                             >
-                                下一步
+                                {status.GenericOrderStatus == "process" ? "点击预定" : "点击确认订单信息"}
                             </Button>
                         </div>
                     )

@@ -8,6 +8,7 @@ import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {util} from "../common/Util";
 import sessionContext from "../cache/sessionContext";
 import localContext from "../cache/LocalContext";
+import {DeleteOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons"
 
 export class PersonalCenter extends React.Component {
     constructor(props) {
@@ -96,7 +97,7 @@ export class PersonalCenter extends React.Component {
                     title={user.name}
                     extra={
                         (!user)?
-                            null:<Button loading={isLoading} type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+                            null:<Button icon={isEditMode? <SaveOutlined />:<EditOutlined />} loading={isLoading} type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
                     }
                 >
                     <MyDescriptions

@@ -2,12 +2,14 @@ import {Button, notification} from "antd/es";
 import React from "react";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import {DeleteOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons";
 
 const base = {
     tipMessage: (tipLabel,message) => {
         notification.open({
             message: tipLabel,
-            description: message
+            description: message,
+            style: {backgroundColor:"#d4c146"}
         });
     },
     descriptionIgnoreList: () => {
@@ -55,7 +57,7 @@ const base = {
         } else if (property == "description") {
             result = "景点描述";
         } else if (property == "price") {
-            result = "景点价格";
+            result = "门票价格";
         } else if (property == "category") {
             result = "景点分类";
         } else if (property == "owner") {
@@ -73,7 +75,7 @@ const base = {
         } else if (property == "productNum") {
             result = "订购数量";
         } else if (property == "startDate") {
-            result = "订单有效期起期";
+            result = "预约日期";
         } else if (property == "status") {
             result = "订单状态";
         } else if (property == "totalPrice") {
@@ -84,6 +86,12 @@ const base = {
             result = "男";
         } else if (property == "female") {
             result = "女";
+        } else if (property == "generated") {
+            result = "预约成功，确认后订单生效";
+        } else if (property == "confirmed") {
+            result = "预约生效";
+        } else if (property == "cancel") {
+            result = "预约已被取消";
         }
 
         return result;
@@ -96,7 +104,11 @@ const base = {
         'totalPrice',
         'status',
         'actions'
-    ]
+    ],
+    collectionTableColumns: [
+            'productCode',
+            'actions'
+        ],
 
 }
 
@@ -121,10 +133,10 @@ export const util = {
     returnMode: (user,isAdminSpecific,isEditMode,onClickHandler) => {
         if (!isAdminSpecific) {
             return (!user)?
-                null:<Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+                null:<Button icon={isEditMode? <SaveOutlined />:<EditOutlined />} type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
         } else if (isAdminSpecific) {
             return (user && user.admin)?
-                <Button type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>:null
+                <Button icon={isEditMode? <SaveOutlined />:<EditOutlined />} type={"primary"} onClick={onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>:null
         }
     },
     tipMessage: (tipLabel,message) => {
@@ -158,5 +170,66 @@ export const util = {
             }
         })
         return resultColumns;
-    }
+    },
+    getTableColumns1: (filteredInfo,sortedInfo,filters,getColumnSearchProps) => {
+        console.log(filters)
+        let requestColumns;
+        requestColumns = base.normalUserTableColumns;
+        let resultColumns = requestColumns.map((property) => {
+            if (property == "actions") return ;
+            return {
+                title: base.codeTable(property),
+                dataIndex: property,
+                key: property,
+                filters: !filters[property]?
+                    [{ text: 'All', value: 'All' }]:
+                        filters[property],
+                filteredValue: filteredInfo[property] || null,
+                onFilter: (val, record) => {
+                    return record[property].includes(val);
+                },
+                sorter: (a, b) => {
+                    let ap = a[property];
+                    let bp = b[property];
+                    if (ap.length !== bp.length){
+                        return ap.length-bp.length;
+                    }
+                    let as = ap.split("");
+                    let bs = bp.split("");
+                    for (let i = 0;i < as.length;i++) {
+                        if (as[i] === bs[i]) {
+                            continue;
+                        } else {
+                            return as[i] - bs[i];
+                        }
+                    }
+                    return 0;
+                },
+                sortOrder: sortedInfo.columnKey === property && sortedInfo.order,
+                ellipsis: true,
+                width: '30%',
+                ...getColumnSearchProps(property),
+            }
+
+            /*{
+                title: base.codeTable(value),
+                dataIndex: value,
+                key: value,
+            }*/
+        })
+        return resultColumns;
+    },
+    getTableColumnsOfCollection: () => {
+        let requestColumns;
+        requestColumns = base.collectionTableColumns;
+        let resultColumns = requestColumns.map((value) => {
+            return {
+                title: base.codeTable(value),
+                dataIndex: value,
+                key: value,
+            }
+        })
+        return resultColumns;
+    },
+
 }

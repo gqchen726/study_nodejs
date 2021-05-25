@@ -75,7 +75,7 @@ export class GirdOfCard extends React.Component {
                     </Link>
                 </Card.Grid>*/
             <Card.Grid key={index} className={"GirdOfCard"} >
-                <RichFooter product={data} />
+                <RichFooter product={data} user={this.props.user} />
             </Card.Grid>
             );
         })

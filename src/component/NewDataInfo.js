@@ -13,7 +13,7 @@ import {UpLoadFile} from "./UpLoadFile";
 import Image from "antd/es/image";
 import {util} from "../common/Util";
 import {CarouselMap} from "./CarouselMap";
-
+import {SaveOutlined,EditOutlined} from "@ant-design/icons";
 
 const localContext = require('../cache/LocalContext');
 export class NewDataInfo extends React.Component {
@@ -23,12 +23,12 @@ export class NewDataInfo extends React.Component {
             isEditMode: true,
             isLoading: false,
             newData: {
-                category: "景点分类",
-                description: "这是一条描述信息",
-                ex: "额外描述",
-                price: "价格",
-                productCode: "景点代码",
-                productName: "景点名字",
+                category: "",
+                description: "",
+                ex: "",
+                price: "",
+                productCode: "",
+                productName: "",
             },
             isInitStatus: true
         }
@@ -51,16 +51,12 @@ export class NewDataInfo extends React.Component {
             })
             axios.post(this.state.isInitStatus ?urlsUtil.product.addUrl:urlsUtil.product.updateUrl,newData).then((response) => {
                 let responseBody = response.data;
-                console.log(response)
-
-                this.changeEditMode();
-                console.log(responseBody.code)
-                if (responseBody.code == 0) {
+                if (responseBody.code === 0) {
                     setTimeout(() => {
+                        this.changeEditMode();
                         this.setState({
                             newData : responseBody.body,
                             isInitStatus: false,
-                            isEditMode: false
                         })
                     },0)
                     // this.changeEditMode();
@@ -118,10 +114,10 @@ export class NewDataInfo extends React.Component {
     returnMode = (user,isAdminSpecific,isEditMode) => {
         if (!isAdminSpecific) {
             return (!user)?
-                null:<Button type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+                null:<Button icon={isEditMode? <SaveOutlined />:<EditOutlined />} type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
         } else if (isAdminSpecific) {
             return (!user || !user.admin === "admin")?
-                null:<Button type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
+                null:<Button icon={isEditMode? <SaveOutlined />:<EditOutlined />} type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
         }
     }
 
@@ -268,14 +264,4 @@ NewDataInfoW.propTypes = {
     data:PropTypes.any,
     isAdminSpecific: PropTypes.bool,
     user: PropTypes.object
-}
-NewDataInfoW.defaultProps = {
-    newData: {
-        category: "景点分类",
-        description: "这是一条描述信息",
-        ex: "额外描述",
-        price: "价格",
-        productCode: "景点代码",
-        productName: "景点名字",
-    }
 }

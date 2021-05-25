@@ -17,7 +17,7 @@ const sessionContext = {
         }
     },
     get: (key) => {
-        if(this.has(key)) {
+        if(sessionStorage.getItem(key)) {
             let value = sessionStorage.getItem(key);
             if (value == undefined) return null;
             let obj = JSON.parse(value);
@@ -40,7 +40,7 @@ const sessionContext = {
         return sessionStorage.length;
     },
     has: (key) => {
-        return localStorage.hasOwnProperty(key);
+        return sessionStorage.hasOwnProperty(key);
     }
 
 }

@@ -8,14 +8,15 @@ import {
     CardBody,
     CardFooter,
     Collapsible,
-    Heading,
     Grommet,
     Paragraph,
 } from 'grommet';
 
 import { FormDown, FormUp, Favorite, ShareOption } from 'grommet-icons';
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-import Image from "antd/es/image";
+import {Image} from "grommet/es6";
+import axios from "axios";
+import {util} from "../common/Util";
 
 const theme = {
     global: {
@@ -50,9 +51,36 @@ export class RichFooter extends React.Component{
         })
     }
 
-    setFavorite = (favorite) => {
-        this.setState({
-            favorite: favorite
+    componentWillMount() {
+        if(!this.props.user) return ;
+        axios.get(`${urlsUtil.collection.getAllCollection}?mobileNumber=${this.props.user.mobileNumber}`).then((response) => {
+            let body = response.data.body;
+            body.map((collection) => {
+                if (collection.productCode === this.props.product.productCode) {
+                    setTimeout(() => {
+                        this.setState({
+                            favorite:true
+                        })
+                    },0)
+                }
+            })
+        })
+    }
+
+    setFavorite = (favorite,productCode) => {
+        if (!this.props.user) util.tipMessage("收藏提示","您未登录，请先登陆后重试")
+        let url = favorite ? urlsUtil.collection.addCollection:urlsUtil.collection.deleteCollection;
+        axios.post(url,{productCode:productCode,mobileNumber:this.props.user.mobileNumber}).then(res => {
+            if (res.data.code) {
+                setTimeout(() => {
+                    this.setState({
+                        favorite: favorite
+                    })
+                },0)
+            }
+            util.tipMessage("收藏提示",res.data.message)
+        }).catch( err => {
+            util.tipMessage("收藏提示",err)
         })
     }
 
@@ -68,19 +96,26 @@ export class RichFooter extends React.Component{
             <Grommet theme={theme}>
                 <Box pad="medium" align="start">
                     <Card elevation="large" width="medium">
-                        <CardBody height="small">
+                        <CardBody height={{"min": "0px", "max": "183px"}}>
                             {/*<Image
                                 fit="cover"
                                 src={product.resources ? `${urlsUtil.image.get}?file=${product.resources.split(";")[0]}`:null}
                                 a11yTitle={product.productName}
                             />*/}
-                            <Image
+                            {/*<Image
                                 key={product.resources}
                                 src={product.resources ? `${urlsUtil.image.get}?file=${product.resources.split(";")[0]}`:null}
                                 width={249}
-                                height={165}
+                                height={183}
                                 alt={product.resources}
                                 //style={contentStyle}
+                            />*/}
+                            <Image
+                                key={product.resources}
+                                src={product.resources ? `${urlsUtil.image.get}?file=${product.resources.split(";")[0]}`:null}
+                                fill={true}
+                                fit="cover"
+                                alignSelf='center'
                             />
                         </CardBody>
                         <Box pad={{ horizontal: 'medium' }} responsive={false}>
@@ -103,7 +138,7 @@ export class RichFooter extends React.Component{
                                 <Button
                                     icon={<Favorite color={favorite ? 'red' : undefined} />}
                                     hoverIndicator
-                                    onClick={() => this.setFavorite(!favorite)}
+                                    onClick={() => this.setFavorite(!favorite,product.productCode)}
                                 />
                                 {/*<Button icon={<ShareOption color="plain" />} hoverIndicator />*/}
                                 <Anchor
