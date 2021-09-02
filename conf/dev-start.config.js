@@ -12,7 +12,7 @@ let devStartConfig = {
     module: baseConfig.module,
     devServer: {
         host:'localhost',   //服务器的ip地址
-        contentBase: '../../dist',
+        contentBase: '../dist',
         open: true,
         port: 3031,
         hot: true,

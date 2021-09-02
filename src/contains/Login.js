@@ -3,8 +3,6 @@ import { Button, Card, Input, Select, Tooltip, Switch, Alert } from "antd/es";
 import React from "react";
 import "../public/css/Login.css";
 import axios from "axios";
-//import {localContext} from "../cache/localContext"
-// const localContext = require('../cache/localContext');
 
 export class Login extends React.Component {
 

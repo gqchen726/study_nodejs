@@ -10,7 +10,7 @@ if(!env) {
 function buildConfig(wantEnv) {
     let isPass = wantEnv && wantEnv.length > 0 && promission[wantEnv] != -1;
     let envValue = isPass ? wantEnv : 'dev';
-    let config = require(path.join(__dirname,`/conf/${envValue}.config.js`));
+    let config = require(path.join(__dirname,`./conf/${envValue}.config.js`));
     return config;
 }
 
