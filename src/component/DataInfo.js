@@ -17,7 +17,6 @@ import Space from "antd/es/space";
 import {DeleteTwoTone, EditOutlined, SaveOutlined} from "@ant-design/icons"
 import {Resources} from "grommet-icons";
 
-const localContext = require('./../cache/localContext');
 export class DataInfo extends React.Component {
     constructor(props) {
         super(props);

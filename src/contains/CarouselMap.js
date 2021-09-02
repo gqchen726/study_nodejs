@@ -12,7 +12,6 @@ import {MyResult} from "../component/MyResult";
 import {Box} from "grommet/es6";
 import Carousel from "antd/es/carousel";
 
-const localContext = require('./../cache/localContext');
 export class CarouselMap extends React.Component {
     constructor(props) {
         super(props);

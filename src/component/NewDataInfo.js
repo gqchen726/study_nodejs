@@ -15,7 +15,6 @@ import {util} from "../common/Util";
 import {CarouselMap} from "./CarouselMap";
 import {SaveOutlined,EditOutlined} from "@ant-design/icons";
 
-const localContext = require('./../cache/localContext');
 export class NewDataInfo extends React.Component {
     constructor(props) {
         super(props);

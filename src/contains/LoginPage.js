@@ -3,7 +3,6 @@ import {Button, Card, Input, Select, Tooltip, Switch, Alert, Modal, Space} from 
 import React from "react";
 import "../public/css/Login.css";
 import axios from "axios";
-const localContext = require('./../cache/localContext');
 import {Page} from "./Page";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {SimpleLogin} from "./SimpleLogin";
