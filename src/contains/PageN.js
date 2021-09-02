@@ -29,7 +29,7 @@ import {SimpleLogin} from "./SimpleLogin";
 import {LoginPage} from "./LoginPage";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-import localContext from "../cache/localContext";
+import localContext from "./../cache/localContext";
 
 
 //创建context,定义一个全局变量

@@ -10,7 +10,7 @@ import {GirdOfCard} from "./GirdOfCard";
 import {RichFooter} from "../component/RichFooter";
 
 
-const localContext = require('../cache/LocalContext');
+const localContext = require('./../cache/localContext');
 export class DataShowGrid extends React.Component {
     constructor(props) {
         super(props);

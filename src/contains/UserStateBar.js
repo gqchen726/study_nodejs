@@ -9,7 +9,7 @@ import {SimpleLogin} from "./SimpleLogin";
 import PropTypes from "prop-types"
 import "./../public/css/UseStatusBar.css"
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-import localContext from "../cache/LocalContext";
+import localContext from "./../cache/localContext";
 import sessionContext from "../cache/sessionContext";
 export class UserStateBar extends React.Component {
 

@@ -6,7 +6,7 @@ import Meta from "antd";
 import Card from "antd";
 
 
-const localContext = require('../cache/LocalContext');
+const localContext = require('./../cache/localContext');
 export class DataShowCard extends React.Component {
     constructor(props) {
         super(props);

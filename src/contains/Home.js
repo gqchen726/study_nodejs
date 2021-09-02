@@ -18,7 +18,7 @@ import {
 } from '@ant-design/icons';
 import Tooltip from "antd/es/tooltip";
 
-const localContext = require('../cache/LocalContext');
+const localContext = require('./../cache/localContext');
 export class Home extends React.Component {
     constructor(props) {
         super(props);

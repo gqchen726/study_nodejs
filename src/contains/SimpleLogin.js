@@ -8,7 +8,7 @@ import {useHistory, withRouter} from "react-router";
 import {Link} from "react-router-dom";
 import {util} from "../common/Util";
 import sessionContext from "../cache/sessionContext";
-import localContext from "../cache/LocalContext";
+import localContext from "./../cache/localContext";
 import {MyResult} from "../component/MyResult";
 export class SimLogin extends React.Component {
 

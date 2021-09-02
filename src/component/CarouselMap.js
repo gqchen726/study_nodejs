@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import Image from "antd/es/image";
 import {UpLoadFile} from "./UpLoadFile";
 
-const localContext = require('../cache/LocalContext');
+const localContext = require('./../cache/localContext');
 export class CarouselMap extends React.Component {
     constructor(props) {
         super(props);
