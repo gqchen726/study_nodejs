@@ -1,5 +1,5 @@
 import React from "react";
-import localContext from "./cache/LocalContext";
+import {localContext} from "./cache/LocalContext";
 import sessionContext from "./cache/sessionContext";
 import {Page} from "./contains/Page";
 import ErrorBoundary from "antd/es/alert/ErrorBoundary";
