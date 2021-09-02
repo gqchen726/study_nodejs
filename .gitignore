@@ -68,3 +68,7 @@ package-lock.json
 /dist/
 *-manifest.json
 package-locked.json
+antd-manifest.json
+antDesign-manifest.json
+react-manifest.json
+reactDom-manifest.json
