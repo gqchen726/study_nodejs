@@ -8,7 +8,7 @@ import {ButtonList} from "../component/ButtonList";
 import {Login} from "./Login";
 import sessionContext from "../cache/sessionContext";
 import {localContext} from "../cache/localContext"
-// const localContext = require('./../cache/localContext');
+// const localContext = require('../cache/localContext');
 
 export class StateBar extends React.Component {
 

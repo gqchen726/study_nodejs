@@ -3,7 +3,7 @@ import React from 'react';
 
 import {Cascader, Input} from 'antd';
 import newArea from "../common/Area";
-import localContext from "./../cache/localContext";
+import localContext from "../cache/localContext";
 
 
 

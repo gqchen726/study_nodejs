@@ -9,7 +9,7 @@ import {SimpleLogin} from "./SimpleLogin";
 import PropTypes from "prop-types"
 import "./../public/css/UseStatusBar.css"
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-import localContext from "./../cache/localContext";
+import localContext from "../cache/localContext";
 import Avatar from "antd/es/avatar";
 import {Menu} from "grommet";
 import {Link} from "react-router-dom";
