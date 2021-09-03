@@ -7,7 +7,7 @@ import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {util} from "../common/Util";
 import sessionContext from "../cache/sessionContext";
-import {localContext} from "../cache/localContext";
+import localContext from "../cache/localContext";
 import {DeleteOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons"
 
 export class PersonalCenter extends React.Component {

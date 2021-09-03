@@ -13,7 +13,7 @@ import {SearchResultShow} from "./SearchResultShow";
 
 
 
-//import {localContext} from "../cache/localContext";
+//import localContext from "../cache/localContext";
 // const localContext = require('../cache/localContext');
 export class SearchBar extends React.Component {
     constructor(props) {
