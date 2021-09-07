@@ -183,7 +183,7 @@ export class UserStateBarOfH extends React.Component {
                                 <img
                                     alt="example"
                                     style={{ width: '100%' }}
-                                    src={!!user? `${urlsUtil.image.get}?file=${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'}
+                                    src={!!user? `${urlsUtil.image.getOfS3}${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'}
                                 />
                             </Avatar>
                         }

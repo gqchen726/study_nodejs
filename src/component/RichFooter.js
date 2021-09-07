@@ -99,12 +99,12 @@ export class RichFooter extends React.Component{
                         <CardBody height={{"min": "0px", "max": "183px"}}>
                             {/*<Image
                                 fit="cover"
-                                src={product.resources ? `${urlsUtil.image.get}?file=${product.resources.split(";")[0]}`:null}
+                                src={product.resources ? `${urlsUtil.image.getOfS3}${product.resources.split(";")[0]}`:null}
                                 a11yTitle={product.productName}
                             />*/}
                             {/*<Image
                                 key={product.resources}
-                                src={product.resources ? `${urlsUtil.image.get}?file=${product.resources.split(";")[0]}`:null}
+                                src={product.resources ? `${urlsUtil.image.getOfS3}${product.resources.split(";")[0]}`:null}
                                 width={249}
                                 height={183}
                                 alt={product.resources}
@@ -112,7 +112,7 @@ export class RichFooter extends React.Component{
                             />*/}
                             <Image
                                 key={product.resources}
-                                src={product.resources ? `${urlsUtil.image.get}?file=${product.resources.split(";")[0]}`:null}
+                                src={product.resources ? `${urlsUtil.image.getOfS3}${product.resources.split(";")[0]}`:null}
                                 fill={true}
                                 fit="cover"
                                 alignSelf='center'

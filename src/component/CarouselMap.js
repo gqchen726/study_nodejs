@@ -28,7 +28,7 @@ export class CarouselMap extends React.Component {
             <Image
                 key={sources}
                 // src={`https://192.168.1.7:3039/${resourceArr}`}
-                src={`${urlsUtil.image.get}?file=${sources}`}
+                src={`${urlsUtil.image.getOfS3}${sources}`}
                 width={imageSize.width}
                 height={imageSize.height}
                 alt={sources}
@@ -40,7 +40,7 @@ export class CarouselMap extends React.Component {
                 <Image
                     key={index}
                     // src={`https://192.168.1.7:3039/${source}`}
-                    src={`${urlsUtil.image.get}?file=${source}`}
+                    src={`${urlsUtil.image.getOfS3}${source}`}
                     width={imageSize.width}
                     height={imageSize.height}
                     alt={source}
@@ -59,18 +59,18 @@ export class CarouselMap extends React.Component {
             <div key={resourceArr}>
                 <Image
                     key={resourceArr}
-                    src={`${urlsUtil.image.get}?file=${resourceArr}`}
+                    src={`${urlsUtil.image.getOfS3}${resourceArr}`}
                 />
             </div>
         );
         console.log(resourceArr)
         let ImageArr = resourceArr.map((value,index) => {
-            console.log(`${urlsUtil.image.get}?file=${value}`)
+            console.log(`${urlsUtil.image.getOfS3}${value}`)
             return (
                 <div key={index}>
                     <Image
                         key={index}
-                        src={`${urlsUtil.image.get}?file=${value}`}
+                        src={`${urlsUtil.image.getOfS3}${value}`}
                     />
                 </div>
             );

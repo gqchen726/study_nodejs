@@ -139,7 +139,7 @@ export class MyDescriptions extends React.Component {
                     >
                         <Image
                             key={key}
-                            src={`${urlsUtil.image.get}?file=${descriptered[col]}`}
+                            src={`${urlsUtil.image.getOfS3}${descriptered[col]}`}
                             width={60}
                             height={60}
                             alt={descriptered[col]}
@@ -258,7 +258,7 @@ export class MyDescriptions extends React.Component {
                     >
                         {/*<Image
                             key={key}
-                            src={`${urlsUtil.image.get}?file=${descriptered[col]}`}
+                            src={`${urlsUtil.image.getOfS3}${descriptered[col]}`}
                             width={60}
                             height={60}
                             alt={descriptered[col]}
