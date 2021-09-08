@@ -218,6 +218,11 @@ export class DataInfo extends React.Component {
     }
 
     renderDeleteImageAble = (sources) => {
+        if (!resources) return (
+            <Space style={{ marginBottom: 8 }}>
+                no resources
+            </Space>
+        );
         let deleteButtons = sources.split(";").map((val,i) => {
             return (
                 <span>
