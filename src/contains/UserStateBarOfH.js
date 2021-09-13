@@ -7,8 +7,11 @@ import PropTypes from "prop-types"
 import "./../public/css/UseStatusBar.css"
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import localContext from "../cache/localContext";
-import Avatar from "antd/es/avatar";
-import {Menu} from "grommet";
+// import Avatar from "antd/es/avatar";
+import {
+    Menu,
+    Avatar
+} from "grommet";
 import {Link} from "react-router-dom";
 import sessionContext from "../cache/sessionContext";
 export class UserStateBarOfH extends React.Component {
@@ -175,16 +178,18 @@ export class UserStateBarOfH extends React.Component {
                             // color: "#7d4acf",
                             elevation: 'xlarge',
                         }}
+                        // label={
+                        //     <Avatar>
+                        //         <img
+                        //             alt="example"
+                        //             style={{ width: '100%' }}
+                        //             src={!!user? `${urlsUtil.image.get}${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'}
+                        //         />
+                        //     </Avatar>
+                        // }
                         label={
-                            <Avatar>
-                                <img
-                                    alt="example"
-                                    style={{ width: '100%' }}
-                                    src={!!user? `${urlsUtil.image.get}${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'}
-                                />
-                            </Avatar>
+                            <Avatar src={!!user? `${urlsUtil.image.get}${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'} />
                         }
-                        // icon={<MenuIcon color="brand" />}
                         // items={this.returnExtraButton(buttonsPara)}
                         items={this.returnButtons(buttonsPara)}
                     />
