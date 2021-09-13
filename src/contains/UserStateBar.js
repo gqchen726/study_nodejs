@@ -142,7 +142,7 @@ export class UserStateBar extends React.Component {
             pageHeader = (
                 <div>
                     <PageHeader
-                        avatar={{ src: user.avatar? `${urlsUtil.image.getOfS3}${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
+                        avatar={{ src: user.avatar? `${urlsUtil.image.get}${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4' }}
                         ghost={false}
                         // onBack={() => window.history.back()}
                         // title={!isLogin ? '请登录':user.name.value}

@@ -39,8 +39,8 @@ export const urlsUtil = {
     },
     image: {
         upload: `${baseUrls.image}/upload`,
-        get: `${baseUrls.image}/get?file=`,
-        getOfS3: `https://travel-shanxi-gqchen.s3.ap-northeast-1.amazonaws.com/`,
+        get: `${baseUrls.image}/get?fileName=`,
+        get: `https://travel-shanxi-gqchen.s3.ap-northeast-1.amazonaws.com/`,
     },
     collection: {
         addCollection: `${baseUrls.collection}/addCollection`,

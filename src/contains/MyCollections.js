@@ -332,7 +332,7 @@ export default class MyCollections extends React.Component {
                                     width={261}
                                     height={327}
                                     alt="example"
-                                    src={(!!imgs && imgs.length>0) ? `${urlsUtil.image.getOfS3}${imgs[0]}` : "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"}
+                                    src={(!!imgs && imgs.length>0) ? `${urlsUtil.image.get}${imgs[0]}` : "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"}
                                 />
                             }
                         >

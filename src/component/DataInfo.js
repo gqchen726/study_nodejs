@@ -172,12 +172,12 @@ export class DataInfo extends React.Component {
         if (!resources) return null;
         let resourceArr = resources.split(";");
         let ImageArr = resourceArr.map((value,index) => {
-            console.log(`${urlsUtil.image.getOfS3}${value}`)
+            console.log(`${urlsUtil.image.get}${value}`)
             return (
                 <div key={index}>
                     <Image
                         key={index}
-                        src={`${urlsUtil.image.getOfS3}${value}`}
+                        src={`${urlsUtil.image.get}${value}`}
                         //width={}
                     />
                 </div>
