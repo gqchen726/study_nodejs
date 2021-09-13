@@ -1,11 +1,9 @@
-import {Button, Card, Input, Select, Tooltip, Switch, Alert, notification, message, Image} from "antd/es";
+import {Button, Card, Input, Tooltip, Switch, Alert} from "antd/es";
 import React from "react";
 import "../public/css/Login.css";
 import axios from "axios";
-import {Page} from "./Page";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-import {useHistory, withRouter} from "react-router";
-import {Link} from "react-router-dom";
+import {withRouter} from "react-router";
 import {util} from "../common/Util";
 import sessionContext from "../cache/sessionContext";
 import localContext from "../cache/localContext";

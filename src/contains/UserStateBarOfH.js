@@ -1,10 +1,7 @@
 import React from "react";
 import {
-    PageHeader,
-    Space,
-    Modal, Button,
+    Modal,
 } from "antd/es";
-import {ButtonList} from "../component/ButtonList";
 import {SimpleLogin} from "./SimpleLogin";
 import PropTypes from "prop-types"
 import "./../public/css/UseStatusBar.css"

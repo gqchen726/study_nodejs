@@ -4,11 +4,8 @@ import '../public/css/Home.css'
 import {Image} from "grommet";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import '../public/css/Home.css'
-import {Card} from "antd";
-import {util} from "../common/Util";
 import {UpLoadFile} from "../component/UpLoadFile";
 import PropTypes from "prop-types";
-import {MyResult} from "../component/MyResult";
 import {Box} from "grommet/es6";
 import Carousel from "antd/es/carousel";
 

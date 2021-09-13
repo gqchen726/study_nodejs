@@ -1,10 +1,5 @@
-import {
-    RadiusBottomleftOutlined,
-} from '@ant-design/icons';
-import React from "react";
 import PropTypes from 'prop-types'
 import {notification} from "antd";
-import {IconType, NotificationPlacement} from "antd/lib/notification";
 
 export const MyMessageTip = (props) => {
 

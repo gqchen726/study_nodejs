@@ -1,5 +1,3 @@
-import { Upload, Modal } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 import React from "react";
 import PropTypes from "prop-types";
 import DatePicker from "antd/es/date-picker";

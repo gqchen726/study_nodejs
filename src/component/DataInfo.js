@@ -15,7 +15,6 @@ import {selectOneProduct} from "../utils/SelectAnProductFromCode";
 import {util} from "../common/Util";
 import Space from "antd/es/space";
 import {DeleteTwoTone, EditOutlined, SaveOutlined} from "@ant-design/icons"
-import {Resources} from "grommet-icons";
 
 export class DataInfo extends React.Component {
     constructor(props) {

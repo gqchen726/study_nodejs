@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {SearchBar, SearchBarW} from "./SearchBar";
-import {GirdOfCard, GirdOfCardW} from "./GirdOfCard";
+import {SearchBarW} from "./SearchBar";
+import {GirdOfCard} from "./GirdOfCard";
 import Pagination from "antd/es/pagination";
 import {withRouter} from "react-router";
 import axios from "axios";

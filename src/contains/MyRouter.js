@@ -1,17 +1,8 @@
 import React from 'react';
 import {
     Redirect,
-    Route,
-    Switch,
 } from "react-router";
 
-import {Home} from "./Home";
-import {LeftNavigationMenu} from "./LeftNavigationMenu";
-import {SearchResultShow} from "./SearchResultShow";
-import {PersonalCenterW} from "./PersonalCenter";
-import {SimpleLogin} from "./SimpleLogin";
-import {DataInfoW} from "../component/DataInfo";
-import {PageNotFound} from "../component/MyResult";
 import {MyRouterWithHook} from "./MyRouterWithHook";
 
 export class MyRouter extends React.Component {

@@ -1,12 +1,10 @@
-import {Button, Card, Input, Select, Tooltip, Switch, Alert, notification, message} from "antd/es";
+import {Button, Card, Input, Tooltip, Alert} from "antd/es";
 // import {CheckOutlined} from '@ant-design/icons';
 import React from "react";
 import "../public/css/Login.css";
 import axios from "axios";
-import {Page} from "./Page";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-import {useHistory, withRouter} from "react-router";
-import {Link} from "react-router-dom";
+import {withRouter} from "react-router";
 import "./../public/css/User.css"
 import {util} from "../common/Util";
 export class UserPasswordOfUpdate extends React.Component {

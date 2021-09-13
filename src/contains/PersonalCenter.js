@@ -1,14 +1,14 @@
 import React from 'react'
 import Card from "antd/es/card";
 import {MyDescriptions} from "../component/MyDescriptions";
-import {Button, notification} from "antd/es";
+import {Button} from "antd/es";
 import {withRouter} from "react-router";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {util} from "../common/Util";
 import sessionContext from "../cache/sessionContext";
 import localContext from "../cache/localContext";
-import {DeleteOutlined, EditOutlined, SaveOutlined} from "@ant-design/icons"
+import {EditOutlined, SaveOutlined} from "@ant-design/icons"
 
 export class PersonalCenter extends React.Component {
     constructor(props) {

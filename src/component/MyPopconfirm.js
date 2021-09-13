@@ -1,4 +1,3 @@
-import {notification} from "antd/es";
 import PropTypes from 'prop-types'
 import Popconfirm from "antd/es/popconfirm";
 import React from "react";

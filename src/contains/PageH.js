@@ -1,35 +1,26 @@
 import {
-    BarChartOutlined,
-    CloudOutlined,
-    UserOutlined,
-    UploadOutlined,
-    HomeOutlined,
     BarsOutlined, HddOutlined, PlusSquareOutlined,
 } from '@ant-design/icons';
-import SubMenu from "antd/es/menu/SubMenu";
 import {UserStateBar} from "./UserStateBar";
-import {HashRouter, Link, BrowserRouter} from "react-router-dom";
+import {HashRouter, Link} from "react-router-dom";
 import {MyRouter} from "./MyRouter";
 import React from "react";
 import { Layout, /*Menu*/ } from 'antd';
 import './../public/css/PageH.css'
 import {MyPrompt} from "../component/MyPrompt";
-import {Content, Footer, /*Header*/} from "antd/es/layout/layout";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-import { Power, User} from "grommet-icons";
+import { User} from "grommet-icons";
 import {
     Anchor,
     Box,
-    Header,
     Nav,
     Menu,
     ResponsiveContext,
 } from 'grommet';
 import {Grommet as GrommetIcon, Menu as MenuIcon } from 'grommet-icons';
-import Avatar from "antd/es/avatar";
 import {UserStateBarOfH} from "./UserStateBarOfH";
-import {BladesVertical, Home, OrderedList} from "grommet-icons/es6";
+import {Home, OrderedList} from "grommet-icons/es6";
 //创建context,定义一个全局变量
 const ThemeContext = React.createContext("light");
 export class PageH extends React.Component {

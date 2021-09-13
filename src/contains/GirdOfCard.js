@@ -7,7 +7,6 @@ import {Link} from "react-router-dom";
 
 import '../public/css/DataShowGrid.css'
 import {withRouter} from "react-router";
-import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {arrayUtils} from "../common/ArrayUtils";
 import {RichFooter} from "../component/RichFooter";
 

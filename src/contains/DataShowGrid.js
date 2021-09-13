@@ -1,12 +1,6 @@
 import React from 'react'
-import Row from "antd/es/grid/row";
-import Col from "antd/es/grid/col";
-import {DataShowCard} from "./DataShowCard";
 // import '../public/css/App.css'
 import '../public/css/DataShowGrid.css'
-import {Clock} from "../component/Clock";
-import {Input} from "antd";
-import {GirdOfCard} from "./GirdOfCard";
 import {RichFooter} from "../component/RichFooter";
 
 

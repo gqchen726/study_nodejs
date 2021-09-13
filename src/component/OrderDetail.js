@@ -1,5 +1,9 @@
 import { Steps } from 'antd';
-import { UserOutlined, SolutionOutlined, LoadingOutlined, SmileOutlined } from '@ant-design/icons';
+import { 
+    UserOutlined, 
+    LoadingOutlined, 
+    SmileOutlined 
+} from '@ant-design/icons';
 import React from "react";
 import Card from "antd/es/card";
 import Button from "antd/es/button";
@@ -10,7 +14,6 @@ import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import "./../public/css/OrderStep.css"
 
 const { Step } = Steps;
-import {notification} from "antd/es";
 import {util} from "../common/Util";
 import {Link} from "react-router-dom";
 

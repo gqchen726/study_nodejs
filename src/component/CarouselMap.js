@@ -3,8 +3,6 @@ import React from 'react'
 import Carousel from "antd/es/carousel";
 import '../public/css/Home.css'
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
-import {Card} from "antd";
-import {util} from "../common/Util";
 import PropTypes from "prop-types";
 import Image from "antd/es/image";
 import {UpLoadFile} from "./UpLoadFile";

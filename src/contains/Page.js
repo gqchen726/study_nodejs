@@ -1,12 +1,8 @@
 import {
-    AppstoreOutlined,
     BarChartOutlined,
     CloudOutlined,
-    ShopOutlined,
-    TeamOutlined,
     UserOutlined,
     UploadOutlined,
-    VideoCameraOutlined,
     HomeOutlined,
     BarsOutlined,
     MenuUnfoldOutlined,
@@ -15,16 +11,13 @@ import {
 import Switch from "antd/es/switch";
 import SubMenu from "antd/es/menu/SubMenu";
 import {UserStateBar} from "./UserStateBar";
-import {Prompt} from "react-router";
-import {HashRouter, Link, BrowserRouter} from "react-router-dom";
+import {HashRouter, Link} from "react-router-dom";
 import {MyRouter} from "./MyRouter";
 import React from "react";
 import { Layout, Menu } from 'antd';
 import './../public/css/Page.css'
-import {Button, message} from "antd/es";
-import history from "../common/history";
+import {Button} from "antd/es";
 import {MyPrompt} from "../component/MyPrompt";
-import {MyRouterWithHook} from "./MyRouterWithHook";
 
 
 //创建context,定义一个全局变量

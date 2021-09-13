@@ -4,7 +4,6 @@ import {Button, Carousel, notification} from "antd/es";
 import PropTypes from 'prop-types'
 import {MyDescriptions} from "./MyDescriptions";
 import {
-    Link,
     withRouter
 } from "react-router-dom";
 import axios from "axios";

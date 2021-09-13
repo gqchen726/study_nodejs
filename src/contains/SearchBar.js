@@ -1,5 +1,4 @@
 import React from 'react'
-import Input from "antd/es/input";
 import Button from "antd/es/button";
 import {Link, withRouter} from "react-router-dom";
 import axios from "axios";
@@ -7,9 +6,7 @@ import axios from "axios";
 // import '../public/css/App.css'
 import {urlsUtil} from "./../public/ApiUrls/UrlsUtil"
 import "./../public/css/SearchBar.css"
-import Cascader from "antd/es/cascader";
 import { AutoComplete } from 'antd';
-import {SearchResultShow} from "./SearchResultShow";
 
 
 

@@ -3,22 +3,17 @@ import { UserOutlined, SolutionOutlined, LoadingOutlined, SmileOutlined } from '
 import React from "react";
 import Card from "antd/es/card";
 import Button from "antd/es/button";
-import {UserStateBar} from "./UserStateBar";
 import {MyDescriptions} from "../component/MyDescriptions";
 import {withRouter} from "react-router";
 import Space from "antd/es/space";
 import {MyResult} from "../component/MyResult";
 import {Link} from "react-router-dom";
-import Input from "antd/es/input";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import "./../public/css/OrderStep.css"
-import DatePicker from "antd/es/date-picker";
 const { Step } = Steps;
-import moment from 'moment';
 import {MyDatePicker} from "../component/MyDatePicker";
 import {selectOneProduct} from "../utils/SelectAnProductFromCode";
-import {notification} from "antd/es";
 import {util} from "../common/Util";
 
 export class OrderSteps extends React.Component {

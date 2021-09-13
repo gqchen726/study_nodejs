@@ -1,22 +1,13 @@
 import React from 'react'
-// import '../public/css/App.css'
-import {SearchBar} from "./SearchBar";
 import {Link} from "react-router-dom";
 import {AutoComplete} from "antd";
 import Button from "antd/es/button";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import {CarouselMap} from "../component/CarouselMap";
-import {FormSearch, Trash} from "grommet-icons/es6";
-import {util} from "../common/Util";
-import {MyTooltip} from "../component/MyTooltip";
-// import {CarouselMap} from "./CarouselMap";
-// import Route from "react-router/modules/Route";
-// import {useRouteMatch} from "react-router";
 import {
     SearchOutlined
 } from '@ant-design/icons';
-import Tooltip from "antd/es/tooltip";
 
 export class Home extends React.Component {
     constructor(props) {

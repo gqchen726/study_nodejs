@@ -3,22 +3,19 @@ import {
     Route,
     Switch,
     useHistory,
-    useRouteMatch,
-    useLocation,
     useParams
 } from "react-router";
 import PropTypes from 'prop-types'
 import {Home} from "./Home";
 import {LeftNavigationMenu} from "./LeftNavigationMenu";
-import {SearchResultShow, SearchResultShowW} from "./SearchResultShow";
+import {SearchResultShowW} from "./SearchResultShow";
 import {PersonalCenterW} from "./PersonalCenter";
-import {SimpleLogin} from "./SimpleLogin";
 import {DataInfoW} from "../component/DataInfo";
 import Button from "antd/es/button";
-import {OrderSteps, OrderStepsW} from "./OrderSteps";
+import {OrderStepsW} from "./OrderSteps";
 import MyOrderList from "./MyOrderList";
 import {MyResult} from "../component/MyResult";
-import {OrderDetail, OrderDetailW} from "../component/OrderDetail";
+import {OrderDetailW} from "../component/OrderDetail";
 import MyCollections from "./MyCollections";
 import {UserPasswordOfUpdate} from "./UserPasswordOfUpdate";
 import {NewDataInfoW} from "../component/NewDataInfo";

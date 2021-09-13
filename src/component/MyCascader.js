@@ -6,8 +6,6 @@ import newArea from "../common/Area";
 import localContext from "../cache/localContext";
 
 
-
-
 export class MyCascader extends React.Component{
     constructor(props) {
         super(props);
