@@ -138,7 +138,6 @@ export default class MyCollections extends React.Component {
 
 
     handleChange = (pagination, filters, sorter) => {
-        console.log('Various parameters', pagination, filters, sorter);
         this.setState({
             filteredInfo: filters,
             sortedInfo: sorter,
@@ -285,7 +284,6 @@ export default class MyCollections extends React.Component {
 
     renderAllCardGirds = (datas,currentPage) => {
         if (!datas) return;
-        console.log(datas)
         let cardGirds = datas.map((data,index) => {
             return (
                 <Card.Grid key={index} className={"GirdOfCard"} >
@@ -318,7 +316,6 @@ export default class MyCollections extends React.Component {
         let cardGirds = datas.map((data,index) => {
             let imgs = arrayUtils.split(data.resources,";");
             let {productCode} = data;
-            console.log(imgs)
             return (
                 /!*<Card.Grid key={index} className={"GirdOfCard"} >
                     <Link to={{

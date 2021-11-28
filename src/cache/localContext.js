@@ -11,7 +11,6 @@ const localContext = {
             value,
             outOfDate
         }
-        console.log(data)
         if(!localStorage.getItem(key)) {
             localStorage.setItem(key,JSON.stringify(data));
         }

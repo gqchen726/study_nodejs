@@ -133,7 +133,6 @@ export class SearchBar extends React.Component {
                 let datas = response.data.body;
                 let newDatas;
                 if (!!datas) {
-                    console.log(datas)
                     this.setState({
                         options: datas,
                     })

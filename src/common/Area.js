@@ -13708,9 +13708,3 @@ const newArea = {
     getAreas: toObject(Area)
 };
 export default newArea;
-/*
-toObject(Area).forEach((value) => {
-    value.children.forEach(value => {
-        console.log(value.children)
-    })
-})*/

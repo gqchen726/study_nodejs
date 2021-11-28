@@ -15,40 +15,30 @@ import {selectOneProduct} from "../utils/SelectAnProductFromCode";
 import {util} from "../common/Util";
 import Space from "antd/es/space";
 import {DeleteTwoTone, EditOutlined, SaveOutlined} from "@ant-design/icons"
+import {
+    Spinner,
+    Box
+} from "grommet";
 
 export class DataInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isEditMode: false,
+            isLoading: false
         }
     }
 
     componentWillMount() {
-        // try {
-        //     let {datas} = this.props;
-        //     let {key} = this.props.match.params
-        //     let data = datas[key];
-        //     this.state.product = data;
-        // } catch (error) {
-        //     // let productCode = this.props.match.params.key
-        //     // axios.get(`${urlsUtil.product.searchFromCode}?id=${productCode}`).then(
-        //     //     (response) => {
-        //     //         let product = response.data.body;
-        //     //         this.setState({
-        //     //             product: product
-        //     //         })
-        //     //     }
-        //     // )
-        //
-        // }
+        this.state.isLoading = true;
         let productCode = this.props.match.params.key
         selectOneProduct(productCode).then(
             (response) => {
                 let product = response.data.body;
                 this.setState({
                     product: product,
-                    oldResources: product.resources
+                    oldResources: product.resources,
+                    isLoading: false
                 })
             }
         );
@@ -84,17 +74,22 @@ export class DataInfo extends React.Component {
             this.setState({
                 isLoading: false
             })
-        } else {
-            this.changeEditMode();
-        }
+        } 
+        this.changeEditMode();
     }
 
+
     setFileResources = (fileList) => {
-        let {resources} = this.state.product;
+        let {product} = this.state;
+        let resources = null;
         if (Array.isArray(fileList)) {
             fileList.forEach((value, index) => {
-                let reSource = value.response.body;
-                console.log(value)
+                let reSource = null;
+                if(value.response !== undefined && value.response !== null) {
+                    reSource = value.response.body;
+                } else if(value.name !== undefined && value.name !== null) {
+                    reSource = value.name;
+                }
                 if (resources == null && index === 0) {
                     resources = reSource;
                 } else {
@@ -102,7 +97,6 @@ export class DataInfo extends React.Component {
                 }
             })
         }
-        let {product} = this.state;
         product.resources = resources;
         this.setState({
             product:product
@@ -117,10 +111,8 @@ export class DataInfo extends React.Component {
 
     onRemove = () => {
         let {productCode} = this.state.product;
-        console.log(productCode)
         axios.get(`${urlsUtil.product.removeUrl}?productCode=${productCode}`).then((response) => {
             let responseBody = response.data;
-            console.log(response)
 
             this.props.refreshMenuItems();
             this.changeEditMode();
@@ -153,13 +145,13 @@ export class DataInfo extends React.Component {
             return (!user)?
                 null:(<div>
                     <Button icon={isEditMode? <SaveOutlined />:<EditOutlined />} type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
-                    <br />{isEditMode ? <Button icon={<DeleteTwoTone />} type={"primary"} onClick={this.onRemove} >删除</Button> : null}
+                    &nbsp;{isEditMode ? <Button icon={<DeleteTwoTone />} type={"primary"} onClick={this.onRemove} >删除</Button> : null}
                 </div>)
         } else if (isAdminSpecific) {
             return (!!user && user.admin)?
                 (<div>
                     <Button icon={isEditMode? <SaveOutlined />:<EditOutlined />} type={"primary"} onClick={this.onClickHandler} >{isEditMode ? "保存":"编辑 "}</Button>
-                    <br />{isEditMode ? <Button icon={<DeleteTwoTone />} type={"primary"} onClick={this.onRemove} >删除</Button> : null}
+                    &nbsp;{isEditMode ? <Button icon={<DeleteTwoTone />} type={"primary"} onClick={this.onRemove} >删除</Button> : null}
                 </div>):null
         }
     }
@@ -171,7 +163,6 @@ export class DataInfo extends React.Component {
         if (!resources) return null;
         let resourceArr = resources.split(";");
         let ImageArr = resourceArr.map((value,index) => {
-            console.log(`${urlsUtil.image.get}${value}`)
             return (
                 <div key={index}>
                     <Image
@@ -188,9 +179,7 @@ export class DataInfo extends React.Component {
     }
 
     deleteImage = (val) => {
-        console.log(val)
         let sources = this.state.product.resources;
-        console.log(sources)
         if (!sources) {
             return ;
         }
@@ -217,7 +206,7 @@ export class DataInfo extends React.Component {
     }
 
     renderDeleteImageAble = (sources) => {
-        if (!resources) return (
+        if (!sources) return (
             <Space style={{ marginBottom: 8 }}>
                 no resources
             </Space>
@@ -242,21 +231,22 @@ export class DataInfo extends React.Component {
     renderCarouselMap = (isEditMode,sources) => {
 
         if (!sources && !isEditMode) return null
+
         return (
             <div>
-                <span>
+                {/* <span>
                     {
                         isEditMode ?
                             this.renderDeleteImageAble(sources):null
                     }
-                </span>
+                </span> */}
                 <CarouselMap
                     getFileList={this.getFileList}
                     isEditMode={isEditMode}
                     sources={sources}
                     user={this.props.user}
                     autoPlay={true}
-                    imageSize={{width:480,height:240}}
+                    imageSize={{width: "100%",height: "100%"}}
                 />
             </div>
         );
@@ -270,23 +260,27 @@ export class DataInfo extends React.Component {
         })
     }
 
+    loading = (isLoading) => {
+        return isLoading ? <Spinner size={"medium"} />:"data is null";
+    }
 
 
     render() {
 
         let {user} = this.props;
         let isAdminSpecific = true;
-        let {isEditMode, product} = this.state;
+        let {isEditMode, product, isLoading} = this.state;
 
 
 
 
         if (!product) {
-            return <div>
-                data is null;
-            </div>
+            return (
+                <Box align="center" pad="large">
+                    {this.loading(isLoading)}
+                </Box>
+            )
         }
-        console.log(product)
         const lunboSetting = {
             dots: true,
             lazyLoad: true,
@@ -303,7 +297,7 @@ export class DataInfo extends React.Component {
                     }
                 >
                     {/*跑马灯*/}
-                    {/*{product.resources|isEditMode?this.renderCarouselMap(isEditMode,product.resources):null}*/}
+                    
                     {
                         this.renderCarouselMap(isEditMode,product.resources)
                     }
@@ -314,7 +308,7 @@ export class DataInfo extends React.Component {
                     </div>*/}
 
                     <MyDescriptions
-                        title={"景点信息"}
+                        title={"景点详情"}
                         layout={"horizontal"}
                         bordered={true}
                         descriptered={product}

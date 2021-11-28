@@ -20,6 +20,9 @@ const base = {
         common.push("souseNames");
         common.push("resources");
         common.push("ex");
+        common.push("checkCode");
+        common.push("approval");
+        common.push("registerCode");
         return common;
     },
     codeTable: (property) => {
@@ -172,7 +175,6 @@ export const util = {
         return resultColumns;
     },
     getTableColumns1: (filteredInfo,sortedInfo,filters,getColumnSearchProps) => {
-        console.log(filters)
         let requestColumns;
         requestColumns = base.normalUserTableColumns;
         let resultColumns = requestColumns.map((property) => {

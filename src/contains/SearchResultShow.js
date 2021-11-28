@@ -6,6 +6,11 @@ import Pagination from "antd/es/pagination";
 import {withRouter} from "react-router";
 import axios from "axios";
 import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
+import {
+    Spinner, 
+    Box
+} from "grommet";
+import { TextAlignCenter } from 'grommet-icons';
 
 export class SearchResultShow extends React.Component {
 
@@ -17,20 +22,6 @@ export class SearchResultShow extends React.Component {
     }
 
     componentWillMount() {
-
-        // let {match} = this.props;
-        // let keywords;
-        // if (!!match) keywords = match.params.keywords;
-        // if (keywords) {
-        //     axios.get(`${urlsUtil.product.searchUrl}?keywords=${keywords}`).then(
-        //         (response) => {
-        //
-        //             let datas = response.data.body;
-        //
-        //             this.props.saveAny('datas',datas);
-        //         }
-        //     )
-        // }
         this.getDatas(this.props);
     }
 
@@ -59,6 +50,7 @@ export class SearchResultShow extends React.Component {
     }
 
     getDatas = (props) => {
+        this.state.isLoading = true;
         let {match} = props;
         let keywords;
         if (!!match) {
@@ -71,6 +63,7 @@ export class SearchResultShow extends React.Component {
                     let datas = response.data.body;
 
                     this.props.saveAny('datas',datas);
+                    this.state.isLoading = false;
                 }
             )
         }
@@ -86,8 +79,6 @@ export class SearchResultShow extends React.Component {
     }
     renderGirdOfCard = (datas,currentPage) => {
         let datasSplitPage = this.getDatasSplitPage(datas);
-        console.log(datas)
-        console.log(datasSplitPage[currentPage-1])
         return <GirdOfCard datas={datasSplitPage[currentPage-1]} user={this.props.user} />;
     }
     renderOldGirdOfCard = (datas,currentPage) => {
@@ -133,13 +124,13 @@ export class SearchResultShow extends React.Component {
 
 
     render() {
-        // let datas = this.props.children.datas? this.props.children:this.props;
         let {currentPage} = this.state;
         let {datas} = this.props;
         if (!datas) {
-            return <div>data is null</div>;
+            return (<Box align="center" pad="medium">
+                        <Spinner size={"large"} />
+                </Box>)
         }
-        // let total = datas.length;
         return (
             <div>
                 {this.renderSearchBar()}

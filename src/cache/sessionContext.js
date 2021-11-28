@@ -11,7 +11,6 @@ const sessionContext = {
             value,
             outOfDate
         }
-        console.log(data)
         if(!sessionStorage.getItem(key)) {
             sessionStorage.setItem(key,JSON.stringify(data));
         }

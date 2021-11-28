@@ -82,7 +82,6 @@ export class NewDataInfo extends React.Component {
         if (Array.isArray(fileList)) {
             fileList.forEach((value, index) => {
                 let reSource = value.response.body;
-                console.log(value)
                 if (index === 0) {
                     resources = reSource;
                 } else {
@@ -216,7 +215,7 @@ export class NewDataInfo extends React.Component {
                     </div>*/}
 
                     <MyDescriptions
-                        title={"景点信息"}
+                        title={"景点详情"}
                         layout={"horizontal"}
                         bordered={true}
                         descriptered={newData}

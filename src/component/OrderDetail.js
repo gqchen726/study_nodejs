@@ -35,7 +35,6 @@ export class OrderDetail extends React.Component {
             let {data} = response;
             if (data.code == 0) {
                 let orderDetail = data.body;
-                console.log(orderDetail)
                 if (orderDetail.order.status === "generated") {
                     setTimeout(() => {
                         this.setState({
@@ -68,7 +67,6 @@ export class OrderDetail extends React.Component {
 
     next = () => {
         let {status, orderDetail} = this.state;
-        console.log(orderDetail)
         if ("process" == status.ViewDetail) {
             return ;
         }
@@ -97,7 +95,6 @@ export class OrderDetail extends React.Component {
     }
 
     returnOrderCard = (status,orderDetail) => {
-        console.log(orderDetail)
         if (!orderDetail.order) {
             return ;
         }
@@ -124,7 +121,7 @@ export class OrderDetail extends React.Component {
                         <br />
                         <MyDescriptions
                             descriptered={orderDetail.product}
-                            title={"景点信息"}
+                            title={"景点详情"}
                             bordered={true}
                             layout={"horizontal"}
                         />
@@ -154,7 +151,7 @@ export class OrderDetail extends React.Component {
                         <br />
                         <MyDescriptions
                             descriptered={orderDetail.product}
-                            title={"景点信息"}
+                            title={"景点详情"}
                             bordered={true}
                             layout={"horizontal"}
                         />

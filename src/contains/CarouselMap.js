@@ -49,36 +49,6 @@ export class CarouselMap extends React.Component {
         });
     }
 
-    /*renderSources = (sources,contentStyle) => {
-        if (!sources) return null;
-        let resourceArr = sources.split(";");
-        console.log(sources)
-        console.log(resourceArr)
-        if (resourceArr.length < 1) return (
-            <div key={resourceArr}>
-                <Image
-                    key={resourceArr}
-                    src={`${urlsUtil.image.get}${resourceArr}`}
-                />
-            </div>
-        );
-        console.log(resourceArr)
-        let ImageArr = resourceArr.map((value,index) => {
-            console.log(`${urlsUtil.image.get}${value}`)
-            return (
-                <div key={index}>
-                    <Image
-                        key={index}
-                        src={`${urlsUtil.image.get}${value}`}
-                    />
-                </div>
-            );
-
-
-        })
-        return ImageArr;
-    }*/
-
 
 
 

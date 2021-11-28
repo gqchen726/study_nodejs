@@ -17,7 +17,6 @@ export class GirdOfCard extends React.Component {
 
     renderAllCardGirds = (datas,currentPage) => {
         if (!datas) return;
-        console.log(datas)
         let cardGirds = datas.map((data,index) => {
             return (
                 <Card.Grid key={index} className={"GirdOfCard"} >
@@ -45,34 +44,12 @@ export class GirdOfCard extends React.Component {
     }
 
     renderCurrentCardGirds = (datas) => {
-        // let datasSplitPage = this.getDatasSplitPage(datas);
         if (!datas) return;
         let cardGirds = datas.map((data,index) => {
             let imgs = arrayUtils.split(data.resources,";");
             let {productCode} = data;
-            console.log(imgs)
             return (
-                /*<Card.Grid key={index} className={"GirdOfCard"} >
-                    <Link to={{
-                        pathname: `/dataInfo/${productCode}`,
-                        // search: `/${index}`,
-                    }}>
-                        <Card
-                            hoverable
-                            cover={
-                                <img
-                                    width={261}
-                                    height={327}
-                                    alt="example"
-                                    src={(!!imgs && imgs.length>0) ? `${urlsUtil.image.get}${imgs[0]}` : "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"}
-                                />
-                            }
-                        >
-                            <Meta title={data.productName} description={data.productCode} />
-                        </Card>
-                        {/!*<RichFooter product={data} />*!/}
-                    </Link>
-                </Card.Grid>*/
+                
             <Card.Grid key={index} className={"GirdOfCard"} >
                 <RichFooter product={data} user={this.props.user} />
             </Card.Grid>
@@ -88,21 +65,13 @@ export class GirdOfCard extends React.Component {
         let {currentPage} = this.props;
 
         return (
-            <Card className={'resultShow'} title={"result"} >
+            <Card className={'resultShow'} title={"检索结果"} >
                 {
                     this.renderCurrentCardGirds(datas)
                     // this.getCardGirds(datas,currentPage)
                 }
                 <br /><br /><br /><br />
             </Card>
-            // <Switch>
-            //     <Card className={'resultShow'} title={"result"} >
-            //         {this.renderCardGirds(datas)}
-            //     </Card>
-            //     {/*<Route exact path="/dataInfo/:key" >*/}
-            //     {/*    <DataInfoW data={this.state.datas} user={this.props.user} />*/}
-            //     {/*</Route>*/}
-            // </Switch>
         );
     }
 }

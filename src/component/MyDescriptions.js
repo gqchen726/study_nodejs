@@ -20,7 +20,8 @@ export class MyDescriptions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            descriptered: props.descriptered
+            descriptered: props.descriptered,
+            style: props.style
         }
     }
 
@@ -127,15 +128,24 @@ export class MyDescriptions extends React.Component {
         // }
 
 
+        //this is a list -> DescriptionItems
         let infos = [];
-        Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
+        let {style} = this.state;
+        let columns = Object.getOwnPropertyNames(descriptered);
+        columns.sort((column) => {
+            if(column === "description") {
+                return 0;
+            }
+            return -1;
+        })
+        columns.forEach((col,key) => {
             if (util.hasDescriptionIgnoreList(col)) {
             } else if (col == "avatar") {
                 infos.push(
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         <Image
                             key={key}
@@ -146,12 +156,48 @@ export class MyDescriptions extends React.Component {
                         />
                     </Descriptions.Item>
                 );
+            } else if(col == "productCode") {
+                infos.push(
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                        labelStyle={style.labelStyle}
+                    >
+                        <Paragraph>
+                            <Text
+                                style={ellipsis ? { width: 100 } : undefined}
+                                ellipsis={ellipsis ? { tooltip: 'I am ellipsis now!' } : false}
+                                editable={false}
+                            >
+                                {util.codeTable(descriptered[col])}
+                            </Text>
+                        </Paragraph>
+                    </Descriptions.Item>
+                );
+            } else if(col == "description") {
+                infos.push(
+                    <Descriptions.Item
+                        key={key}
+                        label={util.codeTable(col)}
+                        labelStyle={style.labelStyle}
+                    >
+                        <Paragraph>
+                            <Text
+                                style={ellipsis ? { width: 100 } : undefined}
+                                ellipsis={ellipsis ? { tooltip: 'I am ellipsis now!' } : false}
+                                editable={false}
+                            >
+                                {util.codeTable(descriptered[col])}
+                            </Text>
+                        </Paragraph>
+                    </Descriptions.Item>
+                );
             } else {
                 infos.push(
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         <Paragraph>
                             <Text
@@ -178,14 +224,22 @@ export class MyDescriptions extends React.Component {
 
 
         let infos = [];
-        Object.getOwnPropertyNames(descriptered).forEach((col,key) => {
+        let {style} = this.state;
+        let columns = Object.getOwnPropertyNames(descriptered);
+        columns.sort((column) => {
+            if(column === "description") {
+                return 0;
+            }
+            return -1;
+        })
+        columns.forEach((col,key) => {
             if (util.hasDescriptionIgnoreList(col)) {
             } else if (col == "mobileNumber") {
                 infos.push(
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         <Input
                             id={col}
@@ -203,7 +257,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         <Input
                             id={col}
@@ -221,7 +275,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         <Radio.Group name="sex" defaultValue={"male"} value={descriptered[col]} onChange={this.autoSave}>
                             <Radio value='male'>男</Radio>
@@ -234,7 +288,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         <MyDatePicker title={""} onClickHandler={this.saveBirth} fromToday={false} />
                     </Descriptions.Item>
@@ -244,7 +298,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         <MyCascader saveAddress={this.saveAddress} area={descriptered[col]} />
                     </Descriptions.Item>
@@ -254,7 +308,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         {/*<Image
                             key={key}
@@ -276,7 +330,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         <Input.TextArea
                             id={col}
@@ -295,7 +349,7 @@ export class MyDescriptions extends React.Component {
                     <Descriptions.Item
                         key={key}
                         label={util.codeTable(col)}
-                        labelStyle={{width:"40%"}}
+                        labelStyle={style.labelStyle}
                     >
                         <Input
                             id={col}
@@ -320,13 +374,14 @@ export class MyDescriptions extends React.Component {
         let {bordered} = this.props;
         let {layout} = this.props;
         let {isEditMode} = this.props;
+        let {style} = this.state;
         return (
             <Descriptions
                 title={title}
                 layout={layout}
                 bordered={bordered}
                 size={"default"}
-                column={1}
+                column={style.columnStyle}
             >
                 {
                     !isEditMode?
@@ -342,6 +397,7 @@ MyDescriptions.propTypes = {
     title: PropTypes.string,
     bordered: PropTypes.bool,
     descriptered: PropTypes.object,
+    style: PropTypes.object,
     //horizontal | vertical
     layout: PropTypes.string,
     saveNewDescriptered: PropTypes.func,
@@ -353,4 +409,9 @@ MyDescriptions.defaultProps = {
     bordered: false,
     isAdminSpecific: true,
     isEditMode: false,
+    style: {
+        labelStyle: {width:"8%"},
+        columnStyle: { xxl: 4, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }
+    },
+    layout: "horizontal"
 }

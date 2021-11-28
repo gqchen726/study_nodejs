@@ -23,6 +23,7 @@ export class UserStateBarOfH extends React.Component {
             visible: false,
             pageHeader: null,
             modalContent: null,
+            avatarImg: !!props.user ? (!!props.user.avatar ? props.user.avatar : null):null
         };
     }
 
@@ -65,24 +66,6 @@ export class UserStateBarOfH extends React.Component {
                     obj.linkPath?
                     { label: <Link to={obj.linkPath}>{obj.content}</Link>}:
                         { label: obj.content,onClick: obj.handleClick}
-                        /*{ label: <Button
-                                key={obj.content}
-                                ghost={obj.ghost}
-                                type={obj.type}
-                                onClick={obj.handleClick?obj.handleClick:null}
-                            >
-                                {obj.content}
-                            </Button>}*/
-                    /*<Button
-                        key={obj.content}
-                        ghost={obj.ghost}
-                        type={obj.type}
-                        onClick={obj.handleClick?obj.handleClick:null}
-                    >
-                        {
-                            obj.linkPath ? <Link to={obj.linkPath}>{obj.content}</Link>:obj.content
-                        }
-                    </Button>*/
                 );
             })
         }
@@ -123,20 +106,9 @@ export class UserStateBarOfH extends React.Component {
     }
 
     returnPageHandler = (user,mode) => {
+        let {avatarImg} = this.state;
         let isLogin = !!user;
         let logined = [
-            // {
-            //     type: 'ghost',
-            //     content: '我的订单'
-            // },
-            // {
-            //     type: 'default',
-            //     content: '浏览历史'
-            // },
-            // {
-            //     type: 'primary',
-            //     content: '个人中心'
-            // },
             {
                 type: 'primary',
                 content: '登出',
@@ -178,19 +150,9 @@ export class UserStateBarOfH extends React.Component {
                             // color: "#7d4acf",
                             elevation: 'xlarge',
                         }}
-                        // label={
-                        //     <Avatar>
-                        //         <img
-                        //             alt="example"
-                        //             style={{ width: '100%' }}
-                        //             src={!!user? `${urlsUtil.image.get}${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'}
-                        //         />
-                        //     </Avatar>
-                        // }
                         label={
-                            <Avatar src={!!user? `${urlsUtil.image.get}${user.avatar}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'} />
+                            <Avatar src={!!user? `${urlsUtil.image.get}${avatarImg}`:'http://avatars1.githubusercontent.com/u/8186664?s=460&v=4'} />
                         }
-                        // items={this.returnExtraButton(buttonsPara)}
                         items={this.returnButtons(buttonsPara)}
                     />
                 </div>

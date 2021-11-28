@@ -31,7 +31,6 @@ export class OrderSteps extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props.match.params);
         if (!!this.props.match.params.key) {
             let productCode = this.props.match.params.key
             selectOneProduct(productCode).then(
@@ -44,7 +43,6 @@ export class OrderSteps extends React.Component {
             );
         } else {
             let {orderId} = this.props.match.params;
-            console.log(orderId)
             axios.get(`${urlsUtil.order.getOrderUrl}?orderId=${orderId}`).then((response) => {
                 let {data} = response;
                 if (data.code == 0) {
@@ -184,8 +182,6 @@ export class OrderSteps extends React.Component {
     returnOrderCard = (productNum, product, status, orderGenerate) => {
         let data = product;
         // let {orderGenerate} = this.state;
-        console.log(orderGenerate)
-        console.log(this);
         if (!data) {
             return ;
         }
@@ -193,7 +189,7 @@ export class OrderSteps extends React.Component {
             return (
                 <Space direction={"vertical"} size={"small"} align={"center"}>
                     <MyDescriptions
-                        title={"Data Info"}
+                        title={"商品描述"}
                         layout={"horizontal"}
                         bordered={true}
                         // columns={columns}
@@ -253,7 +249,7 @@ export class OrderSteps extends React.Component {
                         <br />
                         <MyDescriptions
                             descriptered={orderGenerate.product}
-                            title={"景点信息"}
+                            title={"景点详情"}
                             bordered={true}
                             layout={"horizontal"}
                         />

@@ -44,7 +44,6 @@ export class PersonalCenter extends React.Component {
             }
             axios.post(urlsUtil.user.updatePersonInfo,user).then((response) => {
                 let responseBody = response.data;
-                console.log(response)
                 this.changeEditMode();
                 if (!responseBody.code) {
                     this.setState({
@@ -87,12 +86,10 @@ export class PersonalCenter extends React.Component {
             return null;
         }
 
-        console.log(user)
-
 
         return (
             <div className='personalCenter'>
-                {/*数据详情信息展示*/}
+                {/*个人信息展示*/}
                 <Card
                     title={user.name}
                     extra={
@@ -101,9 +98,13 @@ export class PersonalCenter extends React.Component {
                     }
                 >
                     <MyDescriptions
-                        title={"Data Info"}
+                        title={"个人中心"}
                         layout={"horizontal"}
-                        bordered={true}
+                        bordered={false}
+                        style={{
+                            labelStyle: {width:"8%"},
+                            columnStyle: { xxl: 2, xl: 2, lg: 2, md: 1, sm: 1, xs: 1 }
+                        }}
                         // columns={columns}
                         descriptered={user}
                         isEditMode={this.state.isEditMode}
@@ -122,32 +123,6 @@ export class PersonalCenter extends React.Component {
         let {isEditMode} = this.state;
         let {isLoading} = this.state;
         return this.renderDescs(user,isEditMode,isLoading);
-        // let {user} = this.props;
-        // let columns = ["name","age","gender","birth","mobileNumber","email","address","registerCode"];
-        // return (
-        //     <div className='personalCenter'>
-        //         {/*数据详情信息展示*/}
-        //         <Card
-        //             title={user.name}
-        //             extra={
-        //                 (!user || !user.administratorRights)?
-        //                     null:<Button type={"primary"} onClick={this.changeEditMode} >编辑</Button>
-        //             }
-        //         >
-        //             {/*跑马灯*/}
-        //             <CarouselMap autoPlay={true} />
-        //             <MyDescriptions
-        //                 title={"Data Info"}
-        //                 layout={"horizontal"}
-        //                 bordered={true}
-        //                 columns={columns}
-        //                 descriptered={user}
-        //                 isAdminSpecific={true}
-        //                 isEditMode={this.state.isEditMode}
-        //             />
-        //         </Card>
-        //     </div>
-        // );
     }
 }
 export const PersonalCenterW = withRouter(PersonalCenter);

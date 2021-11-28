@@ -2,6 +2,9 @@ import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import React from "react";
 import PropTypes from "prop-types";
+import axios from 'axios';
+import { urlsUtil } from '../public/ApiUrls/UrlsUtil';
+import {util} from "./../common/Util"
 
 function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -20,6 +23,7 @@ export class UpLoadFile extends React.Component {
             previewImage: '',
             previewTitle: '',
             fileList: props.fileList?props.fileList:[],
+            oldFileList: props.fileList?props.fileList:[],
         };
     }
 
@@ -39,16 +43,25 @@ export class UpLoadFile extends React.Component {
             previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
         });
     };
-    handleRemove = () => {
 
+
+    handleRemove = (e) => {
+        axios.get(`${urlsUtil.image.delete}?fileName=${e.name}`).then((response) => {
+            let responseBody = response.data;
+            if (responseBody.code === 1) {
+                this.setState({
+                    fileList : this.state.fileList.unshift(e)
+                })
+            } else {
+                util.tipMessage('delete info tips',responseBody.message)
+            }
+        }).catch((error) => {
+            util.tipMessage('delete info tips',error.toString())
+        });
     }
 
     handleChange = ({ fileList }) => {
-        console.log(fileList)
-
-
         this.setState({fileList});
-        // let {fileList} = this.state;
         this.props.getFileList(fileList);
     }
 

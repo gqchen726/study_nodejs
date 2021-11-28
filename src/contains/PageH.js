@@ -97,7 +97,6 @@ export class PageH extends React.Component {
         axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
             let data = response.data;
             let menuItems = null;
-            console.log(data.body)
             if (data.code == 0) {
                 menuItems = data.body.map((value,index) => {
                     return (
@@ -113,7 +112,6 @@ export class PageH extends React.Component {
                         </Menu.Item>
                     );
                 })
-                console.log(menuItems)
             }
             let oldMenuItems = this.state.menuItems;
             if (oldMenuItems != menuItems) {
@@ -126,7 +124,6 @@ export class PageH extends React.Component {
         axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
             let data = response.data;
             let menuItems = null;
-            console.log(data.body)
             if (data.code == 0) {
                 menuItems = data.body.map((value,index) => {
                     return (
@@ -151,7 +148,6 @@ export class PageH extends React.Component {
         axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
             let data = response.data;
             let menuItems = null;
-            console.log(data.body)
             if (data.code == 0) {
                 menuItems = data.body.map((value,index) => {
                     return (
@@ -171,7 +167,6 @@ export class PageH extends React.Component {
 
     renderLayout2 = () => {
         let {menuItems} = this.state;
-        console.log(menuItems)
         let {user} = this.props;
         const { Header, Content, Footer} = Layout;
         const {fontStyle} = this.state;

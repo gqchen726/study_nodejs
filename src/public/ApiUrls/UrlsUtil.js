@@ -1,8 +1,11 @@
 // const baseUrl = "http://192.168.1.6:8000/mytest";
 // const baseUrl = "http://192.168.1.8:8000/mytest";
 // const baseUrl = "http://localhost:8000/";
-const baseUrl = "https://server-travel-gqchen.herokuapp.com";
+// const baseUrl = "https://server-travel-gqchen.herokuapp.com";
+// const baseUrl = "http://110.42.157.115:10100";
+const baseUrl = "http://localhost:10100";
 // const baseUrl = "http://1.15.85.206:8000/mytest";
+const tencentCosUrl = "http://travel-shanxi-1304686700.cos.ap-shanghai.myqcloud.com";
 const baseUrls = {
     userBaseUrl: `${baseUrl}/user`,
     productBaseUrl: `${baseUrl}/product`,
@@ -13,7 +16,7 @@ const baseUrls = {
 export const urlsUtil = {
     user: {
         loginUrl: `${baseUrls.userBaseUrl}/login`,
-        registerUrl: `${baseUrls.userBaseUrl}/create`,
+        registerUrl: `${baseUrls.userBaseUrl}/register`,
         updatePersonInfo: `${baseUrls.userBaseUrl}/update`,
         checkMobileNumber: `${baseUrls.userBaseUrl}/checkMobileNumber`,
         getCollections: `${baseUrls.userBaseUrl}/getCollections`,
@@ -39,8 +42,9 @@ export const urlsUtil = {
     },
     image: {
         upload: `${baseUrls.image}/upload`,
-        get: `${baseUrls.image}/get?fileName=`,
-        get: `https://travel-shanxi-gqchen.s3.ap-northeast-1.amazonaws.com/`,
+        //get: `${baseUrls.image}/get?fileName=`,
+        get: `${tencentCosUrl}/`,
+        delete: `${baseUrls.image}/delete`
     },
     collection: {
         addCollection: `${baseUrls.collection}/addCollection`,

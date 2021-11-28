@@ -62,7 +62,6 @@ export class SimLogin extends React.Component {
                      loadingForLogin: false,
                  })
                  if (data.code == "0") {
-                     console.log("success")
 
                      result = {
                          stateMsg: 'loginSuccess',
@@ -232,7 +231,6 @@ export class SimLogin extends React.Component {
                     this.setState({
                         loadingForRegister: false,
                     })
-                    console.log(error)
                     util.tipMessage('Register Tips',error.toString())
                 });
     }
@@ -463,7 +461,6 @@ export class SimLogin extends React.Component {
                         (response) => {
                             let body = response.data.body;
                             if (!body) {
-                                console.log("该手机号码已被注册")
                                 tipMessage.phoneNumberTip = <Alert type='error' message={"该手机号码已被注册"} />;
                                 verificationOfPass = false;
                             } else {
@@ -612,10 +609,10 @@ export class SimLogin extends React.Component {
                 key: 'loginForPassword',
                 tab: '密码登陆'
             },
-            /*{
+            {
                 key: 'loginForCheckCode',
                 tab: '验证码登陆'
-            }*/
+            }
         ];
         /*
          * 密码登陆卡片

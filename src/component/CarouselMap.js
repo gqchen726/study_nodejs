@@ -6,6 +6,7 @@ import {urlsUtil} from "../public/ApiUrls/UrlsUtil";
 import PropTypes from "prop-types";
 import Image from "antd/es/image";
 import {UpLoadFile} from "./UpLoadFile";
+import { Resources } from 'grommet-icons';
 export class CarouselMap extends React.Component {
     constructor(props) {
         super(props);
@@ -21,6 +22,9 @@ export class CarouselMap extends React.Component {
     }
 
     renderSources = (sources,imageSize) => {
+        if(Resources === null) {
+            return null;
+        }
         let resourceArr = sources.split(";");
         if (resourceArr.length < 1) return (
             <Image
@@ -48,48 +52,35 @@ export class CarouselMap extends React.Component {
         });
     }
 
-    /*renderSources = (sources,contentStyle) => {
-        if (!sources) return null;
-        let resourceArr = sources.split(";");
-        console.log(sources)
-        console.log(resourceArr)
-        if (resourceArr.length < 1) return (
-            <div key={resourceArr}>
-                <Image
-                    key={resourceArr}
-                    src={`${urlsUtil.image.get}${resourceArr}`}
-                />
-            </div>
-        );
-        console.log(resourceArr)
-        let ImageArr = resourceArr.map((value,index) => {
-            console.log(`${urlsUtil.image.get}${value}`)
-            return (
-                <div key={index}>
-                    <Image
-                        key={index}
-                        src={`${urlsUtil.image.get}${value}`}
-                    />
-                </div>
-            );
-
-
+    sourcesToFileList = (sources) => {
+        if(sources === null) {
+            return null;
+        }
+        sources = sources.split(";");
+        sources = sources.map( (value, index) => {
+            return ({
+                uid: index,
+                name: value,
+                status: 'done',
+                url: `${urlsUtil.image.get}${value}`
+              })
         })
-        return ImageArr;
-    }*/
+        return sources;
+    }
 
 
 
 
     render() {
-        const {contentStyle} = this.state;
         const {sources, imageSize, isEditMode} = this.props;
+        const fileList = this.sourcesToFileList(sources);
         return (
             <div className='carouselMap' style={{width:'60%',height:'40%'}}>
                 {
                     isEditMode ?
                         (
                             <UpLoadFile
+                                fileList={fileList}
                                 action={urlsUtil.image.upload}
                                 getFileList={this.props.getFileList}
                                 isEditMode={this.state.isEditMode}

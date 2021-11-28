@@ -37,16 +37,7 @@ export class PageN extends React.Component {
     }
 
     componentWillMount() {
-        // axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
-        //     let data = response.data;
-        //     console.log(data)
-        //     console.log(data.body)
-        //     if (!data.code == "0") {
-        //         this.setState({
-        //             categorys : data.body
-        //         })
-        //     }
-        // }
+        
         if (!this.state.menuItems) {
             this.renderMenuItems();
         }
@@ -62,8 +53,6 @@ export class PageN extends React.Component {
     renderCategorys = () => {
         axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
             let data = response.data;
-            console.log(data)
-            console.log(data.body)
             if (data.code == 0) {
                 return data.body;
             }
@@ -108,11 +97,9 @@ export class PageN extends React.Component {
         );
     }
     renderMenuItems = () => {
-        console.log("renderMenuItems")
         axios.get(urlsUtil.product.searchProductCategoryList).then((response) => {
             let data = response.data;
             let menuItems = null;
-            console.log(data.body)
             if (data.code == 0) {
                 menuItems = data.body.map((value,index) => {
                     return <Menu.Item key={index}><Link to={`/searchResult/${value}`}>{value}</Link></Menu.Item>;
