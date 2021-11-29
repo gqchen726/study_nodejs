@@ -2,8 +2,8 @@
 // const baseUrl = "http://192.168.1.8:8000/mytest";
 // const baseUrl = "http://localhost:8000/";
 // const baseUrl = "https://server-travel-gqchen.herokuapp.com";
-// const baseUrl = "http://110.42.157.115:10100";
-const baseUrl = "http://localhost:10100";
+const baseUrl = "http://110.42.157.115:10100";
+// const baseUrl = "http://localhost:10100";
 // const baseUrl = "http://1.15.85.206:8000/mytest";
 const tencentCosUrl = "http://travel-shanxi-1304686700.cos.ap-shanghai.myqcloud.com";
 const baseUrls = {
