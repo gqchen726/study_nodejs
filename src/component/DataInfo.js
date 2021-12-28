@@ -301,12 +301,7 @@ export class DataInfo extends React.Component {
                     {
                         this.renderCarouselMap(isEditMode,product.resources)
                     }
-                    {/*<div className="home-lunbo">
-                        <Carousel {...lunboSetting} >
-                            {this.renderImages(data)}
-                        </Carousel>
-                    </div>*/}
-
+                    <br /><br />
                     <MyDescriptions
                         title={"景点详情"}
                         layout={"horizontal"}
